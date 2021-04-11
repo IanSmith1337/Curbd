@@ -20,7 +20,7 @@ document.onload = function loaded(){
 function createAccount(email, password) {
   console.log("triggered");
   try {
-  if(email == null) {
+  if(email == "") {
     throw new Error("Email cannot be empty.")
   } else {
     var eRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -29,7 +29,7 @@ function createAccount(email, password) {
     }
   }
 
-  if(password == null) {
+  if(password == "") {
     throw new Error("Password cannot be empty.")
   } else {
     var pRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.])[A-Za-z\d@$!%*#?&.]{8,}$/
