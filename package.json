@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "build": "npm install && echo 'Done. Ready to deploy.'"
+    },
+    "firebase-tools": "^3.18.0",
+    "private": true,
+    "dependencies": {
+        "firebase": "^8.3.1",
+        "firebase-admin": "^9.5.0",
+        "firebaseui": "^4.8.0"
+    }
+}
