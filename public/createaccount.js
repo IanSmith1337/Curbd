@@ -51,8 +51,8 @@ function createAccount(email, password) {
 
 function addOnClicks(){
   document.getElementById("createButton").addEventListener("click", function() {
-    var email = document.getElementById("email").textContent;
-    var password = document.getElementById("pass").textContent;
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("pass").value;
     createAccount(email, password);
   });
 }
