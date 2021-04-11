@@ -26,6 +26,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         exists.textContent = "You are currently logged in as: " + user.email;
         main.appendChild(exists);
         main.appendChild(document.createElement("br"));
+        document.body.appendChild(main);
     }
 });
 
