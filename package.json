@@ -1,12 +1,26 @@
 {
-    "scripts": {
-        "build": "npm install && echo 'Done. Ready to deploy.'"
-    },
-    "firebase-tools": "^3.18.0",
-    "private": true,
-    "dependencies": {
-        "firebase": "^8.3.1",
-        "firebase-admin": "^9.5.0",
-        "firebaseui": "^4.8.0"
-    }
+  "scripts": {
+    "build": "npm install && echo 'Done. Ready to deploy.'"
+  },
+  "firebase-tools": "^3.18.0",
+  "private": true,
+  "dependencies": {
+    "firebase": "^8.3.3",
+    "firebase-admin": "^9.5.0",
+    "firebaseui": "^4.8.0"
+  },
+  "name": "curbid",
+  "description": "Your site for when your items are about to head to the curb.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanSmith1337/Curbid.git"
+  },
+  "author": "Ian Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IanSmith1337/Curbid/issues"
+  },
+  "homepage": "https://curbid.web.app"
 }
