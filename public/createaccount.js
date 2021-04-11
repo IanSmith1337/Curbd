@@ -1,7 +1,5 @@
 document.onload = function loaded(){
-  document.getElementById("createButton").addEventListener("click", function() {
-    createAccount()
-  });
+  addOnClicks();
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
       document.getElementById("createDiv").remove();
@@ -47,6 +45,12 @@ function createAccount(email, password) {
   } catch(error) {
     console.log(error.message);
   }
+}
+
+function addOnClicks(){
+  document.getElementById("createButton").addEventListener("click", function() {
+    createAccount()
+  });
 }
 
 
