@@ -32,7 +32,7 @@ function createAccount(email, password) {
   if(password == null) {
     throw new Error("Password cannot be empty.")
   } else {
-    var pRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/
+    var pRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&.])[A-Za-z\d@$!%*#?&.]{8,}$/
     if (!password.match(pRegex)) {
       throw new Error("Password format does not match the required format. Please try again.");
     }
