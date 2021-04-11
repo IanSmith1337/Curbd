@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+    <title>Curbid - Login</title>
+</head>
+<body>
+    <div id="topbar">
+        <div id="logo">
+        </div>
+        <div id="navbutton">
+        </div>
+    </div>
+    <div id="main">
+        <div id="createDiv">
+            <h2>Create an account</h2>
+            <form>
+                <label for="email">Email:</label><br>
+                <input type="email" name="email" id="email">
+                <br><br>
+                <label for="pass">Password:</label><br>
+                <input type="password" name="pass" id="pass">
+                <br><br>
+                <label for="pass">Passwords must be a minimum of eight characters, with at least<br> one upper case English letter, one lower case English letter, one<br> number and one special character.</label><br><br>
+            </form>
+            <button id="createButton">Create Account</button>
+        </div>
+    </div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="/__/firebase/8.3.3/firebase-app.js"></script>
+<script src="/__/firebase/8.3.3/firebase-analytics.js"></script>
+<script src="/__/firebase/8.3.3/firebase-auth.js"></script>
+<script src="/__/firebase/8.3.3/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+<!-- Custom Scripts -->
+<script src="createaccount.js"></script>
+</body>
+</html>
