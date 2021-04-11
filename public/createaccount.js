@@ -1,5 +1,5 @@
+addOnClicks();
 document.onload = function loaded(){
-  addOnClicks();
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
       document.getElementById("createDiv").remove();
@@ -17,6 +17,7 @@ document.onload = function loaded(){
   
  
 function createAccount(email, password) {
+  console.log("triggered");
   try {
   if(email == null) {
     throw new Error("Email cannot be empty.")
@@ -49,7 +50,9 @@ function createAccount(email, password) {
 
 function addOnClicks(){
   document.getElementById("createButton").addEventListener("click", function() {
-    createAccount()
+    var email = document.getElementById("email").textContent;
+    var password = document.getElementById("pass").textContent;
+    createAccount(email, password);
   });
 }
 
