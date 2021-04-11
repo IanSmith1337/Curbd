@@ -1,4 +1,5 @@
 addOnClicks();
+
 document.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {

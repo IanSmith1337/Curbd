@@ -1,10 +1,6 @@
+addOnClicks();
+
 document.onload = function loaded(){
-  document.getElementById("signinButton").addEventListener("click", function() {
-    var email = document.getElementById("email").textContent;
-    var password = document.getElementById("pass").textContent;
-    var remember = (document.getElementById("rme").getAttribute("checked") != null);
-    signIn(email, password, remember);
-  });
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
       document.getElementById("signInDiv").remove();
@@ -62,5 +58,12 @@ function signIn(email, password, remember) {
     }
   }
 
-
+  function addOnClicks(){
+    document.getElementById("signinButton").addEventListener("click", function() {
+      var email = document.getElementById("email").textContent;
+      var password = document.getElementById("pass").textContent;
+      var remember = (document.getElementById("rme").getAttribute("checked") != null);
+      signIn(email, password, remember);
+    });
+  }
 
