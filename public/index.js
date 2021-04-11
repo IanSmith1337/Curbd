@@ -19,15 +19,13 @@ firebase.initializeApp(firebaseConfig);
 
 firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-        document.getElementById("createDiv").remove();
+        document.getElementById("main").remove();
+        var main = document.createElement("div");
+        main.id = "main";
         var exists = document.createElement("h2");
-        exists.textContent = "You are currently logged in. Click here to go back to the main site: "
+        exists.textContent = "You are currently logged in as: " + user.email;
         document.getElementById("main").appendChild(exists);
         document.getElementById("main").appendChild(document.createElement("br"));
-        var returnLink = document.createElement("a");
-        returnLink.href = "index.html";
-        returnLink.textContent = "Go back";
-        document.getElementById("main").appendChild(returnLink);
     }
 });
 
