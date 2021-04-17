@@ -6,9 +6,9 @@ window.onload = function loaded(){
         e.style.color = "black";
         e.id = "element";
         document.body.appendChild(e);
-      }, 3000);
-      setTimeout(function(){
-        checkLogout();
+        setTimeout(function(){
+          checkLogout();
+        }, 3000);
       }, 3000);
     }).catch((err) => {
       e.textContent = "An error occured trying to sign you out. Try again later.";
@@ -20,13 +20,13 @@ window.onload = function loaded(){
       if(firebase.auth().currentUser == null) {
         e.textContent = "Sign out successful. Redirecting you back to the main site...";
         e.style.color = "black";
-        var old = document.body.childNodes[0]
+        var old = document.body.childNodes[0];
         document.body.replaceChild(e, old);
-        setTimeout(function(){window.location.href = "https://cosc412-group4.web.app"}, 10000);
+        setTimeout(function(){window.location.href = "https://curbid.web.app"}, 5000);
       } else {
         e.textContent("Sign out unsuccessful. Try again in a few minutes.");
         e.style.color = "red";
-        var old = document.body.childNodes[0]
+        var old = document.body.childNodes[0];
         document.body.replaceChild(e, old);
       }
     }

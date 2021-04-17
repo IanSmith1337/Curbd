@@ -25,8 +25,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         userString.textContent = "You are currently logged in as: " + user.email;
         userString.style.color = "black";
         userString.id = "userStatus";
-        signout.textContent = "Click here to sign out.";
-        signout.style.color = "black";
+        signout.textContent = "Sign out";
         signout.href = "signout.html";
         if (document.getElementById("userStatus") != null) {
           status.replaceChild(document.getElementById("userStatus"), userString);
