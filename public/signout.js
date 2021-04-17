@@ -1,5 +1,5 @@
 window.onload = function loaded(){
-  var e = document.body.createElement("h2");
+  var e = document.createElement("h2");
   e.textContent = "Signing out...";
   e.style.color = "black";
   document.body.appendChild(e);
