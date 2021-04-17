@@ -1,4 +1,4 @@
-document.onload = function loaded(){
+window.onload = function loaded(){
   var e = document.body.createElement("h2");
   e.textContent = "Signing out...";
   e.style.color = "black";
