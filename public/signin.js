@@ -1,17 +1,13 @@
 addOnClicks();
 
-document.onload = function loaded(){
+window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-      document.getElementById("signInDiv").remove();
-      var exists = document.createElement("h2");
-      exists.textContent = "You are currently logged in. Click here to go back to the main site: "
-      document.getElementById("main").appendChild(exists);
-      document.getElementById("main").appendChild(document.createElement("br"));
-      var returnLink = document.createElement("a");
-      returnLink.href = "index.html";
-      returnLink.textContent = "Go back";
-      document.getElementById("main").appendChild(returnLink);
+      var element = document.createElement("h2").textContent("You're currently logged in. Redirecting you back to the main site...")
+      element.style.color = "black"
+      document.body.appendChild(element);
+      delay(5000);
+      window.location.href = "https://curbid.web.app"
     }
   });
 }
@@ -34,8 +30,9 @@ function signIn(email, password, remember) {
 
     if(remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+        firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
+          window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -44,8 +41,9 @@ function signIn(email, password, remember) {
       });
     } else {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
-        firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
+        firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
+          window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -59,9 +57,9 @@ function signIn(email, password, remember) {
   }
 
   function addOnClicks(){
-    document.getElementById("signinButton").addEventListener("click", function() {
-      var email = document.getElementById("email").textContent;
-      var password = document.getElementById("pass").textContent;
+    document.getElementById("signInButton").addEventListener("click", function() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("pass").value;
       var remember = (document.getElementById("rme").getAttribute("checked") != null);
       signIn(email, password, remember);
     });

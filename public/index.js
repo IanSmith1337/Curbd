@@ -18,15 +18,33 @@ firebase.initializeApp(firebaseConfig);
 }
 
 firebase.auth().onAuthStateChanged(function(user) {
+    var status = document.getElementById("logStatus");
+    var userString = document.createElement("h2");
+    var signout = document.createElement("a");
     if (user != null) {
-        document.getElementById("main").remove();
-        var main = document.createElement("div");
-        main.id = "main";
-        var exists = document.createElement("h2");
-        exists.textContent = "You are currently logged in as: " + user.email;
-        main.appendChild(exists);
-        main.appendChild(document.createElement("br"));
-        document.body.appendChild(main);
+        userString.textContent = "You are currently logged in as: " + user.email;
+        userString.style.color = "white";
+        userString.id = "userStatus";
+        signout.textContent = "Click here to sign out.";
+        signout.style.color = "white";
+        signout.href = "signout.html";
+        if (document.getElementById("userStatus") != null) {
+          status.replaceChild(document.getElementById("userStatus"), userString);
+        } else {
+          status.appendChild(userString);
+          status.appendChild(signout);
+          status.appendChild(document.createElement("br"));
+        }
+    } else {
+        userString.textContent = "You are currently not logged in.";
+        userString.style.color = "white";
+        userString.id = "userStatus";
+        if (document.getElementById("userStatus") != null) {
+          status.replaceChild(document.getElementById("userStatus"), userString);
+        } else {
+          status.appendChild(userString);
+          status.appendChild(document.createElement("br")); 
+        }
     }
 });
 
