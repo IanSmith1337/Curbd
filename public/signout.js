@@ -1,18 +1,14 @@
-window.onload = function loaded(){
-    var e = document.createElement("h2");
+document.onload = function loaded(){
+    var e = document.body.createElement("h2");
+    e.textContent = "Signing out...";
+    e.style.color = "black";
+    document.body.appendChild(e);
     firebase.auth().signOut().then(() => {
-      setTimeout(function(){
-        e.textContent = "Signing out..."
-        e.style.color = "black";
-        e.id = "element";
-        document.body.appendChild(e);
-        setTimeout(function(){
-          checkLogout();
-        }, 3000);
-      }, 3000);
+      setTimeout(function(){checkLogout();}, 5000);
     }).catch((err) => {
       e.textContent = "An error occured trying to sign you out. Try again later.";
       e.style.color = "red";
+      document.body.replaceChild(e, old);
       console.log(err.message);
     });
     
