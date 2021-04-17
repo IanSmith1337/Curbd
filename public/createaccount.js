@@ -14,7 +14,6 @@ window.onload = function loaded(){
   
  
 function createAccount(email, password) {
-  console.log("triggered");
   try {
   if(email == "") {
     throw new Error("Email cannot be empty.")

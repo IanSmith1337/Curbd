@@ -23,7 +23,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     var signout = document.createElement("a");
     if (user != null) {
         userString.textContent = "You are currently logged in as: " + user.email;
-        userString.style.color = "white";
+        userString.style.color = "black";
         userString.id = "userStatus";
         signout.textContent = "Click here to sign out.";
         signout.style.color = "white";
@@ -37,7 +37,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         }
     } else {
         userString.textContent = "You are currently not logged in.";
-        userString.style.color = "white";
+        userString.style.color = "black";
         userString.id = "userStatus";
         if (document.getElementById("userStatus") != null) {
           status.replaceChild(document.getElementById("userStatus"), userString);
