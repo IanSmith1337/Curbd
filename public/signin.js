@@ -3,10 +3,11 @@ addOnClicks();
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-      var element = document.createElement("h2").textContent("You're currently logged in. Redirecting you back to the main site...")
-      element.style.color = "black"
-      document.body.appendChild(element);
-      delay(5000);
+      var e = document.createElement("h2");
+      e.textContent = "You're currently logged in. Redirecting you back to the main site..."
+      e.style.color = "black"
+      document.body.appendChild(e);
+      setTimeout(function(){}, 5000)
       window.location.href = "https://curbid.web.app"
     }
   });
@@ -32,6 +33,9 @@ function signIn(email, password, remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
+          user.updateProfile({
+            signin: true
+          });
           window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;
@@ -43,6 +47,9 @@ function signIn(email, password, remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
+          user.updateProfile({
+            signin: true
+          });
           window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;

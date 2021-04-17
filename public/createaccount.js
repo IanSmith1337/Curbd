@@ -3,10 +3,11 @@ addOnClicks();
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-      var element = document.createElement("h2").textContent("You're currently logged in. Redirecting you back to the main site...")
-      element.style.color = "black"
-      document.body.appendChild(element);
-      delay(5000);
+      var e = document.createElement("h2");
+      e.textContent = "You're currently logged in. Redirecting you back to the main site..."
+      e.style.color = "black"
+      document.body.appendChild(e);
+      setTimeout(function(){}, 5000)
       window.location.href = "https://curbid.web.app"
     }
   });
@@ -34,14 +35,48 @@ function createAccount(email, password) {
   }
   firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredential) => {
       var user = userCredential.user;
+      var fname = document.getElementById("fname").value;
+      var lname = document.getElementById("lname").value;
+      if (fname == "" || lname == "") {
+        if(fname == ""){
+          throw Error("First name cannot be empty.");
+        } else {
+          throw Error("Last name cannot be empty.");
+        }
+      }
+      const db = firebase.database();
+      db.collection("users").doc(user.uid).set({
+        fname: fname,
+        lname: lname,
+        email: email
+      }).then(() => {
+        console.log("Document written successfully.");
+      });
+      user.updateProfile({
+        signin: false
+      });
       window.location.href = "https://curbid.web.app"
     }).catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode + ", " + errorMessage);
+      var e = document.createElement("h2");
+      e.textContent(error.message);
+      e.style.color = "red";
+      e.id = "error"
+      if(document.getElementById(error) != null){
+        document.body.replaceChild(document.getElementById(error), e);
+      } else {
+        document.body.appendChild(e);
+      }
     });
   } catch(error) {
-    console.log(error.message);
+    var e = document.createElement("h2");
+    e.textContent(error.message);
+    e.style.color = "red";
+    e.id = "error"
+    if(document.getElementById(error) != null){
+      document.body.replaceChild(document.getElementById(error), e);
+    } else {
+      document.body.appendChild(e);
+    }
   }
 }
 
