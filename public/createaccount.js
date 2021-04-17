@@ -58,7 +58,7 @@ function createAccount(email, password) {
       window.location.href = "https://curbid.web.app"
     }).catch((error) => {
       var e = document.createElement("h2");
-      e.textContent(error.message);
+      e.textContent = error.message;
       e.style.color = "red";
       e.id = "error"
       if(document.getElementById(error) != null){
@@ -69,7 +69,7 @@ function createAccount(email, password) {
     });
   } catch(error) {
     var e = document.createElement("h2");
-    e.textContent(error.message);
+    e.textContent = error.message;
     e.style.color = "red";
     e.id = "error"
     if(document.getElementById(error) != null){
