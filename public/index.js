@@ -18,6 +18,7 @@ firebase.initializeApp(firebaseConfig);
 }
 
 const db = firebase.firestore();
+const analytics = firebase.analytics();
 
 firebase.auth().onAuthStateChanged(function(user) {
   var status = document.getElementById("logStatus");

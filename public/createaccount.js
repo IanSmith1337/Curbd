@@ -55,7 +55,8 @@ function createAccount(email, password) {
       user.updateProfile({
         signin: false
       });
-      window.location.href = "https://curbid.web.app"
+      analytics.logEvent("sign_up");
+      // window.location.href = "https://curbid.web.app"
     }).catch((error) => {
       var e = document.createElement("h2");
       e.textContent = error.message;

@@ -36,7 +36,8 @@ function signIn(email, password, remember) {
           user.updateProfile({
             signin: true
           });
-          window.location.href = "https://curbid.web.app"
+          analytics.logEvent("login");
+          //window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -50,7 +51,8 @@ function signIn(email, password, remember) {
           user.updateProfile({
             signin: true
           });
-          window.location.href = "https://curbid.web.app"
+          analytics.logEvent("login");
+          //window.location.href = "https://curbid.web.app"
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
