@@ -6,8 +6,10 @@ window.onload = function loaded() {
   var xh = document.createElement("button");
   xh.type = "button";
   xh.className = "close";
-  xh.attributes.setNamedItem("data-dismiss", "alert");
-  xh.attributes.setNamedItem("aria-label", "Close");
+  var attr = document.createAttribute("data-dismiss");
+  attr.value = "alert";
+  xh.attributes.setNamedItem(attr);
+  var x = document.createElement("span");
   var x = document.createElement("span");
   x.attributes.setNamedItem("aria-hidden", "true");
   x.textContent =  "\u00D7"
