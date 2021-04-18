@@ -5,17 +5,14 @@ const db = firebase.firestore();
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-      var e = document.createElement("h2");
-      e.textContent = "Account created. Redirecting you back to the main site..."
-      e.style.color = "black"
-      document.body.appendChild(e);
-      setTimeout(function(){window.location.href = "https://curbid.web.app"}, 30000);
+      window.location.href = "https://curbid.web.app";
     }
   });
 }
   
  
 function createAccount(email, password) {
+  var e = document.createElement("h2");
   try {
   if(email == "") {
     throw new Error("Email cannot be empty.")
@@ -56,9 +53,13 @@ function createAccount(email, password) {
         signin: false
       });
       analytics.logEvent("sign_up");
-      // window.location.href = "https://curbid.web.app"
+      e = document.createElement("h2");
+      e.textContent = "Account created. Redirecting you back to the main site..."
+      e.style.color = "black"
+      document.body.appendChild(e);
+      setTimeout(function(){window.location.href = "https://curbid.web.app"}, 5000);
     }).catch((error) => {
-      var e = document.createElement("h2");
+      e = document.createElement("h2");
       e.textContent = error.message;
       e.style.color = "red";
       e.id = "error"
@@ -69,7 +70,7 @@ function createAccount(email, password) {
       }
     });
   } catch(error) {
-    var e = document.createElement("h2");
+    e = document.createElement("h2");
     e.textContent = error.message;
     e.style.color = "red";
     e.id = "error"

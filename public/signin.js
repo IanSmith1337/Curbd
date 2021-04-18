@@ -5,11 +5,7 @@ const db = firebase.firestore();
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
-      var e = document.createElement("h2");
-      e.textContent = "Login success. Redirecting you back to the main site..."
-      e.style.color = "black"
-      document.body.appendChild(e);
-      setTimeout(function(){window.location.href = "https://curbid.web.app"}, 30000);
+      window.location.href = "https://curbid.web.app";
     }
   });
 }
@@ -35,10 +31,15 @@ function signIn(email, password, remember) {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
           user.updateProfile({
-            signin: true
+            signin: true,
+            lastLogin: Date.now()
           });
           analytics.logEvent("login");
-          //window.location.href = "https://curbid.web.app"
+          var e = document.createElement("h2");
+          e.textContent = "Login success. Redirecting you back to the main site..."
+          e.style.color = "black"
+          document.body.appendChild(e);
+          setTimeout(function(){window.location.href = "https://curbid.web.app"}, 5000);
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -50,10 +51,15 @@ function signIn(email, password, remember) {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
           user.updateProfile({
-            signin: true
+            signin: true,
+            lastLogin: Date.now()
           });
           analytics.logEvent("login");
-          //window.location.href = "https://curbid.web.app"
+          var e = document.createElement("h2");
+          e.textContent = "Login success. Redirecting you back to the main site..."
+          e.style.color = "black"
+          document.body.appendChild(e);
+          setTimeout(function(){window.location.href = "https://curbid.web.app"}, 5000);
         }).catch((error) => {
           var errorCode = error.code;
           var errorMessage = error.message;
