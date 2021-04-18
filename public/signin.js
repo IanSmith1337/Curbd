@@ -1,5 +1,6 @@
 addOnClicks();
 const analytics = firebase.analytics();
+const db = firebase.firestore();
 
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
