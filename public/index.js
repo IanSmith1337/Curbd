@@ -10,17 +10,17 @@ const firebaseConfig = {
 };
 
 try {
-firebase.initializeApp(firebaseConfig);   
+  firebase.initializeApp(firebaseConfig);
 } catch (error) {
-    if (!/already exists/.test(error.message)) {
-        console.error('Firebase initialization error', error.stack);
-    }
+  if (!/already exists/.test(error.message)) {
+    console.error('Firebase initialization error', error.stack);
+  }
 }
 
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged(function (user) {
   var status = document.getElementById("logStatus");
   var userString = document.createElement("h2");
   var signout = document.createElement("a");
@@ -55,9 +55,7 @@ firebase.auth().onAuthStateChanged(function(user) {
       status.replaceChild(document.getElementById("userStatus"), userString);
     } else {
       status.appendChild(userString);
-      status.appendChild(document.createElement("br")); 
+      status.appendChild(document.createElement("br"));
     }
   }
 });
-
-
