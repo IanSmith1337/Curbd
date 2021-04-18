@@ -1,35 +1,44 @@
 const analytics = firebase.analytics();
 window.onload = function loaded() {
-  var e = document.createElement("h2");
+  var e = document.createElement("div");
+  e.textContent = "Error: ";
+  e.role = "alert";
+  var xh = document.createElement("button");
+  xh.type = "button";
+  xh.className = "close";
+  xh.attributes.setNamedItem("data-dismiss", "alert");
+  xh.attributes.setNamedItem("aria-label", "Close");
+  var x = document.createElement("span");
+  x.attributes.setNamedItem("aria-hidden", "true");
+  x.textContent =  "\u00D7"
+  xh.appendChild(x);
+  e.appendChild(xh);
   e.textContent = "Signing out...";
-  e.style.color = "black";
+  e.className = "alert alert-primary show fixed-bottom"
   document.body.appendChild(e);
-  var old = document.body.childNodes[0];
   firebase.auth().signOut().then(() => {
     setTimeout(function () {
+      $(e).fadeOut();
+      document.body.removeChild(e);
       checkLogout();
     }, 5000);
   }).catch((err) => {
     e.textContent = "An error occured trying to sign you out. Try again later.";
-    e.style.color = "red";
-    document.body.replaceChild(e, old);
-    console.log(err.message);
+    e.className = "alert alert-warning show fixed-bottom";
+    document.body.appendChild(e);
   });
 
   function checkLogout() {
     if (firebase.auth().currentUser == null) {
       e.textContent = "Sign out successful. Redirecting you back to the main site...";
-      e.style.color = "black";
-      old = document.body.childNodes[0];
-      document.body.replaceChild(e, old);
+      e.className = "alert alert-primary show fixed-bottom"
+      document.body.appendChild(e);
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
       }, 5000);
     } else {
-      e.textContent("Sign out unsuccessful. Try again in a few minutes.");
-      e.style.color = "red";
-      old = document.body.childNodes[0];
-      document.body.replaceChild(e, old);
+      e.textContent = "Sign out unsuccessful. Try again in a few minutes.";
+      document.body.appendChild(e);
     }
   }
 }

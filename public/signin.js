@@ -12,6 +12,20 @@ window.onload = function loaded() {
 
 
 function signIn(email, password, remember) {
+  var e = document.createElement("div");
+  e.textContent = "Error: ";
+  e.className = "alert alert-warning alert-dismissible fade show fixed-bottom";
+  e.role = "alert";
+  var xh = document.createElement("button");
+  xh.type = "button";
+  xh.className = "close";
+  xh.attributes.setNamedItem("data-dismiss", "alert");
+  xh.attributes.setNamedItem("aria-label", "Close");
+  var x = document.createElement("span");
+  x.attributes.setNamedItem("aria-hidden", "true");
+  x.textContent =  "\u00D7"
+  xh.appendChild(x);
+  e.appendChild(xh);
   try {
     if (email == null) {
       throw new Error("Email cannot be empty.")
@@ -37,15 +51,14 @@ function signIn(email, password, remember) {
           analytics.logEvent("login");
           var e = document.createElement("h2");
           e.textContent = "Login success. Redirecting you back to the main site..."
-          e.style.color = "black"
+          e.className = "alert alert-primary show fixed-bottom"
           document.body.appendChild(e);
           setTimeout(function () {
             window.location.href = "https://curbid.web.app"
           }, 5000);
         }).catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(errorCode + ", " + errorMessage);
+          e.textContent = e.textContent + error.message;
+          document.body.appendChild(e);
         });
       });
     } else {
@@ -57,22 +70,21 @@ function signIn(email, password, remember) {
             lastLogin: Date.now()
           });
           analytics.logEvent("login");
-          var e = document.createElement("h2");
           e.textContent = "Login success. Redirecting you back to the main site..."
-          e.style.color = "black"
+          e.className = "alert alert-primary show fixed-bottom"
           document.body.appendChild(e);
           setTimeout(function () {
             window.location.href = "https://curbid.web.app"
           }, 5000);
         }).catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log(errorCode + ", " + errorMessage);
+          e.textContent = e.textContent + error.message;
+          document.body.appendChild(e);
         });
       });
     }
   } catch (error) {
-    console.log(error.message);
+    e.textContent = e.textContent + error.message;
+    document.body.appendChild(e);
   }
 }
 

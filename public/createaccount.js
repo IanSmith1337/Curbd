@@ -12,7 +12,20 @@ window.onload = function loaded() {
 
 
 function createAccount(email, password) {
-  var e = document.createElement("h2");
+  var e = document.createElement("div");
+  e.textContent = "Error: ";
+  e.className = "alert alert-warning alert-dismissible fade show fixed-bottom";
+  e.role = "alert";
+  var xh = document.createElement("button");
+  xh.type = "button";
+  xh.className = "close";
+  xh.attributes.setNamedItem("data-dismiss", "alert");
+  xh.attributes.setNamedItem("aria-label", "Close");
+  var x = document.createElement("span");
+  x.attributes.setNamedItem("aria-hidden", "true");
+  x.textContent =  "\u00D7"
+  xh.appendChild(x);
+  e.appendChild(xh);
   try {
     if (email == "") {
       throw new Error("Email cannot be empty.")
@@ -53,34 +66,19 @@ function createAccount(email, password) {
         signin: false
       });
       analytics.logEvent("sign_up");
-      e = document.createElement("h2");
       e.textContent = "Account created. Redirecting you back to the main site..."
-      e.style.color = "black"
+      e.className = "alert alert-primary show fixed-bottom"
       document.body.appendChild(e);
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
       }, 5000);
     }).catch((error) => {
-      e = document.createElement("h2");
-      e.textContent = error.message;
-      e.style.color = "red";
-      e.id = "error"
-      if (document.getElementById(error) != null) {
-        document.body.replaceChild(document.getElementById(error), e);
-      } else {
-        document.body.appendChild(e);
-      }
+      e.textContent = e.textContent + error.message;
+      document.body.appendChild(e);
     });
   } catch (error) {
-    e = document.createElement("h2");
-    e.textContent = error.message;
-    e.style.color = "red";
-    e.id = "error"
-    if (document.getElementById(error) != null) {
-      document.body.replaceChild(document.getElementById(error), e);
-    } else {
-      document.body.appendChild(e);
-    }
+    e.textContent = e.textContent + error.message;
+    document.body.appendChild(e);
   }
 }
 
