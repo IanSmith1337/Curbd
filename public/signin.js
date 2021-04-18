@@ -1,14 +1,14 @@
 addOnClicks();
+const analytics = firebase.analytics();
 
 window.onload = function loaded(){
   firebase.auth().onAuthStateChanged(function(user) {
     if (user != null) {
       var e = document.createElement("h2");
-      e.textContent = "You're currently logged in. Redirecting you back to the main site..."
+      e.textContent = "Login success. Redirecting you back to the main site..."
       e.style.color = "black"
       document.body.appendChild(e);
-      setTimeout(function(){}, 5000)
-      window.location.href = "https://curbid.web.app"
+      setTimeout(function(){window.location.href = "https://curbid.web.app"}, 30000);
     }
   });
 }

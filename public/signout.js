@@ -1,3 +1,4 @@
+const analytics = firebase.analytics();
 window.onload = function loaded(){
   var e = document.createElement("h2");
   e.textContent = "Signing out...";
