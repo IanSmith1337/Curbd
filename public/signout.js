@@ -10,8 +10,6 @@ window.onload = function loaded() {
   attr.value = "alert";
   xh.attributes.setNamedItem(attr);
   var x = document.createElement("span");
-  var x = document.createElement("span");
-  x.attributes.setNamedItem("aria-hidden", "true");
   x.textContent =  "\u00D7"
   xh.appendChild(x);
   e.appendChild(xh);
