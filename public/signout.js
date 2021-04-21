@@ -18,7 +18,6 @@ window.onload = function loaded() {
   document.body.appendChild(e);
   firebase.auth().signOut().then(() => {
     setTimeout(function () {
-      $(e).fadeOut();
       document.body.removeChild(e);
       checkLogout();
     }, 5000);
