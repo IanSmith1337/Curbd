@@ -61,17 +61,17 @@ function createAccount(email, password) {
         email: email
       }).then(() => {
         console.log("Document written successfully.");
+        analytics.logEvent("sign_up");
+        e.textContent = "Account created. Redirecting you back to the main site..."
+        e.className = "alert alert-primary show fixed-bottom"
+        document.body.appendChild(e);
+        user.updateProfile({
+          signin: false
+        });
+        setTimeout(function () {
+          window.location.href = "https://curbid.web.app"
+        }, 5000);
       });
-      user.updateProfile({
-        signin: false
-      });
-      analytics.logEvent("sign_up");
-      e.textContent = "Account created. Redirecting you back to the main site..."
-      e.className = "alert alert-primary show fixed-bottom"
-      document.body.appendChild(e);
-      setTimeout(function () {
-        window.location.href = "https://curbid.web.app"
-      }, 5000);
     }).catch((error) => {
       e.textContent = e.textContent + error.message;
       document.body.appendChild(e);
