@@ -14,7 +14,6 @@ window.onload = function loaded() {
       attr.value = "alert";
       xh.attributes.setNamedItem(attr);
       var x = document.createElement("span");
-      x.textContent =  "\u00D7"
       xh.appendChild(x);
       e.appendChild(xh);
       e.textContent = "Redirecting you back to the main site..."
@@ -34,7 +33,7 @@ window.onload = function loaded() {
 function createAccount(email, password) {
   var e = document.createElement("div");
   e.textContent = "Error: ";
-  e.className = "alert alert-warning alert-dismissible fade show fixed-bottom";
+  e.className = "alert alert-warning show fixed-bottom";
   e.role = "alert";
   var xh = document.createElement("button");
   xh.type = "button";
@@ -43,7 +42,6 @@ function createAccount(email, password) {
   attr.value = "alert";
   xh.attributes.setNamedItem(attr);
   var x = document.createElement("span");
-  x.textContent =  "\u00D7"
   xh.appendChild(x);
   e.appendChild(xh);
   try {
