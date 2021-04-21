@@ -5,7 +5,15 @@ const db = firebase.firestore();
 window.onload = function loaded() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
-      window.location.href = "https://curbid.web.app";
+      e.textContent = "Account created. Redirecting you back to the main site..."
+        e.className = "alert alert-primary show fixed-bottom"
+        document.body.appendChild(e);
+        user.updateProfile({
+          signin: false
+        });
+      setTimeout(function () {
+        window.location.href = "https://curbid.web.app"
+      }, 5000);
     }
   });
 }
@@ -62,15 +70,6 @@ function createAccount(email, password) {
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");
-        e.textContent = "Account created. Redirecting you back to the main site..."
-        e.className = "alert alert-primary show fixed-bottom"
-        document.body.appendChild(e);
-        user.updateProfile({
-          signin: false
-        });
-        setTimeout(function () {
-          window.location.href = "https://curbid.web.app"
-        }, 5000);
       });
     }).catch((error) => {
       e.textContent = e.textContent + error.message;
