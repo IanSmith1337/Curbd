@@ -6,8 +6,6 @@ window.onload = function loaded() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
       var e = document.createElement("div");
-      e.textContent = "Error: ";
-      e.className = "alert alert-warning alert-dismissible fade show fixed-bottom";
       e.role = "alert";
       var xh = document.createElement("button");
       xh.type = "button";
@@ -19,7 +17,7 @@ window.onload = function loaded() {
       x.textContent =  "\u00D7"
       xh.appendChild(x);
       e.appendChild(xh);
-      e.textContent = "Account created. Redirecting you back to the main site..."
+      e.textContent = "Redirecting you back to the main site..."
       e.className = "alert alert-primary show fixed-bottom"
       document.body.appendChild(e);
       user.updateProfile({
@@ -82,6 +80,9 @@ function createAccount(email, password) {
         lname: lname,
         email: email
       }).then(() => {
+        e.textContent = "Account created.";
+        e.className = "alert alert-primary show fixed-bottom"
+        document.body.appendChild(e);
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");
       });

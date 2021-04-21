@@ -5,6 +5,24 @@ const db = firebase.firestore();
 window.onload = function loaded() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
+      var e = document.createElement("div");
+      e.role = "alert";
+      var xh = document.createElement("button");
+      xh.type = "button";
+      xh.className = "close";
+      var attr = document.createAttribute("data-dismiss");
+      attr.value = "alert";
+      xh.attributes.setNamedItem(attr);
+      var x = document.createElement("span");
+      x.textContent =  "\u00D7"
+      xh.appendChild(x);
+      e.appendChild(xh);
+      e.textContent = "Redirecting you back to the main site..."
+      e.className = "alert alert-primary show fixed-bottom"
+      document.body.appendChild(e);
+      user.updateProfile({
+        signin: false        
+      });
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
       }, 5000);
@@ -69,7 +87,7 @@ function signIn(email, password, remember) {
             lastLogin: Date.now()
           });
           analytics.logEvent("login");
-          e.textContent = "Login success. Redirecting you back to the main site..."
+          e.textContent = "Login success."
           e.className = "alert alert-primary show fixed-bottom"
           document.body.appendChild(e);
         }).catch((error) => {

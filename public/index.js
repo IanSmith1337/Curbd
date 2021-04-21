@@ -36,15 +36,22 @@ firebase.auth().onAuthStateChanged(function (user) {
     }).catch((error) => {
       console.error(error);
     });
-    userString.style.color = "black";
-    userString.id = "userStatus";
+    var nav = document.getElementById("navholder");
+    var CANav = document.getElementById("createaccount");
+    var SINav = document.getElementById("signin");
+    nav.removeChild(CANav);
+    nav.removeChild(SINav);
+    var signoutItem = document.createElement("li");
+    signoutItem.className = "nav-item";
+    signout.className = "nav-link";
     signout.textContent = "Sign out";
     signout.href = "signout.html";
+    userString.style.color = "black";
+    userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
       status.replaceChild(document.getElementById("userStatus"), userString);
     } else {
       status.appendChild(userString);
-      status.appendChild(signout);
       status.appendChild(document.createElement("br"));
     }
   } else {

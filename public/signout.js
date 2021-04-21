@@ -1,7 +1,6 @@
 const analytics = firebase.analytics();
 window.onload = function loaded() {
   var e = document.createElement("div");
-  e.textContent = "Error: ";
   e.role = "alert";
   var xh = document.createElement("button");
   xh.type = "button";
