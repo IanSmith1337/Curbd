@@ -46,6 +46,8 @@ firebase.auth().onAuthStateChanged(function (user) {
     signout.className = "nav-link";
     signout.textContent = "Sign out";
     signout.href = "signout.html";
+    signoutItem.appendChild(signout);
+    nav.appendChild(signoutItem);
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
