@@ -78,12 +78,12 @@ function createAccount(email, password) {
         lname: lname,
         email: email
       }).then(() => {
-        e.textContent = "Account created.";
-        e.className = "alert alert-primary show fixed-bottom"
-        document.body.appendChild(e);
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");
       });
+      e.textContent = "Account created.";
+      e.className = "alert alert-primary show fixed-bottom"
+      document.body.appendChild(e);
     }).catch((error) => {
       e.textContent = e.textContent + error.message;
       document.body.appendChild(e);
