@@ -22,5 +22,10 @@ service cloud.firestore {
           return resource == null
             && request.resource.data.roles[request.auth.uid] == 'owner';
         }
+
+        allow write: if isValidNewPost() || isOneOfRoles(resource, ['owner']);
+        allow delete: if isOneOfRoles(resource, ['owner']);
+        allow read: if isSignedIn();
+
     }
 }
