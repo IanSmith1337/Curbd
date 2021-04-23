@@ -26,38 +26,25 @@
 
 <body class="px-0">
     <nav id="nav" class="navbar navbar-light bg-light no-gutters border-bottom sticky-top">
-        <button class="btn col" type="button" data-toggle="collapse" data-target="#navLinks">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div id="spacer" class="col"></div>
         <a class="navbar-brand col-9 text-center" href="index.html"><img src="placeholder-logo-2.png" class="img-fluid" alt="Curbid Logo"></img></a>
         <div id="spacer" class="col"></div>
-        <div class="collapse navbar-collapse" id="navLinks">
-            <ul class="navbar-nav">
-              <li class="nav-item" id="createaccount">
-                <a class="nav-link" href="createaccount.html">Create an Account</a>
-              </li>
-              <li class="nav-item" id="signin">
-                <a class="nav-link" href="signin.html">Sign In</a>
-              </li>
-            </ul>
-          </div>
     </nav>
     <div id="main" class="px-3 py-3">
         <div id="signInDiv">
-            <h2>Sign in</h2>
-            <form>
-                <label for="email">Email:</label><br>
-                <input type="email" name="email" id="email">
+            <h2 class="col-12">Sign in:</h2>
+            <form class="col-12 text-center">
+                <label for="email" class="col-12 text-center">Email:</label><br>
+                <input type="email" name="email" id="email" class="col-12">
                 <br><br>
-                <label for="pass">Password:</label><br>
-                <input type="password" name="pass" id="pass">
+                <label for="pass" class="col-12 text-center">Password:</label><br>
+                <input type="password" name="pass" id="pass" class="col-12">
                 <br><br>
-                <input type="checkbox" name="remember" id="rme">
-                <label for="rme">Remember me</label>
+                <input type="checkbox" name="remember" id="rme" class="col-auto">
+                <label for="rme" class="text-center">Remember me</label>
                 <br><br>
             </form>
-            <button id="signInButton" class="btn btn-primary">Sign in</button>
+            <button id="signInButton" class="btn btn-primary col">Sign in</button>
         </div>
     </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->

@@ -48,6 +48,14 @@ firebase.auth().onAuthStateChanged(function (user) {
     signout.href = "signout.html";
     signoutItem.appendChild(signout);
     nav.appendChild(signoutItem);
+    var accountItem = document.createElement("li");
+    var myaccount = document.createElement("a");
+    accountItem.className = "nav-item";
+    myaccount.className = "nav-link";
+    myaccount.textContent = "Account";
+    myaccount.href = "account.html";
+    accountItem.appendChild(myaccount);
+    nav.appendChild(accountItem);
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
