@@ -20,7 +20,7 @@ window.onload = function loaded() {
       e.className = "alert alert-primary show fixed-bottom"
       document.body.appendChild(e);
       user.updateProfile({
-        signin: false        
+        signin: false
       });
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
@@ -66,6 +66,12 @@ function signIn(email, password, remember) {
             signin: true,
             lastLogin: Date.now()
           });
+          db.collection("users").doc(user.uid).get().then((doc) => {
+            user.updateProfile({
+              fname: doc.fname,
+              lname: doc.lname
+            });
+          });
           analytics.logEvent("login");
           var e = document.createElement("h2");
           e.textContent = "Login success. Redirecting you back to the main site..."
@@ -83,6 +89,12 @@ function signIn(email, password, remember) {
           user.updateProfile({
             signin: true,
             lastLogin: Date.now()
+          });
+          db.collection("users").doc(user.uid).get().then((doc) => {
+            user.updateProfile({
+              fname: doc.fname,
+              lname: doc.lname
+            });
           });
           analytics.logEvent("login");
           e.textContent = "Login success."
