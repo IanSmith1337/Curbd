@@ -41,13 +41,6 @@ firebase.auth().onAuthStateChanged(function (user) {
     var SINav = document.getElementById("signin");
     nav.removeChild(CANav);
     nav.removeChild(SINav);
-    var signoutItem = document.createElement("li");
-    signoutItem.className = "nav-item";
-    signout.className = "nav-link";
-    signout.textContent = "Sign out";
-    signout.href = "signout.html";
-    signoutItem.appendChild(signout);
-    nav.appendChild(signoutItem);
     var accountItem = document.createElement("li");
     var myaccount = document.createElement("a");
     accountItem.className = "nav-item";
@@ -56,6 +49,13 @@ firebase.auth().onAuthStateChanged(function (user) {
     myaccount.href = "account.html";
     accountItem.appendChild(myaccount);
     nav.appendChild(accountItem);
+    var signoutItem = document.createElement("li");
+    signoutItem.className = "nav-item";
+    signout.className = "nav-link";
+    signout.textContent = "Sign out";
+    signout.href = "signout.html";
+    signoutItem.appendChild(signout);
+    nav.appendChild(signoutItem);
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
