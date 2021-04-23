@@ -11,4 +11,4 @@ firebase.auth().onAuthStateChanged(function (user) {
         lname.value = user.lname;
         email.value = user.email;
     }
-}
+});
