@@ -2,15 +2,6 @@ const analytics = firebase.analytics();
 window.onload = function loaded() {
   var e = document.createElement("div");
   e.role = "alert";
-  var xh = document.createElement("button");
-  xh.type = "button";
-  xh.className = "close";
-  var attr = document.createAttribute("data-dismiss");
-  attr.value = "alert";
-  xh.attributes.setNamedItem(attr);
-  var x = document.createElement("span");
-  xh.appendChild(x);
-  e.appendChild(xh);
   e.textContent = "Signing out...";
   e.className = "alert alert-primary show fixed-bottom"
   document.body.appendChild(e);

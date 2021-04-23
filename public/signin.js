@@ -7,21 +7,11 @@ window.onload = function loaded() {
     if (user != null) {
       var e = document.createElement("div");
       e.role = "alert";
-      var xh = document.createElement("button");
-      xh.type = "button";
-      xh.className = "close";
-      var attr = document.createAttribute("data-dismiss");
-      attr.value = "alert";
-      xh.attributes.setNamedItem(attr);
-      var x = document.createElement("span");
-      xh.appendChild(x);
-      e.appendChild(xh);
       e.textContent = "Redirecting you back to the main site..."
       e.className = "alert alert-primary show fixed-bottom"
-      document.body.appendChild(e);
-      user.updateProfile({
-        signin: false
-      });
+      setTimeout(function(){document.body.appendChild(e);}, 3000);
+      user.signin = true;
+      user.lastLogin = Date.now();
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
       }, 5000);
@@ -35,15 +25,6 @@ function signIn(email, password, remember) {
   e.textContent = "Error: ";
   e.className = "alert alert-warning show fixed-bottom";
   e.role = "alert";
-  var xh = document.createElement("button");
-  xh.type = "button";
-  xh.className = "close";
-  var attr = document.createAttribute("data-dismiss");
-  attr.value = "alert";
-  xh.attributes.setNamedItem(attr);
-  var x = document.createElement("span");
-  xh.appendChild(x);
-  e.appendChild(xh);
   try {
     if (email == null) {
       throw new Error("Email cannot be empty.")
@@ -62,14 +43,11 @@ function signIn(email, password, remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
-          user.updateProfile({
-            signin: true,
-            lastLogin: Date.now()
-          });
+          user.signin = true;
+          user.lastLogin = Date.now();
           db.collection("users").doc(user.uid).get().then((doc) => {
-            user.updateProfile({
-              fname: doc.data().fname,
-              lname: doc.data().lname
+            user.fname = doc.data().fname;
+            user.lname = doc.data().lname;
             });
           });
           analytics.logEvent("login");
@@ -81,20 +59,15 @@ function signIn(email, password, remember) {
           e.textContent = e.textContent + error.message;
           document.body.appendChild(e);
         });
-      });
     } else {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
-          user.updateProfile({
-            signin: true,
-            lastLogin: Date.now()
-          });
+          user.signin = true;
+          user.lastLogin = Date.now();
           db.collection("users").doc(user.uid).get().then((doc) => {
-            user.updateProfile({
-              fname: doc.data().fname,
-              lname: doc.data().lname
-            });
+            user.fname = doc.data().fname;
+            user.lname = doc.data().lname;
           });
           analytics.logEvent("login");
           e.textContent = "Login success."
