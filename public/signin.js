@@ -68,8 +68,8 @@ function signIn(email, password, remember) {
           });
           db.collection("users").doc(user.uid).get().then((doc) => {
             user.updateProfile({
-              fname: doc.fname,
-              lname: doc.lname
+              fname: doc.data().fname,
+              lname: doc.data().lname
             });
           });
           analytics.logEvent("login");
@@ -92,8 +92,8 @@ function signIn(email, password, remember) {
           });
           db.collection("users").doc(user.uid).get().then((doc) => {
             user.updateProfile({
-              fname: doc.fname,
-              lname: doc.lname
+              fname: doc.data().fname,
+              lname: doc.data().lname
             });
           });
           analytics.logEvent("login");
