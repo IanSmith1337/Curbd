@@ -69,7 +69,7 @@ function test4(uid) {
     });
     db.collection("posts").doc("test").get().then((doc) => {
         var queue = Array.of(doc.data().queue);
-        if(queue.includes(uid)){
+        if(queue.findIndex(uid) !== -1){
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
             result.innerHTML = "PASSED"
         } else {
