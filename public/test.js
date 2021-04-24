@@ -1,6 +1,6 @@
 firebase.auth().onAuthStateChanged(function (user) {
     if (user != null && document.referrer != "https://curbid.web.app/testLogin.html") {
-        var admin;
+        var admin = false;
         db.collection("users").doc(user.uid).get().then((doc) => {
             admin = doc.data().admin;
         });
@@ -11,6 +11,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 test = document.getElementById("t" + i);
                 test.value = "Ready."
             }
+        
         } else {
             window.location.href = "https://curbid.web.app/testLogin.html";
         }
