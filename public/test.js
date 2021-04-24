@@ -1,4 +1,4 @@
-addOnClicks();
+
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
