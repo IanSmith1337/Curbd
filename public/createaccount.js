@@ -54,10 +54,15 @@ function createAccount(email, password) {
           throw Error("Last name cannot be empty.");
         }
       }
+      var date = new Date();
       db.collection("users").doc(user.uid).set({
         fname: fname,
         lname: lname,
-        email: email
+        email: email,
+        address: null,
+        tel: null,
+        signin: false,
+        lastLogin: date.toUTCString()
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");

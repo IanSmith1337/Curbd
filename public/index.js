@@ -24,11 +24,12 @@ firebase.auth().onAuthStateChanged(function (user) {
   var status = document.getElementById("logStatus");
   var userString = document.createElement("h2");
   var signout = document.createElement("a");
-  var fname;
+  var fname, signin;
   if (user != null) {
     db.collection("users").doc(user.uid).get().then((doc) => {
       fname = `${doc.get("fname")}`;
-      if (user.signin) {
+      signin = `${doc.get("signin")}`;
+      if (signin) {
         userString.textContent = "Welcome back, " + fname + ".";
       } else {
         userString.textContent = "Welcome " + fname + "!";
