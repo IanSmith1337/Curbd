@@ -27,7 +27,7 @@ function resignIn(email, password) {
         user.reauthenticateWithCredential(credential).then(function () {
             var admin;
             db.collection("users").doc(user.uid).get().then((doc) => {
-                admin = doc.data().isAdmin;
+                admin = doc.data().admin;
             });
             if (admin) {
                 var a = new a();
