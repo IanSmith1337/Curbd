@@ -118,7 +118,7 @@ function test5() {
 function test6(owner, body, images) {
     var result = document.getElementById("t6");
     var imageArray = images;
-    var queueArray = new Array<string>(25);
+    var queueArray = new Array<String>(25);
     db.collection("posts").add({
         owner: owner,
         body: body,
