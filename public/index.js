@@ -24,12 +24,13 @@ firebase.auth().onAuthStateChanged(function (user) {
   var status = document.getElementById("logStatus");
   var userString = document.createElement("h2");
   var signout = document.createElement("a");
-  var fname, signin, admin;
+  var fname, signin;
+  var admin;
   if (user != null) {
     db.collection("users").doc(user.uid).get().then((doc) => {
-      fname = await doc.data().fname;
-      signin = await doc.data().signin;
-      admin = await doc.data().admin;
+      fname = doc.data().fname;
+      signin = doc.data().signin;
+      admin = doc.data().admin;
       if (signin) {
         userString.textContent = "Welcome back, " + fname + ".";
       } else {
