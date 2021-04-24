@@ -10,8 +10,6 @@ window.onload = function loaded() {
       e.textContent = "Account Created. Redirecting you back to the main site..."
       e.className = "alert alert-primary show fixed-bottom"
       setTimeout(function(){document.body.appendChild(e);}, 3000);
-      user.signin = false;
-      user.lastLogin = Date.now();
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
       }, 5000);
@@ -62,7 +60,7 @@ function createAccount(email, password) {
         address: null,
         tel: null,
         signin: false,
-        lastLogin: date.toUTCString()
+        lastLogin: date
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");

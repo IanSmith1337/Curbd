@@ -28,7 +28,7 @@ function resignIn(email, password) {
                 user = userCredential.user;
                 db.collection("users").doc(user.uid).update({
                   signin: true,
-                  lastLogin: date.toUTCString()
+                  lastLogin: date
                 }).then(() => {
                   console.log("Document updated successfully.");
                 });
@@ -36,6 +36,12 @@ function resignIn(email, password) {
         }
         credential = firebase.auth.EmailAuthProvider.credential(email, password);
         user.reauthenticateWithCredential(credential).then(function () {
+            db.collection("users").doc(user.uid).update({
+                signin: true,
+                lastLogin: date
+              }).then(() => {
+                console.log("Document updated successfully.");
+              });
             db.collection("users").doc(user.uid).get().then((doc) => {
                 var admin = doc.data().admin;
                 if (admin) {

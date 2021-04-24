@@ -23,7 +23,8 @@ firebase.auth().onAuthStateChanged(function (user) {
             } else {
                 address.value = "";
             }
-            lastLogin.value = doc.data().lastLogin;
+            var date = new Date(doc.data().lastLogin);
+            lastLogin.value = date.toUTCString();
         });
         document.getElementById("saveButton").addEventListener("click", function () {
             db.collection("users").doc(user.uid).update({
