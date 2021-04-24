@@ -5,7 +5,7 @@ const analytics = firebase.analytics();
 var user = firebase.auth().currentUser;
 var credential;
 
-function signIn(email, password, remember) {
+function resignIn(email, password) {
     var date = new Date();
     var e = document.createElement("div");
     e.textContent = "Error: ";
@@ -40,19 +40,19 @@ function signIn(email, password, remember) {
         e.textContent = e.textContent + error.message;
         document.body.appendChild(e);
     }
+    user.reauthenticateWithCredential(credential).then(function () {
+        var admin;
+        db.collection("users").doc(user.uid).get().then((doc) => {
+            admin = doc.data().isAdmin;
+        });
+        if (admin) {
+            var a = new a();
+        } else {
+            throw Error();
+        }
+    }).catch(function (error) {
+        document.body.innerHTML = ""
+        document.body.appendChild(document.createElement("h1").textContent("Access denied."));
+    });
 }
 
-user.reauthenticateWithCredential(credential).then(function () {
-    var admin;
-    db.collection("users").doc(user.uid).get().then((doc) => {
-        admin = doc.data().isAdmin;
-    });
-    if (admin) {
-        var a = new a();
-    } else {
-        throw Error();
-    }
-}).catch(function (error) {
-    document.body.innerHTML = ""
-    document.body.appendChild(document.createElement("h1").textContent("Access denied."));
-});
