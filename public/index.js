@@ -25,11 +25,22 @@ firebase.auth().onAuthStateChanged(function (user) {
   var userString = document.createElement("h2");
   var signout = document.createElement("a");
   var fname, signin;
+  var admin = false;
   if (user != null) {
     db.collection("users").doc(user.uid).get().then((doc) => {
       fname = doc.data().fname;
       signin = doc.data().signin;
-      window.admin = doc.data().admin;
+      admin = doc.data().admin;
+      if (admin) {
+        var adminTestingItem = document.createElement("li");
+        var adminLink = document.createElement("a");
+        adminTestingItem.className = "nav-item";
+        adminLink.className = "nav-link";
+        adminLink.textContent = "Testing";
+        adminLink.href = "testLogin.html";
+        adminTestingItem.appendChild(adminLink);
+        nav.appendChild(adminTestingItem);
+      }
       if (signin) {
         userString.textContent = "Welcome back, " + fname + ".";
       } else {
@@ -58,16 +69,6 @@ firebase.auth().onAuthStateChanged(function (user) {
     signout.href = "signout.html";
     signoutItem.appendChild(signout);
     nav.appendChild(signoutItem);
-    if (admin) {
-      var adminTestingItem = document.createElement("li");
-      var adminLink = document.createElement("a");
-      adminTestingItem.className = "nav-item";
-      adminLink.className = "nav-link";
-      adminLink.textContent = "Testing";
-      adminLink.href = "testLogin.html";
-      adminTestingItem.appendChild(adminLink);
-      nav.appendChild(adminTestingItem);
-    }
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
