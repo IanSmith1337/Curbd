@@ -1,4 +1,3 @@
-addOnClicks();
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
@@ -26,8 +25,10 @@ firebase.auth().onAuthStateChanged(function (user) {
             }
             lastLogin.value = doc.data().lastLogin;
         });
+        addOnClicks();
     }
 });
+
 
 function addOnClicks() {
     document.getElementById("saveButton").addEventListener("click", function () {
