@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <title>Curbid - Login</title>
+</head>
+
+<body class="px-0">
+    <nav id="nav" class="navbar navbar-light bg-light no-gutters border-bottom sticky-top">
+        <div id="spacer" class="col"></div>
+        <a class="navbar-brand col-9 text-center" href="index.html"><img src="placeholder-logo-2.png" class="img-fluid" alt="Curbid Logo"></img></a>
+        <div id="spacer" class="col"></div>
+    </nav>
+    <div id="main" class="px-3 py-3">
+        <div id="signInDiv">
+            <h2 class="col-12">Sign in:</h2>
+            <form class="col-12">
+                <label for="email" class="col-sm-2 col-form-label text-center">Email:</label><br>
+                <input type="email" name="email" id="email" class="col-12 form-control">
+                <br>
+                <label for="pass" class="col-sm-2 col-form-label text-center">Password:</label><br>
+                <input type="password" name="pass" id="pass" class="col-12 form-control">
+                <br><br>
+            </form>
+            <button id="signInButton" type="button" class="btn btn-primary col" onclick="resignIn()">Sign in</button>
+        </div>
+    </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/8.3.3/firebase-app.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-analytics.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-auth.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-firestore.js"></script>
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <!-- Custom Scripts -->
+    <script src="testLogin.js"></script>
+</body>
+
+</html>
