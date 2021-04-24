@@ -32,6 +32,20 @@ function resignIn(email, password) {
             }).then(() => {
                 console.log("Document updated successfully.");
             });
+            user.reauthenticateWithCredential(credential).then(function () {
+                var admin;
+                db.collection("users").doc(user.uid).get().then((doc) => {
+                    admin = doc.data().isAdmin;
+                });
+                if (admin) {
+                    var a = new a();
+                } else {
+                    throw Error();
+                }
+            }).catch(function (error) {
+                document.body.innerHTML = ""
+                document.body.appendChild(document.createElement("h1").textContent("Access denied."));
+            });
         }).catch((error) => {
             e.textContent = e.textContent + error.message;
             document.body.appendChild(e);
@@ -40,19 +54,6 @@ function resignIn(email, password) {
         e.textContent = e.textContent + error.message;
         document.body.appendChild(e);
     }
-    user.reauthenticateWithCredential(credential).then(function () {
-        var admin;
-        db.collection("users").doc(user.uid).get().then((doc) => {
-            admin = doc.data().isAdmin;
-        });
-        if (admin) {
-            var a = new a();
-        } else {
-            throw Error();
-        }
-    }).catch(function (error) {
-        document.body.innerHTML = ""
-        document.body.appendChild(document.createElement("h1").textContent("Access denied."));
-    });
+    
 }
 
