@@ -68,8 +68,8 @@ function test4(uid) {
         console.error(error.message + ": " + error.stack);
     });
     db.collection("posts").doc("test").get().then((doc) => {
-        var queue = Array.of(doc.data().queue);
-        if(queue.findIndex(ID => ID === uid) !== -1){
+        var queue = doc.data().queue;
+        if(queue.includes(uid)){
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
             result.innerHTML = "PASSED"
         } else {
