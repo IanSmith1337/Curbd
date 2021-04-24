@@ -60,16 +60,8 @@ function test2(uid) {
 
 function test4(uid) {
     var result = document.getElementById("t4");
-    db.collection("posts").doc("test").get().then((doc) =>{
-        var postQueue = Array.of(doc.data().queue);
-        postQueue.push(uid);
-        db.collection("posts").doc("test").update({
-            queue: postQueue
-        }).catch((error) => {
-            result.className = "col-12 font-italic font-weight-bold text-center text-danger"
-            result.innerHTML = "FAILED"
-            console.error(error.message + ": " + error.stack);
-        });
+    db.collection("posts").doc("test").update({
+        queue: firebase.firestore.FieldValue.arrayUnion(uid)
     }).catch((error) => {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
         result.innerHTML = "FAILED"
