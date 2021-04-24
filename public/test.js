@@ -75,7 +75,6 @@ function test4(uid) {
         } else {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
-            console.error(error.message + ": " + error.stack);
         }
     }).catch((error) => {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
