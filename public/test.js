@@ -1,10 +1,6 @@
 addOnClicks();
 const db = firebase.firestore();
 const analytics = firebase.analytics();
-
-var user = firebase.auth().currentUser;
-var credential;
-
 function resignIn(email, password) {
     var date = new Date();
     var e = document.createElement("div");
@@ -12,6 +8,9 @@ function resignIn(email, password) {
     e.className = "alert alert-warning show fixed-bottom";
     e.role = "alert";
     try {
+        var user = firebase.auth().currentUser;
+        var credential;
+
         if (email == null) {
             throw new Error("Email cannot be empty.")
         } else {
