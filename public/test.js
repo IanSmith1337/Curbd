@@ -12,15 +12,16 @@ firebase.auth().onAuthStateChanged(function (user) {
             console.log(differenceInMins < 20);
             if(admin && differenceInMins < 20) {
                 var test = document.getElementById("t1");
-                test.value = "Ready."
+                test.innerHTML = "Ready."
                 for(var i = 2; i <= 6; i++){
                     test = document.getElementById("t" + i);
-                    test.value = "Ready."
+                    test.innerHTML = "Ready."
                 }
                 document.getElementById("start").addEventListener("click", function () {
                     test1(user);
                     test2("d7iFqf89EqbdSPlfb4s1M1N8Pbq2");
                     test4(user.uid);
+                    test5();
                 });
             } else {
                 console.log("admin status red");
@@ -81,4 +82,26 @@ function test4(uid) {
         result.innerHTML = "FAILED"
         console.error(error.message + ": " + error.stack);
     });
+}
+
+function test5() {
+    var result = document.getElementById("t5");
+    var content = Math.random().toString(36).slice(2);
+    db.collection("posts").doc("test").update({
+        body: content
+    }).then(() => {
+        db.collection("posts").doc("test").get().then((doc) => {
+            var retrieval = doc.data().body;
+            if(retrieval === content){
+                result.className = "col-12 font-italic font-weight-bold text-center text-success"
+                result.innerHTML = "PASSED"
+            } else {
+                result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+                result.innerHTML = "FAILED"
+            }
+        }).catch((error) => {
+            result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+            result.innerHTML = "FAILED"
+            console.error(error.message + ": " + error.stack);
+        });
 }
