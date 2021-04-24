@@ -60,6 +60,6 @@ function addOnClicks() {
     document.getElementById("signInButton").addEventListener("click", function () {
         var email = document.getElementById("email").value;
         var password = document.getElementById("pass").value;
-        signIn(email, password);
+        resignIn(email, password);
     });
 }
