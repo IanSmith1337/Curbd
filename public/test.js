@@ -5,7 +5,8 @@ firebase.auth().onAuthStateChanged(function (user) {
             var timeSinceLastLog = new Date(doc.data().lastLogin);
             var currentTime = new Date;
             var differenceInMins = ((timeSinceLastLog.getTime() - currentTime.getTime())/60000)
-            
+            console.log(differenceInMins);
+            console.log(differenceInMins < 20);
             if(admin || differenceInMins < 20) {
                 var test = document.getElementById("t1");
                 test.value = "Ready."
