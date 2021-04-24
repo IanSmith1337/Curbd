@@ -28,7 +28,7 @@ function resignIn(email, password) {
                 user = userCredential.user;
                 db.collection("users").doc(user.uid).update({
                   signin: true,
-                  lastLogin: date
+                  lastLogin: date.getTime()
                 }).then(() => {
                   console.log("Document updated successfully.");
                 });
@@ -38,7 +38,7 @@ function resignIn(email, password) {
         user.reauthenticateWithCredential(credential).then(function () {
             db.collection("users").doc(user.uid).update({
                 signin: true,
-                lastLogin: date
+                lastLogin: date.getTime()
               }).then(() => {
                 console.log("Document updated successfully.");
               });

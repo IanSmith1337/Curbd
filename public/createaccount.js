@@ -60,7 +60,7 @@ function createAccount(email, password) {
         address: null,
         tel: null,
         signin: false,
-        lastLogin: date
+        lastLogin: date.getTime()
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");
