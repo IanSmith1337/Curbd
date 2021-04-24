@@ -20,9 +20,6 @@ firebase.auth().onAuthStateChanged(function (user) {
                 document.getElementById("start").addEventListener("click", function () {
                     test1(user);
                     test2("d7iFqf89EqbdSPlfb4s1M1N8Pbq2");
-                    test4();
-                    test5();
-                    test6();
                 });
             } else {
                 console.log("admin status red");
@@ -47,7 +44,7 @@ function test1(user) {
 }
 
 function test2(uid) {
-    var result = document.getElementById("t1");
+    var result = document.getElementById("t2");
     db.collection("users").doc(uid).update({
         tel: "123-456-7890",
         address: "224 Main St., Towson, MD, 21252"
