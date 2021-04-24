@@ -1,3 +1,6 @@
+const db = firebase.firestore();
+const analytics = firebase.analytics();
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user != null && document.referrer == "https://curbid.web.app/testLogin.html") {
         db.collection("users").doc(user.uid).get().then((doc) => {
