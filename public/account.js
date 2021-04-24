@@ -25,19 +25,13 @@ firebase.auth().onAuthStateChanged(function (user) {
             }
             lastLogin.value = doc.data().lastLogin;
         });
+        document.getElementById("saveButton").addEventListener("click", function () {
+            db.collection("users").doc(user.uid).update({
+                tel: tel.value,
+                address: address.value
+            }).then(() => {
+                console.log("Document updated successfully.");
+            });
+        });
     }
 });
-
-addOnClicks();
-
-
-function addOnClicks() {
-    document.getElementById("saveButton").addEventListener("click", function () {
-        db.collection("users").doc(user.uid).update({
-            tel: tel.value,
-            address: address.value,
-          }).then(() => {
-            console.log("Document updated successfully.");
-          });
-    });
-}
