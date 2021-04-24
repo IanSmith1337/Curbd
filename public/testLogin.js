@@ -24,6 +24,17 @@ function resignIn(email, password) {
         if (password == null) {
             throw new Error("Password cannot be empty.")
         }
+        if(firebase.auth().currentUser == null){
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
+                user = userCredential.user;
+                db.collection("users").doc(user.uid).update({
+                  signin: true,
+                  lastLogin: date.toUTCString()
+                }).then(() => {
+                  console.log("Document updated successfully.");
+                });
+            });
+        }
         credential = firebase.auth.EmailAuthProvider.credential(email, password);
         user.reauthenticateWithCredential(credential).then(function () {
             var admin;

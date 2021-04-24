@@ -14,5 +14,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         } else {
             window.location.href = "https://curbid.web.app/testLogin.html";
         }
+    } else {
+        window.location.href = "https://curbid.web.app/testLogin.html";
     }
 });
