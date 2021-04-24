@@ -56,3 +56,35 @@ function test2(uid) {
         result.innerHTML = "FAILED"
     })
 }
+
+function test4(uid) {
+    var result = document.getElementById("t4");
+    
+    db.collection("posts").doc("test").get().then((doc) =>{
+        var postQueue = Array.of(doc.data().queue);
+        postQueue.push(uid);
+        db.collection("posts").doc("test").update({
+            queue: postQueue
+        }).catch((error) => {
+            result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+            result.innerHTML = "FAILED"
+        });
+    }).catch((error) => {
+        result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+        result.innerHTML = "FAILED"
+    });
+    db.collection("posts").doc("test").get().then((doc) => {
+        var queue = Array.of(doc.data().queue);
+    }).then(() => {
+        if(queue.length >= 2){
+            result.className = "col-12 font-italic font-weight-bold text-center text-success"
+            result.innerHTML = "PASSED"
+        } else {
+            result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+            result.innerHTML = "FAILED"
+        }
+    }).catch((error) => {
+        result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+        result.innerHTML = "FAILED"
+    });
+}
