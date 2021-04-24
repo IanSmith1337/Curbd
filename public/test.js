@@ -1,4 +1,4 @@
-
+addOnClicks();
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 
@@ -54,6 +54,12 @@ function resignIn(email, password) {
         e.textContent = e.textContent + error.message;
         document.body.appendChild(e);
     }
-    
 }
 
+function addOnClicks() {
+    document.getElementById("signInButton").addEventListener("click", function () {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("pass").value;
+        signIn(email, password);
+    });
+}
