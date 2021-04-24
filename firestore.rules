@@ -23,7 +23,7 @@ service cloud.firestore {
             && request.resource.data.owner == request.auth.uid;
         }
 
-        allow write: if isValidNewPost() || isPostOwner(resource);
+        allow write: if isValidNewPost() || isPostOwner(resource) || request.auth.uid == "LFeDrNbureY6Yyxrxfb0HN3p9VW2";
         allow delete: if isPostOwner(resource) || request.auth.uid == "LFeDrNbureY6Yyxrxfb0HN3p9VW2";
         allow read: if isSignedIn();
     }
