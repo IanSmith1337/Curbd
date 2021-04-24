@@ -13,7 +13,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             if(admin && differenceInMins < 20) {
                 var test = document.getElementById("t1");
                 test.innerHTML = "Ready."
-                for(var i = 2; i <= 6; i++){
+                for(var i = 2; i <= 7; i++){
                     if(i != 3){
                         test = document.getElementById("t" + i);
                         test.innerHTML = "Ready."
