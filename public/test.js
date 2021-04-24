@@ -14,8 +14,10 @@ firebase.auth().onAuthStateChanged(function (user) {
                 var test = document.getElementById("t1");
                 test.innerHTML = "Ready."
                 for(var i = 2; i <= 6; i++){
-                    test = document.getElementById("t" + i);
-                    test.innerHTML = "Ready."
+                    if(i != 3){
+                        test = document.getElementById("t" + i);
+                        test.innerHTML = "Ready."
+                    }
                 }
                 document.getElementById("start").addEventListener("click", function () {
                     test1(user);
