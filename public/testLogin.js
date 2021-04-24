@@ -11,7 +11,6 @@ function resignIn(email, password) {
     try {
         var user = firebase.auth().currentUser;
         var credential;
-        var admin = false;
         if (email == null) {
             throw new Error("Email cannot be empty.")
         } else {
@@ -38,13 +37,13 @@ function resignIn(email, password) {
         credential = firebase.auth.EmailAuthProvider.credential(email, password);
         user.reauthenticateWithCredential(credential).then(function () {
             db.collection("users").doc(user.uid).get().then((doc) => {
-                admin = doc.data().admin;
+                var admin = doc.data().admin;
+                if (admin) {
+                    window.location.href = "https://curbid.web.app/test.html"
+                } else {
+                    throw Error("Access Denied.");
+                }
             });
-            if (admin) {
-                window.location.href = "https://curbid.web.app/test.html"
-            } else {
-                throw Error("Access Denied.");
-            }
         }).catch(function (error) {
             document.body.innerHTML = ""
             var element = document.createElement("h1");
