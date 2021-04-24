@@ -25,9 +25,10 @@ firebase.auth().onAuthStateChanged(function (user) {
             }
             lastLogin.value = doc.data().lastLogin;
         });
-        addOnClicks();
     }
 });
+
+addOnClicks();
 
 
 function addOnClicks() {
