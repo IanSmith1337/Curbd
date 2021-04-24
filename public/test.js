@@ -104,4 +104,5 @@ function test5() {
             result.innerHTML = "FAILED"
             console.error(error.message + ": " + error.stack);
         });
+    });
 }
