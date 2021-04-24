@@ -1,5 +1,5 @@
 firebase.auth().onAuthStateChanged(function (user) {
-    if (user != null && document.referrer != "https://curbid.web.app/testLogin.html") {
+    if (user != null && document.referrer == "https://curbid.web.app/testLogin.html") {
         db.collection("users").doc(user.uid).get().then((doc) => {
             var admin = doc.data().admin;
             var timeSinceLastLog = doc.data().lastLogin
