@@ -68,10 +68,12 @@ function test4(uid) {
         }).catch((error) => {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
+            console.error(error.message + ": " + error.stack);
         });
     }).catch((error) => {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
         result.innerHTML = "FAILED"
+        console.error(error.message + ": " + error.stack);
     });
     db.collection("posts").doc("test").get().then((doc) => {
         var queue = Array.of(doc.data().queue);
@@ -81,9 +83,11 @@ function test4(uid) {
         } else {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
+            console.error(error.message + ": " + error.stack);
         }
     }).catch((error) => {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
         result.innerHTML = "FAILED"
+        console.error(error.message + ": " + error.stack);
     });
 }
