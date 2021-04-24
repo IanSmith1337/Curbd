@@ -1,31 +1,31 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match users/{userId} {
+    match /users/{userId} {
     allow read, update, delete: if request.auth != null && request.auth.uid == userId;
     allow create: if request.auth != null;
-  }
-    match posts/{documents=**} {
+  	}
+    match /posts/{documents=**} {
       function isSignedIn() {
           return request.auth != null;
         }
 
-        function getRole(rsc) {
-          return rsc.data.roles[request.auth.uid];
+        function getOwner(rsc) {
+          return rsc.data.owner;
         }
 
-        function isOneOfRoles(rsc, array) {
-          return isSignedIn() && (getRole(rsc) in array);
+        function isPostOwner(rsc, boolean) {
+          return isSignedIn() && getOwner(rsc) == request.auth.uid;
         }
 
         function isValidNewPost() {
           return resource == null
-            && request.resource.data.roles[request.auth.uid] == 'owner';
+            && request.resource.data.owner == request.auth.uid;
         }
 
-        allow write: if isValidNewPost() || isOneOfRoles(resource, ['owner']);
-        allow delete: if isOneOfRoles(resource, ['owner']);
+        allow write: if isValidNewPost() || isPostOwner(resource, true);
+        allow delete: if isPostOwner(resource, true);
         allow read: if isSignedIn();
-
     }
+  }
 }
