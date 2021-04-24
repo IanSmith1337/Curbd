@@ -21,7 +21,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-    <title>Curbid - Create an Account</title>
+    <title>Curbid - Login</title>
 </head>
 
 <body class="px-0">
@@ -31,24 +31,20 @@
         <div id="spacer" class="col"></div>
     </nav>
     <div id="main" class="px-3 py-3">
-        <div id="createDiv">
-            <strong><h2 class="col-12">Create an account:</h2></strong>
-            <form class="col-12 text-center">
-                <label for="fname" class="col-sm-2 col-form-label">First Name:</label><br>
-                <input type="text" name="fname" id="fname" class="col-12 form-control">
-                <br>
-                <label for="lname" class="col-sm-2 col-form-label">Last Name:</label><br>
-                <input type="text" name="lname" id="lname" class="col-12 form-control">
-                <br>
-                <label for="email" class="col-sm-2 col-form-label">Email:</label><br>
+        <div id="signInDiv">
+            <h2 class="col-12 text-danger">Sign in:</h2>
+            <form class="col-12">
+                <label for="email" class="col-sm-2 col-form-label text-center">Email:</label><br>
                 <input type="email" name="email" id="email" class="col-12 form-control">
                 <br>
-                <label for="pass" class="col-sm-2 col-form-label">Password:</label><br>
+                <label for="pass" class="col-sm-2 col-form-label text-center">Password:</label><br>
                 <input type="password" name="pass" id="pass" class="col-12 form-control">
-                <small  class="form-text text-muted">Passwords are a minimum of eight characters, with at least one upper case letter, one lower case letter, one number and one special character.</label>
+                <br>
+                <input type="checkbox" name="remember" id="rme" class="col-form-label text-center">
+                <label for="rme" class="text-center">Remember me</label>
                 <br><br>
             </form>
-            <button id="createButton" type="button" class="btn btn-primary col">Create Account</button>
+            <button id="signInButton" type="button" class="btn btn-primary col">Sign in</button>
         </div>
     </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -59,7 +55,7 @@
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
     <!-- Custom Scripts -->
-    <script src="createaccount.js"></script>
+    <script src="signin.js"></script>
 </body>
 
 </html>
