@@ -20,6 +20,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 document.getElementById("start").addEventListener("click", function () {
                     test1(user);
                     test2("d7iFqf89EqbdSPlfb4s1M1N8Pbq2");
+                    test4(user.uid);
                 });
             } else {
                 console.log("admin status red");
@@ -59,7 +60,6 @@ function test2(uid) {
 
 function test4(uid) {
     var result = document.getElementById("t4");
-    
     db.collection("posts").doc("test").get().then((doc) =>{
         var postQueue = Array.of(doc.data().queue);
         postQueue.push(uid);
@@ -75,8 +75,7 @@ function test4(uid) {
     });
     db.collection("posts").doc("test").get().then((doc) => {
         var queue = Array.of(doc.data().queue);
-    }).then(() => {
-        if(queue.length >= 2){
+        if(queue.includes(uid)){
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
             result.innerHTML = "PASSED"
         } else {
