@@ -57,6 +57,20 @@ firebase.auth().onAuthStateChanged(function (user) {
     signout.href = "signout.html";
     signoutItem.appendChild(signout);
     nav.appendChild(signoutItem);
+    var admin;
+    db.collection("users").doc(user.uid).get().then((doc) => {
+      admin = doc.data().admin;
+    });
+    if (admin) {
+      var adminTestingItem = document.createElement("li");
+      var adminLink = document.createElement("a");
+      adminTestingItem.className = "nav-item";
+      adminLink.className = "nav-link";
+      adminLink.textContent = "Testing";
+      adminLink.href = "testLogin.html";
+      adminTestingItem.appendChild(adminLink);
+      nav.appendChild(adminTestingItem);
+    }
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
