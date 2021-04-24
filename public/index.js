@@ -24,11 +24,12 @@ firebase.auth().onAuthStateChanged(function (user) {
   var status = document.getElementById("logStatus");
   var userString = document.createElement("h2");
   var signout = document.createElement("a");
-  var fname, signin;
+  var fname, signin, admin;
   if (user != null) {
     db.collection("users").doc(user.uid).get().then((doc) => {
-      fname = `${doc.get("fname")}`;
-      signin = `${doc.get("signin")}`;
+      fname = doc.data().fname;
+      signin = doc.data().signin;
+      admin = doc.data().admin;
       if (signin) {
         userString.textContent = "Welcome back, " + fname + ".";
       } else {
@@ -57,10 +58,6 @@ firebase.auth().onAuthStateChanged(function (user) {
     signout.href = "signout.html";
     signoutItem.appendChild(signout);
     nav.appendChild(signoutItem);
-    var admin;
-    db.collection("users").doc(user.uid).get().then((doc) => {
-      admin = doc.data().admin;
-    });
     if (admin) {
       var adminTestingItem = document.createElement("li");
       var adminLink = document.createElement("a");
