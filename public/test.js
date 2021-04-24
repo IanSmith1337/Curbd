@@ -37,7 +37,8 @@ function resignIn(email, password) {
         }).catch(function (error) {
             document.body.innerHTML = ""
             var element = document.createElement("h1");
-            document.body.appendChild(element.textContent("Access denied."));
+            element.textContent = "Access denied.";
+            document.body.appendChild(element);
             console.error(error.message + ": " + error.stack);
         });
     } catch (error) {
