@@ -11,10 +11,12 @@ firebase.auth().onAuthStateChanged(function (user) {
                 }
             
             } else {
+                console.log("admin status red");
                 window.location.href = "https://curbid.web.app/testLogin.html";
             }
         });
     } else {
+        console.log("refer/null red");
         window.location.href = "https://curbid.web.app/testLogin.html";
     }
 });
