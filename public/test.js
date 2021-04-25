@@ -22,6 +22,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 document.getElementById("start").addEventListener("click", function () {
                     test1(user);
                     test2("d7iFqf89EqbdSPlfb4s1M1N8Pbq2");
+                    test3(user.uid);
                     test4(user.uid);
                     test5();
                     test6(user.uid, "Testing, Testing... 1... 2... 3...");
@@ -42,7 +43,7 @@ function test1(user) {
     var result = document.getElementById("t1");
     if (user != null) {
         result.className = "col-12 font-italic font-weight-bold text-center text-success"
-        result.innerHTML = "PASSED"
+        result.innerHTML = "PASSED (User Authentication is working)"
     } else {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
         result.innerHTML = "FAILED"
@@ -56,10 +57,30 @@ function test2(uid) {
         address: "224 Main St., Towson, MD, 21252"
     }).then(() => {
         result.className = "col-12 font-italic font-weight-bold text-center text-success"
-        result.innerHTML = "PASSED"
+        result.innerHTML = "PASSED (User Information is able to be updated)"
     }).catch((error) => {
         result.className = "col-12 font-italic font-weight-bold text-center text-danger"
         result.innerHTML = "FAILED"
+        console.error(error.message + ": " + error.stack);
+    })
+}
+
+function test3(uid) {
+    var result = document.getElementById("t3");
+    var verified;
+    db.collection("users").doc(uid).get().then((doc) => {
+        verified = doc.data().verified;
+        if (verified) {
+            result.className = "col-12 font-italic font-weight-bold text-center text-success"
+            result.innerHTML = "PASSED (Users can be verified)"
+        } else {
+            result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+            result.innerHTML = "FAILED"
+        }
+    }).catch((error) => {
+        result.className = "col-12 font-italic font-weight-bold text-center text-danger"
+        result.innerHTML = "FAILED"
+        console.error(error.message + ": " + error.stack);
     })
 }
 
@@ -76,7 +97,7 @@ function test4(uid) {
         var queue = doc.data().queue;
         if (queue.includes(uid)) {
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
-            result.innerHTML = "PASSED"
+            result.innerHTML = "PASSED (Users can join the queue for items)"
         } else {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
@@ -98,7 +119,7 @@ function test5() {
             var retrieval = doc.data().body;
             if (retrieval === content) {
                 result.className = "col-12 font-italic font-weight-bold text-center text-success"
-                result.innerHTML = "PASSED"
+                result.innerHTML = "PASSED (Post content can be retrieved)"
             } else {
                 result.className = "col-12 font-italic font-weight-bold text-center text-danger"
                 result.innerHTML = "FAILED"
@@ -121,7 +142,7 @@ function test6(owner, body) {
     }).then((doc) => {
         doc.delete().then(() => {
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
-            result.innerHTML = "PASSED"
+            result.innerHTML = "PASSED (Posts can be created and deleted)"
         }).catch((error) => {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
@@ -144,7 +165,7 @@ function test7(uid) {
         uaddress = doc.data().address;
         if (tel === utel && address === uaddress) {
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
-            result.innerHTML = "PASSED"
+            result.innerHTML = "PASSED (User contact info can be retrieved)"
         } else {
             result.className = "col-12 font-italic font-weight-bold text-center text-danger"
             result.innerHTML = "FAILED"
