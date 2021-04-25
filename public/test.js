@@ -167,6 +167,7 @@ function test7(uid) {
 }
 
 var createImage = function (src) {
-    var img = createImageBitmap(src);
-    return new ImageBitmap(img);
+    createImageBitmap(src).then((image) => {
+        return image;
+    });
 };
