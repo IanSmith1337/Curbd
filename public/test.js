@@ -118,13 +118,18 @@ function test5() {
 function test6(owner, body, images) {
     var result = document.getElementById("t6");
     var imageArray = images;
-    var queueArray = new Array<String>(25);
+
+    var queueArray = new Array < String > (25);
     db.collection("posts").add({
         owner: owner,
         body: body,
-        images: firebase.firestore.FieldValue.arrayUnion(imageArray),
         queue: firebase.firestore.FieldValue.arrayUnion(queueArray)
     }).then((doc) => {
+        imageArray.forEach(image => {
+            db.collection("posts").doc("test").update({
+                images: firebase.firestore.FieldValue.arrayUnion(image)
+            });
+        });
         doc.delete().then(() => {
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
             result.innerHTML = "PASSED"
