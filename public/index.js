@@ -63,8 +63,13 @@ window.onload = () => {
       var pt = document.getElementById("postTitle");
       var pb = document.getElementById("postBody");
       var pi = document.getElementById("formFilePicker");
-      document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value));
+      if($('#postModal').is(':visible')){
+        document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value));
+      }
     } else {
+      if($('#modalButton').is(":visible")){
+        $('#modalButton').hide();
+      }
       userString.textContent = "You are currently not logged in.";
       userString.style.color = "black";
       userString.id = "userStatus";
