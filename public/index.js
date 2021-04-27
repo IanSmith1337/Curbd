@@ -60,8 +60,6 @@ window.onload = () => {
         status.appendChild(document.createElement("br"));
       }
       createPostcards();
-      var mb = document.getElementById("modalButton");
-      mb.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       var pt = document.getElementById("postTitle");
       var pb = document.getElementById("postBody");
       var pi = document.getElementById("formFilePicker");
@@ -133,10 +131,12 @@ function createPostcards() {
       append(cardBase, cardWrapper);
       var cardImage = createItem("img");
       addClass(cardImage, "card-image-top");
-      var imageRef = doc.data().image;
-      imageRef.getDownloadURL().then((url) => {
-        addImage(cardImage, url, "Post Image");
-      })
+      if (doc.data().image != null) {
+        var imageRef = doc.data().image;
+        imageRef.getDownloadURL().then((url) => {
+          addImage(cardImage, url, "Post Image");
+        });
+      }
       append(cardImage, cardBase);
       var cardBody = createItem("div");
       addClass(cardBody, "card-body");
