@@ -63,11 +63,9 @@ window.onload = () => {
       createPostcards();
       button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       $(function() {
-        var pInputs = document.getElementById("postModal").childNodes[1].childNodes[1].getElementsByClassName("modal-body")[0].childNodes[1].getElementsByTagName("input");
-        var pTA = document.getElementById("postModal").childNodes[1].childNodes[1].getElementsByClassName("modal-body")[0].childNodes[1].getElementsByTagName("textarea");
-        var pt = pInputs.namedItem("postTitle");
-        var pb = pTA.namedItem("postBody");
-        var pi = pInputs.namedItem("formFilePicker");
+        var pt = $("#postTitle");
+        var pb = $("#postBody");
+        var pi = $("#formFilePicker");
         document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
       });
     } else {
