@@ -1,4 +1,8 @@
-#main {
-    background-color: bisque;
+.main {
+    background-color: rgb(209, 192, 39);
 }
 
+.float-right {
+    position: relative;
+    background-color: black;
+}

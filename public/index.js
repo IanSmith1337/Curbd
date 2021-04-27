@@ -19,27 +19,22 @@ try {
 
 const db = firebase.firestore();
 const analytics = firebase.analytics();
+const storage = firebase.storage();
+var posts = new Array(50);
 
 firebase.auth().onAuthStateChanged(function (user) {
   var status = document.getElementById("logStatus");
   var userString = document.createElement("h2");
-  var signout = document.createElement("a");
   var fname, signin;
   var admin = false;
+  var nav = document.getElementById("navholder");
   if (user != null) {
     db.collection("users").doc(user.uid).get().then((doc) => {
       fname = doc.data().fname;
       signin = doc.data().signin;
       admin = doc.data().admin;
       if (admin) {
-        var adminTestingItem = document.createElement("li");
-        var adminLink = document.createElement("a");
-        adminTestingItem.className = "nav-item";
-        adminLink.className = "nav-link";
-        adminLink.textContent = "Testing";
-        adminLink.href = "testLogin.html";
-        adminTestingItem.appendChild(adminLink);
-        nav.appendChild(adminTestingItem);
+        createNavItem(nav, "Testing Page", "testLogin.html")
       }
       if (signin) {
         userString.textContent = "Welcome back, " + fname + ".";
@@ -49,26 +44,12 @@ firebase.auth().onAuthStateChanged(function (user) {
     }).catch((error) => {
       console.error(error);
     });
-    var nav = document.getElementById("navholder");
     var CANav = document.getElementById("createaccount");
     var SINav = document.getElementById("signin");
     nav.removeChild(CANav);
     nav.removeChild(SINav);
-    var accountItem = document.createElement("li");
-    var myaccount = document.createElement("a");
-    accountItem.className = "nav-item";
-    myaccount.className = "nav-link";
-    myaccount.textContent = "Account";
-    myaccount.href = "account.html";
-    accountItem.appendChild(myaccount);
-    nav.appendChild(accountItem);
-    var signoutItem = document.createElement("li");
-    signoutItem.className = "nav-item";
-    signout.className = "nav-link";
-    signout.textContent = "Sign out";
-    signout.href = "signout.html";
-    signoutItem.appendChild(signout);
-    nav.appendChild(signoutItem);
+    createNavItem(nav, "Account", "account.html");
+    createNavItem(nav, "Sign out", "signout.html");
     userString.style.color = "black";
     userString.id = "userStatus";
     if (document.getElementById("userStatus") != null) {
@@ -77,6 +58,13 @@ firebase.auth().onAuthStateChanged(function (user) {
       status.appendChild(userString);
       status.appendChild(document.createElement("br"));
     }
+    createPostcards();
+    var mb = document.getElementById("modalButton");
+    mb.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+    var pt = document.getElementById("postTitle");
+    var pb = document.getElementById("postBody");
+    var pi = document.getElementById("formFilePicker");
+    document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value));
   } else {
     userString.textContent = "You are currently not logged in.";
     userString.style.color = "black";
@@ -89,3 +77,134 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
   }
 });
+
+function createPostcards() {
+  /*<div class="card-group row">
+      <div class="col-sm-6">
+        <div class="card mb-3">
+          <img class="card-img-top" src="black.png" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+              content. This content is a little bit longer.</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated 3 mins ago</small>
+          </div>
+        </div>
+      </div>*/
+  function createItem(element) {
+    let item = document.createElement(element);
+    return item;
+  }
+
+  function addClass(item, classDef) {
+    item.className = classDef
+  }
+
+  function addImage(item, image, alt) {
+    item.src = image
+    item.alt = alt
+  }
+
+  function addText(item, text) {
+    item.innerHTML = text
+  }
+
+  function append(item, parent) {
+    parent.appendChild(item);
+  }
+
+  function insertCardBefore(item, parent) {
+    parent.before(item);
+  }
+
+  var cardRoot = createItem("div");
+  addClass(cardRoot, "card-group row");
+  append(document.body, cardRoot);
+  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      var cardWrapper = createItem("div");
+      addClass(cardWrapper, "col-sm-6");
+      var cardBase = createItem("div");
+      addClass(cardBase, "card mb-3");
+      append(cardBase, cardWrapper);
+      var cardImage = createItem("img");
+      addClass(cardImage, "card-image-top");
+      var imageRef = doc.data().image;
+      imageRef.getDownloadURL().then((url) => {
+        addImage(cardImage, url, "Post Image");
+      })
+      append(cardImage, cardBase);
+      var cardBody = createItem("div");
+      addClass(cardBody, "card-body");
+      append(cardBody, cardBase);
+      var cardTitle = createItem("h5");
+      addClass(cardTitle, "card-title");
+      addText(cardTitle, doc.data().title);
+      append(cardTitle, cardBody);
+      var cardText = createItem("p");
+      addClass(cardText, "card-text");
+      addText(cardText, doc.data().body);
+      append(cardText, cardBody);
+      var cardFooter = createItem("p");
+      addClass(cardFooter, "card-text");
+      var timeNow = new Date().getTime();
+      var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+      var timeString = "";
+      if(timeSince >= 60) {
+        if((timeSince/60) >= 24) {
+          timeString = "Posted " + Math.floor((timeSince/60)/24) + " days ago";
+        } else {
+          timeString = "Posted " + Math.floor(timeSince/60) + " hours ago";
+        }
+      } else {
+        timeString = "Posted " + timeSince + " minutes ago";
+      }
+      addText(cardFooter, timeString);
+      append(cardFooter, cardBase);
+      if(cardRoot.children.length == 0){
+        cardWrapper.id = "lastCard";
+        append(cardWrapper, cardRoot);
+      } else {
+        var lastCard = document.getElementById("lastCard");
+        insertCardBefore(cardWrapper, lastCard);
+        cardWrapper.id = lastCard.id;
+        lastCard.id = "";
+      }
+    });
+  });
+}
+
+function createNavItem(nav, text, dest) {
+  var navItem = document.createElement("li");
+  var navLink = document.createElement("a");
+  navItem.className = "nav-item";
+  navLink.className = "nav-link";
+  navLink.textContent = text;
+  navLink.href = dest;
+  navItem.appendChild(navLink);
+  nav.appendChild(navItem);
+}
+
+function createNewPost(title, body, image) {
+  var root = storage.ref();
+  var ID = createID();
+  var ref = root.child(ID);
+  ref.put(image);
+  var owner = firebase.auth().currentUser.uid
+  var queueArray = new Array(25);
+  db.collection("posts").doc(ID).set({
+    owner: owner,
+    title: title,
+    body: body,
+    queue: firebase.firestore.FieldValue.arrayUnion(queueArray),
+    image: ref,
+    addTime: new Date().getTime()
+  })
+}
+
+function createID() {
+  let idPart = Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
+  return idPart() + '-' + idPart() + '-' + idPart();
+}
