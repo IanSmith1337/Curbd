@@ -114,7 +114,7 @@ function createPostcards() {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       var blob = xhr.response;
-      item.src = blob;
+      item.src = URL.createObjectURL(blob);
       item.alt = alt;
     };
     xhr.open('GET', image);
