@@ -62,7 +62,7 @@ window.onload = () => {
       }
       createPostcards();
       button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
-      var pt, pb, pi;
+      var pt, pb, pi = new HTMLElement();
       $(function() {
         pt = $("#postTitle");
         pb = $("#postBody");
