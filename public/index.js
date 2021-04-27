@@ -129,7 +129,8 @@ function createPostcards() {
 
   var cardRoot = createItem("div");
   addClass(cardRoot, "card-group row");
-  append(document.body, cardRoot);
+  var main = document.getElementById("main");
+  append(main, cardRoot);
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       var cardWrapper = createItem("div");
