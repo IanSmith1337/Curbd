@@ -205,14 +205,13 @@ function createNewPost(title, body, image) {
   var ref = root.child(ID + ".png");
   ref.put(image);
   var owner = firebase.auth().currentUser.uid
-  var queueArray = new Array(25);
   db.collection("posts").doc(ID).set({
     hide: false,
     owner: owner,
     title: title,
     body: body,
     image: ref.toString(),
-    queue: queueArray,
+    queue: new Array<String>(25),
     addTime: new Date().getTime()
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
