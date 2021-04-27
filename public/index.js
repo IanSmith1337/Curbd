@@ -23,6 +23,7 @@ const storage = firebase.storage();
 var posts = new Array(50);
 
 window.onload = () => {
+  var button = document.getElementById("modalButton");
   firebase.auth().onAuthStateChanged(function (user) {
     var status = document.getElementById("logStatus");
     var userString = document.createElement("h2");
@@ -60,6 +61,7 @@ window.onload = () => {
         status.appendChild(document.createElement("br"));
       }
       createPostcards();
+      button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       var pInputs = document.getElementById("postModal").childNodes[1].childNodes[1].getElementsByClassName("modal-body")[0].childNodes[1].getElementsByTagName("input");
       var pTA = document.getElementById("postModal").childNodes[1].childNodes[1].getElementsByClassName("modal-body")[0].childNodes[1].getElementsByTagName("textarea");
       var pt = pInputs.namedItem("postTitle");
@@ -67,6 +69,7 @@ window.onload = () => {
       var pi = pInputs.namedItem("formFilePicker");
       document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
     } else {
+      button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
       userString.style.color = "black";
       userString.id = "userStatus";
@@ -205,6 +208,8 @@ function createNewPost(title, body, image) {
     queue: firebase.firestore.FieldValue.arrayUnion(queueArray),
     image: ref,
     addTime: new Date().getTime()
+  }).catch((error) => {
+    console.log(error.message + ": " + error.stack);
   })
 }
 
