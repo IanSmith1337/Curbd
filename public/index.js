@@ -66,7 +66,7 @@ window.onload = () => {
         var pt = $("#postTitle");
         var pb = $("#postBody");
         var pi = $("#formFilePicker");
-        document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
+        $("#postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
       });
     } else {
       button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
