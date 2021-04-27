@@ -63,11 +63,11 @@ window.onload = () => {
       createPostcards();
       button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       var pt, pb, pi;
-      $(function() {
+      $(function () {
         pt = $("#postTitle");
         pb = $("#postBody");
         pi = $("#formFilePicker");
-        $("#postButton").onclick = function(){
+        $("#postButton").onclick = function () {
           createNewPost(pt.value, pb.value, pi.value);
         }
       });
@@ -133,55 +133,57 @@ function createPostcards() {
   append(cardRoot, main);
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      var cardWrapper = createItem("div");
-      addClass(cardWrapper, "col-sm-6");
-      var cardBase = createItem("div");
-      addClass(cardBase, "card mb-3");
-      append(cardBase, cardWrapper);
-      var cardImage = createItem("img");
-      addClass(cardImage, "card-image-top");
-      if (doc.data().image != null) {
-        var imageRef = doc.data().image;
-        imageRef.getDownloadURL().then((url) => {
-          addImage(cardImage, url, "Post Image");
-        });
-      }
-      append(cardImage, cardBase);
-      var cardBody = createItem("div");
-      addClass(cardBody, "card-body");
-      append(cardBody, cardBase);
-      var cardTitle = createItem("h5");
-      addClass(cardTitle, "card-title");
-      addText(cardTitle, doc.data().title);
-      append(cardTitle, cardBody);
-      var cardText = createItem("p");
-      addClass(cardText, "card-text");
-      addText(cardText, doc.data().body);
-      append(cardText, cardBody);
-      var cardFooter = createItem("p");
-      addClass(cardFooter, "card-text");
-      var timeNow = new Date().getTime();
-      var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-      var timeString = "";
-      if (timeSince >= 60) {
-        if ((timeSince / 60) >= 24) {
-          timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
-        } else {
-          timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+      if (!doc.data().hide) {
+        var cardWrapper = createItem("div");
+        addClass(cardWrapper, "col-sm-6");
+        var cardBase = createItem("div");
+        addClass(cardBase, "card mb-3");
+        append(cardBase, cardWrapper);
+        var cardImage = createItem("img");
+        addClass(cardImage, "card-image-top");
+        if (doc.data().image != null) {
+          var imageRef = doc.data().image;
+          imageRef.getDownloadURL().then((url) => {
+            addImage(cardImage, url, "Post Image");
+          });
         }
-      } else {
-        timeString = "Posted " + timeSince + " minutes ago";
-      }
-      addText(cardFooter, timeString);
-      append(cardFooter, cardBase);
-      if (cardRoot.childElementCount === 0) {
-        cardWrapper.id = "lastCard";
-        append(cardWrapper, cardRoot);
-      } else {
-        var lastCard = document.getElementById("lastCard");
-        insertCardBefore(cardWrapper, lastCard);
-        cardWrapper.id = lastCard.id;
-        lastCard.id = "";
+        append(cardImage, cardBase);
+        var cardBody = createItem("div");
+        addClass(cardBody, "card-body");
+        append(cardBody, cardBase);
+        var cardTitle = createItem("h5");
+        addClass(cardTitle, "card-title");
+        addText(cardTitle, doc.data().title);
+        append(cardTitle, cardBody);
+        var cardText = createItem("p");
+        addClass(cardText, "card-text");
+        addText(cardText, doc.data().body);
+        append(cardText, cardBody);
+        var cardFooter = createItem("p");
+        addClass(cardFooter, "card-text");
+        var timeNow = new Date().getTime();
+        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+        var timeString = "";
+        if (timeSince >= 60) {
+          if ((timeSince / 60) >= 24) {
+            timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
+          } else {
+            timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+          }
+        } else {
+          timeString = "Posted " + timeSince + " minutes ago";
+        }
+        addText(cardFooter, timeString);
+        append(cardFooter, cardBase);
+        if (cardRoot.childElementCount === 0) {
+          cardWrapper.id = "lastCard";
+          append(cardWrapper, cardRoot);
+        } else {
+          var lastCard = document.getElementById("lastCard");
+          insertCardBefore(cardWrapper, lastCard);
+          cardWrapper.id = lastCard.id;
+          lastCard.id = "";
+        }
       }
     });
   });
