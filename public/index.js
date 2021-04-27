@@ -163,7 +163,7 @@ function updatePostcards() {
         addClass(cardBase, "card mb-3");
         append(cardBase, cardWrapper);
         var cardImage = createItem("img");
-        addClass(cardImage, "card-image-top");
+        addClass(cardImage, "card-image-top w-50 h-50");
         if (doc.data().image != null) {
           var imageRef = doc.data().image;
           storage.refFromURL(imageRef).getDownloadURL().then((url) => {
@@ -235,9 +235,9 @@ function createNewPost(title, body, image) {
     var img = new Image();
     img.onload = function () {
       var canvas = document.createElement("canvas");
-      canvas.height = 200;
-      canvas.width = 200;
-      canvas.getContext("2d").drawImage(img, 0, 0, 200, 200);
+      canvas.height = 600;
+      canvas.width = 600;
+      canvas.getContext("2d").drawImage(img, 0, 0, 600, 600);
       canvas.toBlob(function(blob) {
         ref.put(blob);
       });
