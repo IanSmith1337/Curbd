@@ -62,12 +62,13 @@ window.onload = () => {
       }
       createPostcards();
       button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+      var pt, pb, pi;
       $(function() {
-        var pt = $("#postTitle");
-        var pb = $("#postBody");
-        var pi = $("#formFilePicker");
-        $("#postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
+        pt = $("#postTitle");
+        pb = $("#postBody");
+        pi = $("#formFilePicker");
       });
+      button.addEventListener("click", $("#postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value)));
     } else {
       button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
