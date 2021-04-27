@@ -141,7 +141,7 @@ function updatePostcards() {
       addClass(cardRoot, "card-group row");
       append(cardRoot, main);
     } else {
-      document.getElementsByClassName("card-group row").item[0].remove();
+      document.getElementsByClassName("card-group row").item(0).remove();
       addClass(cardRoot, "card-group row");
       append(cardRoot, main);
     }
