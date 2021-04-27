@@ -110,8 +110,14 @@ function createPostcards() {
   }
 
   function addImage(item, image, alt) {
-    item.src = image
-    item.alt = alt
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      var blob = xhr.response;
+      item.src = "data:image/gif;base64," + String(btoa(blob));
+    };
+    xhr.open('GET', url);
+    xhr.send();
   }
 
   function addText(item, text) {
