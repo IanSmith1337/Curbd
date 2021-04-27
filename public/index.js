@@ -162,15 +162,6 @@ function updatePostcards() {
         var cardBase = createItem("div");
         addClass(cardBase, "card mb-3");
         append(cardBase, cardWrapper);
-        var cardImage = createItem("img");
-        addClass(cardImage, "card-image-top");
-        if (doc.data().image != null) {
-          var imageRef = doc.data().image;
-          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
-            addImage(cardImage, url, "Post Image");
-          });
-        }
-        append(cardImage, cardBase);
         var cardBody = createItem("div");
         addClass(cardBody, "card-body");
         append(cardBody, cardBase);
@@ -182,6 +173,15 @@ function updatePostcards() {
         addClass(cardText, "card-text");
         addText(cardText, doc.data().body);
         append(cardText, cardBody);
+        var cardImage = createItem("img");
+        addClass(cardImage, "card-image-bottom");
+        if (doc.data().image != null) {
+          var imageRef = doc.data().image;
+          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
+            addImage(cardImage, url, "Post Image");
+          });
+        }
+        append(cardImage, cardBase);
         var cardFooterWrap = createItem("div");
         addClass(cardFooterWrap, "card-footer");
         append(cardFooterWrap, cardBase);
