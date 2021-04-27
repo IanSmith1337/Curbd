@@ -174,7 +174,7 @@ function createPostcards() {
       }
       addText(cardFooter, timeString);
       append(cardFooter, cardBase);
-      if (cardRoot.children.length == 0) {
+      if (cardRoot.childNodes.length == 0) {
         cardWrapper.id = "lastCard";
         append(cardWrapper, cardRoot);
       } else {
