@@ -114,6 +114,7 @@ function createPostcards() {
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
       var blob = xhr.response;
+      console.log(blob.type)
       item.src = URL.createObjectURL(blob);
       item.alt = alt;
     };
@@ -220,6 +221,11 @@ function createNewPost(title, body, image) {
   canvas.toBlob(function(blob) {
     ref.put(blob);
   });
+  var metadata = {
+    cacheControl: 'public,max-age=300',
+    contentType: 'image/jpeg'
+  };
+  ref.updateMetadata(metadata);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
