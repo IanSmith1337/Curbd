@@ -211,7 +211,7 @@ function createNewPost(title, body, image) {
     owner: owner,
     title: title,
     body: body,
-    image: ref,
+    image: ref.toString(),
     queue: queueArray,
     addTime: new Date().getTime()
   }).catch((error) => {
