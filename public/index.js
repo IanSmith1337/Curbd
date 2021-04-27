@@ -225,9 +225,9 @@ function createNewPost(title, body, image) {
     var img = new Image();
     img.onload = function () {
       var canvas = document.createElement("canvas");
-      canvas.height = 400;
+      canvas.height = 200;
       canvas.width = 200;
-      canvas.getContext("2d").drawImage(img, 0, 0, 400, 200);
+      canvas.getContext("2d").drawImage(img, 0, 0, 200, 200);
       canvas.toBlob(function(blob) {
         ref.put(blob);
       });
