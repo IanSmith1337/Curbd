@@ -160,9 +160,9 @@ function updatePostcards() {
       querySnapshot.forEach((doc) => {
         if (!doc.data().hide) {
           var cardWrapper = createItem("div");
-          addClass(cardWrapper, "col-sm-4");
+          addClass(cardWrapper, "col-sm-4  h-50");
           var cardBase = createItem("div");
-          addClass(cardBase, "card mb-3 h-50");
+          addClass(cardBase, "card mb-3");
           append(cardBase, cardWrapper);
           var cardBody = createItem("div");
           addClass(cardBody, "card-body");
