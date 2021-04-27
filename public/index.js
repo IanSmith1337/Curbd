@@ -214,13 +214,21 @@ function createNewPost(title, body, image) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  var canvas = document.createElement("canvas");
-  canvas.height = 400;
-  canvas.width = 400;
-  canvas.getContext("2d").drawImage(image, 0, 0, 400, 400, 0, 0, 400, 400);
-  canvas.toBlob(function(blob) {
-    ref.put(blob);
-  });
+  var fr = new FileReader();
+  fr.onload = function () {
+    var img = new Image();
+    img.onload = function () {
+      var canvas = document.createElement("canvas");
+      canvas.height = 400;
+      canvas.width = 400;
+      canvas.getContext("2d").drawImage(image, 0, 0, 400, 400, 0, 0, 400, 400);
+      canvas.toBlob(function(blob) {
+        ref.put(blob);
+      });
+    }
+    img.src = fr.result;
+  }
+  fr.readAsDataURL(file);
   var metadata = {
     cacheControl: 'public,max-age=300',
     contentType: 'image/jpeg'
