@@ -211,8 +211,8 @@ function createNewPost(title, body, image) {
     owner: owner,
     title: title,
     body: body,
-    queue: firebase.firestore.FieldValue.arrayUnion(queueArray),
     image: ref,
+    queue: queueArray,
     addTime: new Date().getTime()
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
