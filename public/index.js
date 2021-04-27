@@ -165,6 +165,9 @@ function createPostcards() {
         addClass(cardText, "card-text");
         addText(cardText, doc.data().body);
         append(cardText, cardBody);
+        var cardFooterWrap = createItem("div");
+        addClass(cardFooterWrap, "card-footer");
+        append(cardFooterWrap, cardBase);
         var cardFooter = createItem("p");
         addClass(cardFooter, "card-text");
         var timeNow = new Date().getTime();
@@ -180,7 +183,7 @@ function createPostcards() {
           timeString = "Posted " + timeSince + " minutes ago";
         }
         addText(cardFooter, timeString);
-        append(cardFooter, cardBase);
+        append(cardFooter, cardFooterWrap);
         if (cardRoot.childElementCount === 0) {
           cardWrapper.id = "lastCard";
           append(cardWrapper, cardRoot);
