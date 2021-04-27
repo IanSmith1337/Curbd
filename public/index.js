@@ -59,7 +59,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      createPostcards();
+      updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       var pt, pb, pi;
       $("#modalButton").click(function () {
@@ -85,7 +85,7 @@ window.onload = () => {
   });
 }
 
-function createPostcards() {
+function updatePostcards() {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -134,11 +134,17 @@ function createPostcards() {
     parent.before(item);
   }
 
-  var cardRoot = createItem("div");
-  addClass(cardRoot, "card-group row");
-  var main = document.getElementById("main");
-  append(cardRoot, main);
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+    var cardRoot = createItem("div");
+    var main = document.getElementById("main");
+    if(document.getElementsByClassName("card-group row").length === 0){
+      addClass(cardRoot, "card-group row");
+      append(cardRoot, main);
+    } else {
+      document.getElementsByClassName("card-group row").item[0].remove();
+      addClass(cardRoot, "card-group row");
+      append(cardRoot, main);
+    }
     querySnapshot.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
