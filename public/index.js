@@ -116,8 +116,9 @@ function createPostcards() {
       var blob = xhr.response;
       item.src = "data:image/gif;base64," + String(btoa(blob));
     };
-    xhr.open('GET', url);
+    xhr.open('GET', image);
     xhr.send();
+    item.alt = alt;
   }
 
   function addText(item, text) {
