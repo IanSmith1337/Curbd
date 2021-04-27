@@ -22,61 +22,63 @@ const analytics = firebase.analytics();
 const storage = firebase.storage();
 var posts = new Array(50);
 
-firebase.auth().onAuthStateChanged(function (user) {
-  var status = document.getElementById("logStatus");
-  var userString = document.createElement("h2");
-  var fname, signin;
-  var admin = false;
-  var nav = document.getElementById("navholder");
-  if (user != null) {
-    db.collection("users").doc(user.uid).get().then((doc) => {
-      fname = doc.data().fname;
-      signin = doc.data().signin;
-      admin = doc.data().admin;
-      if (admin) {
-        createNavItem(nav, "Testing Page", "testLogin.html")
-      }
-      if (signin) {
-        userString.textContent = "Welcome back, " + fname + ".";
+window.onload = () => {
+  firebase.auth().onAuthStateChanged(function (user) {
+    var status = document.getElementById("logStatus");
+    var userString = document.createElement("h2");
+    var fname, signin;
+    var admin = false;
+    var nav = document.getElementById("navholder");
+    if (user != null) {
+      db.collection("users").doc(user.uid).get().then((doc) => {
+        fname = doc.data().fname;
+        signin = doc.data().signin;
+        admin = doc.data().admin;
+        if (admin) {
+          createNavItem(nav, "Testing Page", "testLogin.html")
+        }
+        if (signin) {
+          userString.textContent = "Welcome back, " + fname + ".";
+        } else {
+          userString.textContent = "Welcome " + fname + "!";
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+      var CANav = document.getElementById("createaccount");
+      var SINav = document.getElementById("signin");
+      nav.removeChild(CANav);
+      nav.removeChild(SINav);
+      createNavItem(nav, "Account", "account.html");
+      createNavItem(nav, "Sign out", "signout.html");
+      userString.style.color = "black";
+      userString.id = "userStatus";
+      if (document.getElementById("userStatus") != null) {
+        status.replaceChild(document.getElementById("userStatus"), userString);
       } else {
-        userString.textContent = "Welcome " + fname + "!";
+        status.appendChild(userString);
+        status.appendChild(document.createElement("br"));
       }
-    }).catch((error) => {
-      console.error(error);
-    });
-    var CANav = document.getElementById("createaccount");
-    var SINav = document.getElementById("signin");
-    nav.removeChild(CANav);
-    nav.removeChild(SINav);
-    createNavItem(nav, "Account", "account.html");
-    createNavItem(nav, "Sign out", "signout.html");
-    userString.style.color = "black";
-    userString.id = "userStatus";
-    if (document.getElementById("userStatus") != null) {
-      status.replaceChild(document.getElementById("userStatus"), userString);
+      createPostcards();
+      var mb = document.getElementById("modalButton");
+      mb.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+      var pt = document.getElementById("postTitle");
+      var pb = document.getElementById("postBody");
+      var pi = document.getElementById("formFilePicker");
+      document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value));
     } else {
-      status.appendChild(userString);
-      status.appendChild(document.createElement("br"));
+      userString.textContent = "You are currently not logged in.";
+      userString.style.color = "black";
+      userString.id = "userStatus";
+      if (document.getElementById("userStatus") != null) {
+        status.replaceChild(document.getElementById("userStatus"), userString);
+      } else {
+        status.appendChild(userString);
+        status.appendChild(document.createElement("br"));
+      }
     }
-    createPostcards();
-    var mb = document.getElementById("modalButton");
-    mb.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
-    var pt = document.getElementById("postTitle");
-    var pb = document.getElementById("postBody");
-    var pi = document.getElementById("formFilePicker");
-    document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value));
-  } else {
-    userString.textContent = "You are currently not logged in.";
-    userString.style.color = "black";
-    userString.id = "userStatus";
-    if (document.getElementById("userStatus") != null) {
-      status.replaceChild(document.getElementById("userStatus"), userString);
-    } else {
-      status.appendChild(userString);
-      status.appendChild(document.createElement("br"));
-    }
-  }
-});
+  });
+}
 
 function createPostcards() {
   /*<div class="card-group row">
@@ -152,18 +154,18 @@ function createPostcards() {
       var timeNow = new Date().getTime();
       var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
       var timeString = "";
-      if(timeSince >= 60) {
-        if((timeSince/60) >= 24) {
-          timeString = "Posted " + Math.floor((timeSince/60)/24) + " days ago";
+      if (timeSince >= 60) {
+        if ((timeSince / 60) >= 24) {
+          timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
         } else {
-          timeString = "Posted " + Math.floor(timeSince/60) + " hours ago";
+          timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
         }
       } else {
         timeString = "Posted " + timeSince + " minutes ago";
       }
       addText(cardFooter, timeString);
       append(cardFooter, cardBase);
-      if(cardRoot.children.length == 0){
+      if (cardRoot.children.length == 0) {
         cardWrapper.id = "lastCard";
         append(cardWrapper, cardRoot);
       } else {
