@@ -118,8 +118,18 @@ function updatePostcards() {
       item.src = URL.createObjectURL(blob);
       item.alt = alt;
     };
+    xhr.onerror = (event) => {
+      try {
+        var blob = xhr.response;
+        console.log(blob.type)
+        item.src = URL.createObjectURL(blob);
+        item.alt = alt;
+      } catch (error) {
+        console.log(error);
+      }
+    }
     xhr.open('GET', image);
-    setTimeout(xhr.send(), 3000);
+    xhr.send()
   }
 
   function addText(item, text) {
