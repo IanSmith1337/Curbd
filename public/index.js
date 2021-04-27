@@ -23,7 +23,6 @@ const storage = firebase.storage();
 var posts = new Array(50);
 
 window.onload = () => {
-  var button = document.getElementById("modalButton");
   firebase.auth().onAuthStateChanged(function (user) {
     var status = document.getElementById("logStatus");
     var userString = document.createElement("h2");
@@ -61,18 +60,18 @@ window.onload = () => {
         status.appendChild(document.createElement("br"));
       }
       createPostcards();
-      button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+      $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       var pt, pb, pi;
-      $(function () {
-        pt = $("#postTitle");
-        pb = $("#postBody");
-        pi = $("#formFilePicker");
+      $("#modalButton").click(function () {
+        pt = document.getElementById("postTitle");
+        pb = document.getElementById("postBody");
+        pi = document.getElementById("postTitle");
         $("#postButton").click(function () {
           createNewPost(pt.value, pb.value, pi.value);
         })
       });
     } else {
-      button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
+      $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
       userString.style.color = "black";
       userString.id = "userStatus";
@@ -203,7 +202,7 @@ function createNavItem(nav, text, dest) {
 function createNewPost(title, body, image) {
   var root = storage.ref();
   var ID = createID();
-  var ref = root.child(ID);
+  var ref = root.child(ID + ".png");
   ref.put(image);
   var owner = firebase.auth().currentUser.uid
   var queueArray = new Array(25);
