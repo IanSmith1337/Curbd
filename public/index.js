@@ -130,7 +130,7 @@ function createPostcards() {
   var cardRoot = createItem("div");
   addClass(cardRoot, "card-group row");
   var main = document.getElementById("main");
-  append(main, cardRoot);
+  append(cardRoot, main);
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       var cardWrapper = createItem("div");
@@ -174,7 +174,7 @@ function createPostcards() {
       }
       addText(cardFooter, timeString);
       append(cardFooter, cardBase);
-      if (cardRoot.childNodes.length == 0) {
+      if (cardRoot.childElementCount === 0) {
         cardWrapper.id = "lastCard";
         append(cardWrapper, cardRoot);
       } else {
