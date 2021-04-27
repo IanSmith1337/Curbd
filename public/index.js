@@ -228,7 +228,7 @@ function createNewPost(title, body, image) {
     }
     img.src = fr.result;
   }
-  fr.readAsDataURL(file);
+  fr.readAsDataURL(image);
   var metadata = {
     cacheControl: 'public,max-age=300',
     contentType: 'image/jpeg'
