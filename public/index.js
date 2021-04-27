@@ -69,7 +69,7 @@ window.onload = () => {
       var pi = pInputs.namedItem("formFilePicker");
       document.getElementById("postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.files[0]));
     } else {
-      button.className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
+      button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
       userString.style.color = "black";
       userString.id = "userStatus";
