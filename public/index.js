@@ -110,7 +110,15 @@ function createPostcards() {
   }
 
   function addImage(item, image, alt) {
-    
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      var blob = xhr.response;
+      item.src = blob;
+      item.alt = alt;
+    };
+    xhr.open('GET', image);
+    xhr.send();
   }
 
   function addText(item, text) {
@@ -205,9 +213,13 @@ function createNewPost(title, body, image) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  console.log(image instanceof Blob);
-  image = new File(image, ID);
-  ref.put(image);
+  var canvas = document.createElement("canvas");
+  canvas.height = 400;
+  canvas.width = 400;
+  canvas.getContext("2d").drawImage(image, 0, 0, 400, 400, 0, 0, 400, 400);
+  canvas.toBlob(function(blob) {
+    ref.put(blob);
+  });
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
