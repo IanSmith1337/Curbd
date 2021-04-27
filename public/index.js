@@ -67,7 +67,7 @@ window.onload = () => {
         pb = document.getElementById("postBody");
         pi = document.getElementById("postTitle");
         $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value, pi.value);
+          createNewPost(pt.value, pb.value, pi.files[0]);
         })
       });
     } else {
