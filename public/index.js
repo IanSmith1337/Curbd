@@ -205,6 +205,6 @@ function createNewPost(title, body, image) {
 }
 
 function createID() {
-  let idPart = Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
+  let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
   return idPart() + '-' + idPart() + '-' + idPart();
 }
