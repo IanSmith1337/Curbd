@@ -65,9 +65,9 @@ window.onload = () => {
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-        pi = document.getElementById("postTitle");
+        pi = document.getElementById("formFilePicker");
         $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value, pi.files[0]);
+          createNewPost(pt.value, pb.value, pi.value);
         })
       });
     } else {
@@ -214,25 +214,13 @@ function createNewPost(title, body, image) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  var fr = new FileReader();
-  fr.onload = function () {
-    var img = new Image();
-    img.onload = function () {
-      var canvas = document.createElement("canvas");
-      canvas.height = 400;
-      canvas.width = 400;
-      canvas.getContext("2d").drawImage(image, 0, 0, 400, 400);
-      canvas.toBlob(function(blob) {
-        ref.put(blob);
-      });
-    }
-    img.src = fr.result;
-  }
-  fr.readAsDataURL(image);
-  var metadata = {
-    cacheControl: 'public,max-age=300',
-    contentType: 'image/jpeg'
-  };
+  var canvas = document.createElement("canvas");
+  canvas.height = 400;
+  canvas.width = 400;
+  canvas.getContext("2d").drawImage(image, 0, 0, 400, 400, 0, 0, 400, 400);
+  canvas.toBlob(function(blob) {
+    ref.put(blob);
+  });
   ref.updateMetadata(metadata);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
