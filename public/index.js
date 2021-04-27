@@ -67,9 +67,9 @@ window.onload = () => {
         pt = $("#postTitle");
         pb = $("#postBody");
         pi = $("#formFilePicker");
-        $("#postButton").onclick = function () {
+        $("#postButton").click(function () {
           createNewPost(pt.value, pb.value, pi.value);
-        }
+        })
       });
     } else {
       button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
@@ -208,6 +208,7 @@ function createNewPost(title, body, image) {
   var owner = firebase.auth().currentUser.uid
   var queueArray = new Array(25);
   db.collection("posts").doc(ID).set({
+    hide: false,
     owner: owner,
     title: title,
     body: body,
