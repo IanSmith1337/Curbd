@@ -142,7 +142,7 @@ function createPostcards() {
         addClass(cardImage, "card-image-top");
         if (doc.data().image != null) {
           var imageRef = doc.data().image;
-          imageRef.getDownloadURL().then((url) => {
+          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
             addImage(cardImage, url, "Post Image");
           });
         }
