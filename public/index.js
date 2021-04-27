@@ -237,9 +237,7 @@ function updatePostcards() {
       var img = new Image();
       img.onload = function () {
         var canvas = document.createElement("canvas");
-        canvas.height = 400;
-        canvas.width = 400;
-        canvas.getContext("2d").drawImage(img, 0, 0);
+        canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
         canvas.toBlob(function (blob) {
           ref.put(blob);
         });
