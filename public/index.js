@@ -67,7 +67,7 @@ window.onload = () => {
         pt = $("#postTitle");
         pb = $("#postBody");
         pi = $("#formFilePicker");
-        button.addEventListener("click", $("#postButton").addEventListener("click", createNewPost(pt.value, pb.value, pi.value)));
+        $("#postButton").onclick = createNewPost(pt.value, pb.value, pi.value);
       });
     } else {
       button.className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
