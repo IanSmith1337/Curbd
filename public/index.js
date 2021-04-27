@@ -163,7 +163,7 @@ function updatePostcards() {
         addClass(cardBase, "card mb-3");
         append(cardBase, cardWrapper);
         var cardImage = createItem("img");
-        addClass(cardImage, "card-image-top h-50");
+        addClass(cardImage, "card-image-top");
         if (doc.data().image != null) {
           var imageRef = doc.data().image;
           storage.refFromURL(imageRef).getDownloadURL().then((url) => {
