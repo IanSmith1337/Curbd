@@ -119,152 +119,154 @@ function updatePostcards() {
       item.alt = alt;
     };
     xhr.onerror = (event) => {
-      try {
-        var blob = xhr.response;
-        console.log(blob.type)
-        item.src = URL.createObjectURL(blob);
-        item.alt = alt;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    xhr.open('GET', image);
-    xhr.send()
-  }
-
-  function addText(item, text) {
-    item.innerHTML = text
-  }
-
-  function append(item, parent) {
-    parent.appendChild(item);
-  }
-
-  function insertCardBefore(item, parent) {
-    parent.before(item);
-  }
-
-  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    var cardRoot = createItem("div");
-    var main = document.getElementById("main");
-    if(document.getElementsByClassName("card-group row").length === 0){
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    } else {
-      document.getElementsByClassName("card-group row").item(0).remove();
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    }
-    querySnapshot.forEach((doc) => {
-      if (!doc.data().hide) {
-        var cardWrapper = createItem("div");
-        addClass(cardWrapper, "col-sm-6");
-        var cardBase = createItem("div");
-        addClass(cardBase, "card mb-3");
-        append(cardBase, cardWrapper);
-        var cardBody = createItem("div");
-        addClass(cardBody, "card-body");
-        append(cardBody, cardBase);
-        var cardTitle = createItem("h5");
-        addClass(cardTitle, "card-title");
-        addText(cardTitle, doc.data().title);
-        append(cardTitle, cardBody);
-        var cardText = createItem("p");
-        addClass(cardText, "card-text");
-        addText(cardText, doc.data().body);
-        append(cardText, cardBody);
-        var cardImage = createItem("img");
-        addClass(cardImage, "card-image-bottom");
-        if (doc.data().image != null) {
-          var imageRef = doc.data().image;
-          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
-            addImage(cardImage, url, "Post Image");
-          });
-        }
-        append(cardImage, cardBase);
-        var cardFooterWrap = createItem("div");
-        addClass(cardFooterWrap, "card-footer");
-        append(cardFooterWrap, cardBase);
-        var cardFooter = createItem("p");
-        addClass(cardFooter, "card-text");
-        var timeNow = new Date().getTime();
-        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-        var timeString = "";
-        if (timeSince >= 60) {
-          if ((timeSince / 60) >= 24) {
-            timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
-          } else {
-            timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+      setTimeout(function () {
+          try {
+            var blob = xhr.response;
+            console.log(blob.type)
+            item.src = URL.createObjectURL(blob);
+            item.alt = alt;
+          } catch (error) {
+            console.log(error);
           }
-        } else {
-          timeString = "Posted " + timeSince + " minutes ago";
-        }
-        addText(cardFooter, timeString);
-        append(cardFooter, cardFooterWrap);
-        if (cardRoot.childElementCount === 0) {
-          cardWrapper.id = "lastCard";
-          append(cardWrapper, cardRoot);
-        } else {
-          var lastCard = document.getElementById("lastCard");
-          insertCardBefore(cardWrapper, lastCard);
-          cardWrapper.id = lastCard.id;
-          lastCard.id = "";
-        }
+        }, 10000);
       }
-    });
-  });
-}
-
-function createNavItem(nav, text, dest) {
-  var navItem = document.createElement("li");
-  var navLink = document.createElement("a");
-  navItem.className = "nav-item";
-  navLink.className = "nav-link";
-  navLink.textContent = text;
-  navLink.href = dest;
-  navItem.appendChild(navLink);
-  nav.appendChild(navItem);
-}
-
-function createNewPost(title, body, image) {
-  var root = storage.ref();
-  var ID = createID();
-  var ref = root.child(ID);
-  var fr = new FileReader();
-  fr.onload = function () {
-    var img = new Image();
-    img.onload = function () {
-      var canvas = document.createElement("canvas");
-      canvas.height = 400;
-      canvas.width = 400;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-      canvas.toBlob(function(blob) {
-        ref.put(blob);
-      });
+      xhr.open('GET', image);
+      xhr.send()
     }
-    img.src = fr.result;
-  }
-  fr.readAsDataURL(image);
-  var metadata = {
-    cacheControl: 'public,max-age=300',
-    contentType: 'image/jpeg'
-  };
-  ref.updateMetadata(metadata);
-  var owner = firebase.auth().currentUser.uid
-  db.collection("posts").doc(ID).set({
-    hide: false,
-    owner: owner,
-    title: title,
-    body: body,
-    image: ref.toString(),
-    queue: new Array < String > (25),
-    addTime: new Date().getTime()
-  }).catch((error) => {
-    console.log(error.message + ": " + error.stack);
-  })
-}
 
-function createID() {
-  let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
-  return idPart() + '-' + idPart() + '-' + idPart();
-}
+    function addText(item, text) {
+      item.innerHTML = text
+    }
+
+    function append(item, parent) {
+      parent.appendChild(item);
+    }
+
+    function insertCardBefore(item, parent) {
+      parent.before(item);
+    }
+
+    db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+      var cardRoot = createItem("div");
+      var main = document.getElementById("main");
+      if (document.getElementsByClassName("card-group row").length === 0) {
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
+      } else {
+        document.getElementsByClassName("card-group row").item(0).remove();
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
+      }
+      querySnapshot.forEach((doc) => {
+        if (!doc.data().hide) {
+          var cardWrapper = createItem("div");
+          addClass(cardWrapper, "col-sm-6");
+          var cardBase = createItem("div");
+          addClass(cardBase, "card mb-3");
+          append(cardBase, cardWrapper);
+          var cardBody = createItem("div");
+          addClass(cardBody, "card-body");
+          append(cardBody, cardBase);
+          var cardTitle = createItem("h5");
+          addClass(cardTitle, "card-title");
+          addText(cardTitle, doc.data().title);
+          append(cardTitle, cardBody);
+          var cardText = createItem("p");
+          addClass(cardText, "card-text");
+          addText(cardText, doc.data().body);
+          append(cardText, cardBody);
+          var cardImage = createItem("img");
+          addClass(cardImage, "card-image-bottom");
+          if (doc.data().image != null) {
+            var imageRef = doc.data().image;
+            storage.refFromURL(imageRef).getDownloadURL().then((url) => {
+              addImage(cardImage, url, "Post Image");
+            });
+          }
+          append(cardImage, cardBase);
+          var cardFooterWrap = createItem("div");
+          addClass(cardFooterWrap, "card-footer");
+          append(cardFooterWrap, cardBase);
+          var cardFooter = createItem("p");
+          addClass(cardFooter, "card-text");
+          var timeNow = new Date().getTime();
+          var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+          var timeString = "";
+          if (timeSince >= 60) {
+            if ((timeSince / 60) >= 24) {
+              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
+            } else {
+              timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+            }
+          } else {
+            timeString = "Posted " + timeSince + " minutes ago";
+          }
+          addText(cardFooter, timeString);
+          append(cardFooter, cardFooterWrap);
+          if (cardRoot.childElementCount === 0) {
+            cardWrapper.id = "lastCard";
+            append(cardWrapper, cardRoot);
+          } else {
+            var lastCard = document.getElementById("lastCard");
+            insertCardBefore(cardWrapper, lastCard);
+            cardWrapper.id = lastCard.id;
+            lastCard.id = "";
+          }
+        }
+      });
+    });
+  }
+
+  function createNavItem(nav, text, dest) {
+    var navItem = document.createElement("li");
+    var navLink = document.createElement("a");
+    navItem.className = "nav-item";
+    navLink.className = "nav-link";
+    navLink.textContent = text;
+    navLink.href = dest;
+    navItem.appendChild(navLink);
+    nav.appendChild(navItem);
+  }
+
+  function createNewPost(title, body, image) {
+    var root = storage.ref();
+    var ID = createID();
+    var ref = root.child(ID);
+    var fr = new FileReader();
+    fr.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.height = 400;
+        canvas.width = 400;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+        canvas.toBlob(function (blob) {
+          ref.put(blob);
+        });
+      }
+      img.src = fr.result;
+    }
+    fr.readAsDataURL(image);
+    var metadata = {
+      cacheControl: 'public,max-age=300',
+      contentType: 'image/jpeg'
+    };
+    ref.updateMetadata(metadata);
+    var owner = firebase.auth().currentUser.uid
+    db.collection("posts").doc(ID).set({
+      hide: false,
+      owner: owner,
+      title: title,
+      body: body,
+      image: ref.toString(),
+      queue: new Array < String > (25),
+      addTime: new Date().getTime()
+    }).catch((error) => {
+      console.log(error.message + ": " + error.stack);
+    })
+  }
+
+  function createID() {
+    let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
+    return idPart() + '-' + idPart() + '-' + idPart();
+  }
