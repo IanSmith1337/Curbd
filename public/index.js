@@ -119,7 +119,7 @@ function updatePostcards() {
       item.alt = alt;
     };
     xhr.open('GET', image);
-    setTimeout(xhr.send(), 3000);
+    setTimeout(xhr.send, 3000);
   }
 
   function addText(item, text) {
