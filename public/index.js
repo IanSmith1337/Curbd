@@ -227,13 +227,9 @@ function updatePostcards() {
         addText(cardFooter, timeString);
         append(cardFooter, cardFooterWrap);
         if (document.getElementById("cd").childElementCount === 0) {
-          cardWrapper.id = "lastCard";
           append(cardWrapper, cardRoot);
         } else {
-          var lastCard = document.getElementById("lastCard");
-          insertBefore(cardWrapper, lastCard);
-          cardWrapper.id = lastCard.id;
-          lastCard.id = "";
+          insertBefore(cardWrapper, cardRoot);
         }
       }
     });
