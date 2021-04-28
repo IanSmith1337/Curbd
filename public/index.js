@@ -148,6 +148,14 @@ function updatePostcards() {
     document.getElementById("spin").remove();
   }
 
+  async function photoHandler(ref) {
+    await uploaded();
+    storage.refFromURL(ref).getDownloadURL().then((url) => {
+      addImage(cardImage, url, "Post Image");
+    });
+    upload = "";
+  }
+
   showSpinner();
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     var cardRoot = createItem("div");
@@ -184,10 +192,7 @@ function updatePostcards() {
         addClass(cardImage, "card-image-bottom");
         if (doc.data().image != "") {
           var imageRef = doc.data().image;
-          await uploaded();
-          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
-            addImage(cardImage, url, "Post Image");
-          });
+          photoHandler(imageRef);
         }
         append(cardImage, cardBase);
         var cardFooterWrap = createItem("div");
