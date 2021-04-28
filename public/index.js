@@ -61,6 +61,7 @@ window.onload = () => {
       }
       updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+      $("#modalButton").style = "z-index: 1000;"
       var pt, pb, pi;
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
