@@ -136,7 +136,7 @@ function updatePostcards() {
   }
 
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    //setTimeout(function () {
+    setTimeout(function () {
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
     if (document.getElementsByClassName("card-group row").length === 0) {
@@ -148,7 +148,7 @@ function updatePostcards() {
       append(cardRoot, main);
     }
     querySnapshot.forEach((doc) => {
-      if (!doc.data().hide && !doc.metadata.hasPendingWrites) {
+      if (!doc.data().hide) {
         var cardWrapper = createItem("div");
         addClass(cardWrapper, "col-sm-4  h-50");
         var cardBase = createItem("div");
@@ -216,7 +216,7 @@ function updatePostcards() {
         }
       }
     });
-    //}, 2000);
+    }, 2000);
   });
 }
 
