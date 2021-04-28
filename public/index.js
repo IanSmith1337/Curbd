@@ -167,7 +167,7 @@ function updatePostcards() {
         append(cardText, cardBody);
         var cardImage = createItem("img");
         addClass(cardImage, "card-image-bottom");
-        if (doc.data().image != null) {
+        if (doc.data().image != "") {
           var imageRef = doc.data().image;
           storage.refFromURL(imageRef).getDownloadURL().then((url) => {
             addImage(cardImage, url, "Post Image");
