@@ -160,7 +160,7 @@ function updatePostcards() {
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
-    if (document.getElementById("cd") != null) {
+    if (document.getElementById("cd") == null) {
       addClass(cardRoot, "card-group row");
       cardRoot.id = "cd";
       append(cardRoot, main);
