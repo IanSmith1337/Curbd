@@ -148,10 +148,10 @@ function updatePostcards() {
     document.getElementById("spin").remove();
   }
 
-  async function photoHandler(ref) {
+  async function photoHandler(ref, frame) {
     await uploaded();
     storage.refFromURL(ref).getDownloadURL().then((url) => {
-      addImage(cardImage, url, "Post Image");
+      addImage(frame, url, "Post Image");
     });
     upload = "";
   }
@@ -192,7 +192,7 @@ function updatePostcards() {
         addClass(cardImage, "card-image-bottom");
         if (doc.data().image != "") {
           var imageRef = doc.data().image;
-          photoHandler(imageRef);
+          photoHandler(imageRef, cardImage);
         }
         append(cardImage, cardBase);
         var cardFooterWrap = createItem("div");
