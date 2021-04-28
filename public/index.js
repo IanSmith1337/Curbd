@@ -129,11 +129,11 @@ function updatePostcards() {
   }
 
   function append(item, parent) {
-    parent.appendChild(item);
+    parent.append(item);
   }
 
   function insertBefore(item, parent) {
-    parent.before(item);
+    parent.prepend(item);
   }
 
   function showSpinner() {
@@ -226,7 +226,7 @@ function updatePostcards() {
         }
         addText(cardFooter, timeString);
         append(cardFooter, cardFooterWrap);
-        if (cardRoot.childElementCount === 0) {
+        if (document.getElementById("cd").childElementCount === 0) {
           cardWrapper.id = "lastCard";
           append(cardWrapper, cardRoot);
         } else {
