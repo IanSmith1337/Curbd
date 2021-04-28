@@ -133,75 +133,92 @@ function updatePostcards() {
     parent.before(item);
   }
 
+  var posts = [];
+  var item = [];
+  var isHidden = [];
+  var title, body, image, addTime;
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    var cardRoot = createItem("div");
-    var main = document.getElementById("main");
-    if (document.getElementsByClassName("card-group row").length === 0) {
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    } else {
-      document.getElementsByClassName("card-group row").item(0).remove();
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    }
     querySnapshot.forEach((doc) => {
-      if (!doc.data().hide) {
-        var cardWrapper = createItem("div");
-        addClass(cardWrapper, "col-sm-4  h-50");
-        var cardBase = createItem("div");
-        addClass(cardBase, "card mb-3");
-        append(cardBase, cardWrapper);
-        var cardBody = createItem("div");
-        addClass(cardBody, "card-body");
-        append(cardBody, cardBase);
-        var cardTitle = createItem("h5");
-        addClass(cardTitle, "card-title");
-        addText(cardTitle, doc.data().title);
-        append(cardTitle, cardBody);
-        var cardText = createItem("p");
-        addClass(cardText, "card-text");
-        addText(cardText, doc.data().body);
-        append(cardText, cardBody);
-        var cardImage = createItem("img");
-        addClass(cardImage, "card-image-bottom");
-        if (doc.data().image != null) {
-          var imageRef = doc.data().image;
-          storage.refFromURL(imageRef).on('state_changed',
-            () => {
-              addImage(cardImage, url, "Post Image");
-            }
-          );
-        }
-        append(cardImage, cardBase);
-        var cardFooterWrap = createItem("div");
-        addClass(cardFooterWrap, "card-footer");
-        append(cardFooterWrap, cardBase);
-        var cardFooter = createItem("p");
-        addClass(cardFooter, "card-text");
-        var timeNow = new Date().getTime();
-        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-        var timeString = "";
-        if (timeSince >= 60) {
-          if ((timeSince / 60) >= 24) {
-            timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
-          } else {
-            timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
-          }
-        } else {
-          timeString = "Posted " + timeSince + " minutes ago";
-        }
-        addText(cardFooter, timeString);
-        append(cardFooter, cardFooterWrap);
-        if (cardRoot.childElementCount === 0) {
-          cardWrapper.id = "lastCard";
-          append(cardWrapper, cardRoot);
-        } else {
-          var lastCard = document.getElementById("lastCard");
-          insertCardBefore(cardWrapper, lastCard);
-          cardWrapper.id = lastCard.id;
-          lastCard.id = "";
-        }
+      title = doc.data().title;
+      body = doc.data().body;
+      hide = doc.data().hide;
+      isHidden.push(hide);
+      image = doc.data().image;
+      addTime = doc.data().addTime;
+      item.push(title, body, image, addTime);
+      posts.push(item);
+    }).then(() => {
+      var cardRoot = createItem("div");
+      var main = document.getElementById("main");
+      if (document.getElementsByClassName("card-group row").length === 0) {
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
+      } else {
+        document.getElementsByClassName("card-group row").item(0).remove();
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
       }
+      var index = 0;
+      posts.forEach(function () {
+          if (!hide[index]) {
+            var t, b, i, a;
+            t = item[0];
+            b = item[1];
+            i = item[2];
+            a = item[3];
+            var cardWrapper = createItem("div");
+            addClass(cardWrapper, "col-sm-4 h-50");
+            var cardBase = createItem("div");
+            addClass(cardBase, "card mb-3");
+            append(cardBase, cardWrapper);
+            var cardBody = createItem("div");
+            addClass(cardBody, "card-body");
+            append(cardBody, cardBase);
+            var cardTitle = createItem("h5");
+            addClass(cardTitle, "card-title");
+            addText(cardTitle, t);
+            append(cardTitle, cardBody);
+            var cardText = createItem("p");
+            addClass(cardText, "card-text");
+            addText(cardText, b);
+            append(cardText, cardBody);
+            var cardImage = createItem("img");
+            addClass(cardImage, "card-image-bottom");
+            storage.refFromURL(i).getDownloadURL().then((url) => {
+              addImage(cardImage, url, "Post Image");
+            });
+            append(cardImage, cardBase);
+            var cardFooterWrap = createItem("div");
+            addClass(cardFooterWrap, "card-footer");
+            append(cardFooterWrap, cardBase);
+            var cardFooter = createItem("p");
+            addClass(cardFooter, "card-text");
+            var timeNow = new Date().getTime();
+            var timeSince = Math.abs(Math.floor((timeNow - a) / 60000));
+            var timeString = "";
+            if (timeSince >= 60) {
+              if ((timeSince / 60) >= 24) {
+                timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
+              } else {
+                timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+              }
+            } else {
+              timeString = "Posted " + timeSince + " minutes ago";
+            }
+            addText(cardFooter, timeString);
+            append(cardFooter, cardFooterWrap);
+            if (cardRoot.childElementCount === 0) {
+              cardWrapper.id = "lastCard";
+              append(cardWrapper, cardRoot);
+            } else {
+              var lastCard = document.getElementById("lastCard");
+              insertCardBefore(cardWrapper, lastCard);
+              cardWrapper.id = lastCard.id;
+              lastCard.id = "";
+            }
+          }
+        });
+      });
     });
   });
 }
