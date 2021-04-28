@@ -61,7 +61,7 @@ window.onload = () => {
       }
       updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
-      $("#modalButton").style = "z-index: 1000;"
+      document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb, pi;
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
@@ -132,93 +132,107 @@ function updatePostcards() {
     parent.appendChild(item);
   }
 
-  function insertCardBefore(item, parent) {
+  function insertBefore(item, parent) {
     parent.before(item);
   }
 
-  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    setTimeout(function () {
-    var cardRoot = createItem("div");
-    var main = document.getElementById("main");
-    if (document.getElementsByClassName("card-group row").length === 0) {
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    } else {
-      document.getElementsByClassName("card-group row").item(0).remove();
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    }
-    querySnapshot.forEach((doc) => {
-      if (!doc.data().hide) {
-        var cardWrapper = createItem("div");
-        addClass(cardWrapper, "col-sm-4  h-50");
-        var cardBase = createItem("div");
-        addClass(cardBase, "card mb-3");
-        append(cardBase, cardWrapper);
-        var cardBody = createItem("div");
-        addClass(cardBody, "card-body");
-        append(cardBody, cardBase);
-        var cardTitle = createItem("h5");
-        addClass(cardTitle, "card-title");
-        addText(cardTitle, doc.data().title);
-        append(cardTitle, cardBody);
-        var cardText = createItem("p");
-        addClass(cardText, "card-text");
-        addText(cardText, doc.data().body);
-        append(cardText, cardBody);
-        var cardImage = createItem("img");
-        addClass(cardImage, "card-image-bottom");
-        if (doc.data().image != "") {
-          var imageRef = doc.data().image;
-          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
-            addImage(cardImage, url, "Post Image");
-          });
-        }
-        append(cardImage, cardBase);
-        var cardFooterWrap = createItem("div");
-        addClass(cardFooterWrap, "card-footer");
-        append(cardFooterWrap, cardBase);
-        var cardFooter = createItem("p");
-        addClass(cardFooter, "card-text");
-        var timeNow = new Date().getTime();
-        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-        var timeString = "";
-        if (timeSince >= 60) {
-          if ((timeSince / 60) >= 24) {
-            if (Math.floor((timeSince / 60) / 24) == 1) {
-              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
-            } else {
-              timeString = "Posted " + Math.floor((timeSince / 60)  / 24) + " days ago";
-            }
-          } else {
-            if (Math.floor(timeSince / 60) == 1) {
-              timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
-            } else {
-              timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
-            }
-          }
-        } else {
-          if (timeSince == 1) {
-            timeString = "Posted " + timeSince + " minute ago";
-          } else {
-            timeString = "Posted " + timeSince + " minutes ago";
-          }
-        }
-        addText(cardFooter, timeString);
-        append(cardFooter, cardFooterWrap);
-        if (cardRoot.childElementCount === 0) {
-          cardWrapper.id = "lastCard";
-          append(cardWrapper, cardRoot);
-        } else {
-          var lastCard = document.getElementById("lastCard");
-          insertCardBefore(cardWrapper, lastCard);
-          cardWrapper.id = lastCard.id;
-          lastCard.id = "";
-        }
+  function showSpinner() {
+    var spin = document.createElement("div");
+    addClass(spin, "spinner-border text-secondary");
+    spin.style = "height: 5vmax; width: 5vmax; display: block; margin-left: auto; margin-right: auto;"
+    spin.id = "spin";
+    insertBefore(spin, document.getElementById("main"));
+  }
+
+  function removeSpinner() {
+    document.getElementById("spin").remove();
+  }
+  
+  showSpinner();
+  setTimeout(function () {
+    removeSpinner();
+    db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+      var cardRoot = createItem("div");
+      var main = document.getElementById("main");
+      if (document.getElementsByClassName("card-group row").length === 0) {
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
+      } else {
+        document.getElementsByClassName("card-group row").item(0).remove();
+        addClass(cardRoot, "card-group row");
+        append(cardRoot, main);
       }
+      querySnapshot.forEach((doc) => {
+        if (!doc.data().hide) {
+          var cardWrapper = createItem("div");
+          addClass(cardWrapper, "col-sm-4  h-50");
+          var cardBase = createItem("div");
+          addClass(cardBase, "card mb-3");
+          append(cardBase, cardWrapper);
+          var cardBody = createItem("div");
+          addClass(cardBody, "card-body");
+          append(cardBody, cardBase);
+          var cardTitle = createItem("h5");
+          addClass(cardTitle, "card-title");
+          addText(cardTitle, doc.data().title);
+          append(cardTitle, cardBody);
+          var cardText = createItem("p");
+          addClass(cardText, "card-text");
+          addText(cardText, doc.data().body);
+          append(cardText, cardBody);
+          var cardImage = createItem("img");
+          addClass(cardImage, "card-image-bottom");
+          if (doc.data().image != "") {
+            var imageRef = doc.data().image;
+            storage.refFromURL(imageRef).getDownloadURL().then((url) => {
+              addImage(cardImage, url, "Post Image");
+            });
+          }
+          append(cardImage, cardBase);
+          var cardFooterWrap = createItem("div");
+          addClass(cardFooterWrap, "card-footer");
+          append(cardFooterWrap, cardBase);
+          var cardFooter = createItem("p");
+          addClass(cardFooter, "card-text");
+          var timeNow = new Date().getTime();
+          var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+          var timeString = "";
+          if (timeSince >= 60) {
+            if ((timeSince / 60) >= 24) {
+              if (Math.floor((timeSince / 60) / 24) == 1) {
+                timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
+              } else {
+                timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
+              }
+            } else {
+              if (Math.floor(timeSince / 60) == 1) {
+                timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
+              } else {
+                timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+              }
+            }
+          } else {
+            if (timeSince == 1) {
+              timeString = "Posted " + timeSince + " minute ago";
+            } else {
+              timeString = "Posted " + timeSince + " minutes ago";
+            }
+          }
+          addText(cardFooter, timeString);
+          append(cardFooter, cardFooterWrap);
+          if (cardRoot.childElementCount === 0) {
+            cardWrapper.id = "lastCard";
+            append(cardWrapper, cardRoot);
+          } else {
+            var lastCard = document.getElementById("lastCard");
+            insertBefore(cardWrapper, lastCard);
+            cardWrapper.id = lastCard.id;
+            lastCard.id = "";
+          }
+        }
+      });
     });
-    }, 2000);
-  });
+  }, 10000);
 }
 
 function createNavItem(nav, text, dest) {
