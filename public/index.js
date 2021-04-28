@@ -166,11 +166,9 @@ function updatePostcards() {
         addClass(cardImage, "card-image-bottom");
         if (doc.data().image != null) {
           var imageRef = doc.data().image;
-          storage.refFromURL(imageRef).on('state_changed',
-            () => {
-              addImage(cardImage, url, "Post Image");
-            }
-          );
+          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
+            addImage(cardImage, url, "Post Image");
+          });
         }
         append(cardImage, cardBase);
         var cardFooterWrap = createItem("div");
