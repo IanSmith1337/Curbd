@@ -118,8 +118,7 @@ function updatePostcards() {
       item.alt = alt;
     }
     xhr.open('GET', image);
-    xhr.send();
-    
+    setTimeout(function () {xhr.send()}, 5000);
   }
 
   function addText(item, text) {
@@ -135,7 +134,7 @@ function updatePostcards() {
   }
 
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    setTimeout(function () {
+    //setTimeout(function () {
       var cardRoot = createItem("div");
       var main = document.getElementById("main");
       if (document.getElementsByClassName("card-group row").length === 0) {
@@ -203,7 +202,7 @@ function updatePostcards() {
           }
         }
       });
-    }, 2000);
+    //}, 2000);
   });
 }
 
