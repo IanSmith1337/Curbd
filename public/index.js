@@ -141,7 +141,7 @@ function updatePostcards() {
     addClass(spin, "spinner-border text-secondary");
     spin.style = "height: 5vmax; width: 5vmax; display: block; margin-left: auto; margin-right: auto;"
     spin.id = "spin";
-    insertBefore(spin, document.getElementById("main"));
+    append(spin, document.getElementById("logStatus"));
   }
 
   function removeSpinner() {
