@@ -136,8 +136,7 @@ function updatePostcards() {
   var items = [];
   var isHidden = [];
   var ptitle, pbody, pimage, paddTime;
-  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
+  db.collection("posts").limit(50).onSnapshot((doc) => {
       ptitle = doc.data().title;
       pbody = doc.data().body;
       let hide = doc.data().hide;
