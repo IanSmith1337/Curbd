@@ -284,11 +284,17 @@ function createNewPost(title, body, image) {
 }
 
 function uploaded() {
+  if(upload == null) {
+    return new Promise((resolve) => {
+      resolve();
+    });
+  } else {
   return new Promise((resolve) => {
     upload.on(() => {
         resolve();
     });
   });
+}
 }
 
 function createID() {
