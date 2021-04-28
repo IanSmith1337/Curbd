@@ -21,6 +21,8 @@ const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
 var posts = new Array(50);
+var upload;
+var complete = false;
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -71,6 +73,9 @@ window.onload = () => {
           createNewPost(pt.value, pb.value, pi.files[0]);
         })
       });
+      if () {
+
+      }
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
@@ -119,9 +124,7 @@ function updatePostcards() {
       item.alt = alt;
     }
     xhr.open('GET', image);
-    setTimeout(function () {
-      xhr.send()
-    }, 5000);
+    xhr.send()
   }
 
   function addText(item, text) {
@@ -147,92 +150,93 @@ function updatePostcards() {
   function removeSpinner() {
     document.getElementById("spin").remove();
   }
-  
+
   showSpinner();
-  setTimeout(function () {
-    removeSpinner();
-    db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
-      var cardRoot = createItem("div");
-      var main = document.getElementById("main");
-      if (document.getElementsByClassName("card-group row").length === 0) {
-        addClass(cardRoot, "card-group row");
-        append(cardRoot, main);
-      } else {
-        document.getElementsByClassName("card-group row").item(0).remove();
-        addClass(cardRoot, "card-group row");
-        append(cardRoot, main);
-      }
-      querySnapshot.forEach((doc) => {
-        if (!doc.data().hide) {
-          var cardWrapper = createItem("div");
-          addClass(cardWrapper, "col-sm-4  h-50");
-          var cardBase = createItem("div");
-          addClass(cardBase, "card mb-3");
-          append(cardBase, cardWrapper);
-          var cardBody = createItem("div");
-          addClass(cardBody, "card-body");
-          append(cardBody, cardBase);
-          var cardTitle = createItem("h5");
-          addClass(cardTitle, "card-title");
-          addText(cardTitle, doc.data().title);
-          append(cardTitle, cardBody);
-          var cardText = createItem("p");
-          addClass(cardText, "card-text");
-          addText(cardText, doc.data().body);
-          append(cardText, cardBody);
-          var cardImage = createItem("img");
-          addClass(cardImage, "card-image-bottom");
-          if (doc.data().image != "") {
-            var imageRef = doc.data().image;
-            storage.refFromURL(imageRef).getDownloadURL().then((url) => {
-              addImage(cardImage, url, "Post Image");
-            });
-          }
-          append(cardImage, cardBase);
-          var cardFooterWrap = createItem("div");
-          addClass(cardFooterWrap, "card-footer");
-          append(cardFooterWrap, cardBase);
-          var cardFooter = createItem("p");
-          addClass(cardFooter, "card-text");
-          var timeNow = new Date().getTime();
-          var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-          var timeString = "";
-          if (timeSince >= 60) {
-            if ((timeSince / 60) >= 24) {
-              if (Math.floor((timeSince / 60) / 24) == 1) {
-                timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
-              } else {
-                timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
-              }
+  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+    var cardRoot = createItem("div");
+    var main = document.getElementById("main");
+    if (document.getElementById("cd") != null) {
+      addClass(cardRoot, "card-group row");
+      cardRoot.id = "cd";
+      append(cardRoot, main);
+    } else {
+      document.getElementById("cd").remove();
+      cardRoot.id = "cd";
+      addClass(cardRoot, "card-group row");
+      append(cardRoot, main);
+    }
+    querySnapshot.forEach((doc) => {
+      if (!doc.data().hide) {
+        var cardWrapper = createItem("div");
+        addClass(cardWrapper, "col-sm-4  h-50");
+        var cardBase = createItem("div");
+        addClass(cardBase, "card mb-3");
+        append(cardBase, cardWrapper);
+        var cardBody = createItem("div");
+        addClass(cardBody, "card-body");
+        append(cardBody, cardBase);
+        var cardTitle = createItem("h5");
+        addClass(cardTitle, "card-title");
+        addText(cardTitle, doc.data().title);
+        append(cardTitle, cardBody);
+        var cardText = createItem("p");
+        addClass(cardText, "card-text");
+        addText(cardText, doc.data().body);
+        append(cardText, cardBody);
+        var cardImage = createItem("img");
+        addClass(cardImage, "card-image-bottom");
+        if (doc.data().image != "") {
+          var imageRef = doc.data().image;
+          await uploaded();
+          storage.refFromURL(imageRef).getDownloadURL().then((url) => {
+            addImage(cardImage, url, "Post Image");
+          });
+        }
+        append(cardImage, cardBase);
+        var cardFooterWrap = createItem("div");
+        addClass(cardFooterWrap, "card-footer");
+        append(cardFooterWrap, cardBase);
+        var cardFooter = createItem("p");
+        addClass(cardFooter, "card-text");
+        var timeNow = new Date().getTime();
+        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+        var timeString = "";
+        if (timeSince >= 60) {
+          if ((timeSince / 60) >= 24) {
+            if (Math.floor((timeSince / 60) / 24) == 1) {
+              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
             } else {
-              if (Math.floor(timeSince / 60) == 1) {
-                timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
-              } else {
-                timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
-              }
+              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
             }
           } else {
-            if (timeSince == 1) {
-              timeString = "Posted " + timeSince + " minute ago";
+            if (Math.floor(timeSince / 60) == 1) {
+              timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
             } else {
-              timeString = "Posted " + timeSince + " minutes ago";
+              timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
             }
           }
-          addText(cardFooter, timeString);
-          append(cardFooter, cardFooterWrap);
-          if (cardRoot.childElementCount === 0) {
-            cardWrapper.id = "lastCard";
-            append(cardWrapper, cardRoot);
+        } else {
+          if (timeSince == 1) {
+            timeString = "Posted " + timeSince + " minute ago";
           } else {
-            var lastCard = document.getElementById("lastCard");
-            insertBefore(cardWrapper, lastCard);
-            cardWrapper.id = lastCard.id;
-            lastCard.id = "";
+            timeString = "Posted " + timeSince + " minutes ago";
           }
         }
-      });
+        addText(cardFooter, timeString);
+        append(cardFooter, cardFooterWrap);
+        if (cardRoot.childElementCount === 0) {
+          cardWrapper.id = "lastCard";
+          append(cardWrapper, cardRoot);
+        } else {
+          var lastCard = document.getElementById("lastCard");
+          insertBefore(cardWrapper, lastCard);
+          cardWrapper.id = lastCard.id;
+          lastCard.id = "";
+        }
+      }
     });
-  }, 10000);
+    removeSpinner();
+  });
 }
 
 function createNavItem(nav, text, dest) {
@@ -257,17 +261,12 @@ function createNewPost(title, body, image) {
       var canvas = document.createElement("canvas");
       canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
       canvas.toBlob(function (blob) {
-        ref.put(blob);
+        upload = ref.put(blob);
       });
     }
     img.src = fr.result;
   }
   fr.readAsDataURL(image);
-  var metadata = {
-    cacheControl: 'public,max-age=300',
-    contentType: 'image/jpeg'
-  };
-  ref.updateMetadata(metadata);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
@@ -280,6 +279,14 @@ function createNewPost(title, body, image) {
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
   })
+}
+
+function uploaded() {
+  return new Promise((resolve) => {
+    upload.on(() => {
+        resolve();
+    });
+  });
 }
 
 function createID() {
