@@ -20,6 +20,7 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
+var posts = new Array(50);
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -132,20 +133,7 @@ function updatePostcards() {
     parent.before(item);
   }
 
-  var posts = [];
-  var items = [];
-  var isHidden = [];
-  var ptitle, pbody, pimage, paddTime;
-  db.collection("posts").limit(50).onSnapshot((doc) => {
-    ptitle = doc.data().title;
-    pbody = doc.data().body;
-    let hide = doc.data().hide;
-    isHidden.push(hide);
-    pimage = doc.data().image;
-    paddTime = doc.data().addTime;
-    items.push(ptitle, pbody, pimage, paddTime);
-    posts.push(items);
-  }).then(() => {
+  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
     if (document.getElementsByClassName("card-group row").length === 0) {
@@ -156,16 +144,10 @@ function updatePostcards() {
       addClass(cardRoot, "card-group row");
       append(cardRoot, main);
     }
-    var index = 0;
-    posts.forEach(function () {
-      if (!isHidden[index]) {
-        var t, b, i, a;
-        t = items[0];
-        b = items[1];
-        i = items[2];
-        a = items[3];
+    querySnapshot.forEach((doc) => {
+      if (!doc.data().hide && !doc.metadata.hasPendingWrites) {
         var cardWrapper = createItem("div");
-        addClass(cardWrapper, "col-sm-4 h-50");
+        addClass(cardWrapper, "col-sm-4  h-50");
         var cardBase = createItem("div");
         addClass(cardBase, "card mb-3");
         append(cardBase, cardWrapper);
@@ -174,17 +156,22 @@ function updatePostcards() {
         append(cardBody, cardBase);
         var cardTitle = createItem("h5");
         addClass(cardTitle, "card-title");
-        addText(cardTitle, t);
+        addText(cardTitle, doc.data().title);
         append(cardTitle, cardBody);
         var cardText = createItem("p");
         addClass(cardText, "card-text");
-        addText(cardText, b);
+        addText(cardText, doc.data().body);
         append(cardText, cardBody);
         var cardImage = createItem("img");
         addClass(cardImage, "card-image-bottom");
-        storage.refFromURL(i).getDownloadURL().then((url) => {
-          addImage(cardImage, url, "Post Image");
-        });
+        if (doc.data().image != null) {
+          var imageRef = doc.data().image;
+          storage.refFromURL(imageRef).on('state_changed',
+            () => {
+              addImage(cardImage, url, "Post Image");
+            }
+          );
+        }
         append(cardImage, cardBase);
         var cardFooterWrap = createItem("div");
         addClass(cardFooterWrap, "card-footer");
@@ -192,7 +179,7 @@ function updatePostcards() {
         var cardFooter = createItem("p");
         addClass(cardFooter, "card-text");
         var timeNow = new Date().getTime();
-        var timeSince = Math.abs(Math.floor((timeNow - a) / 60000));
+        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
         var timeString = "";
         if (timeSince >= 60) {
           if ((timeSince / 60) >= 24) {
