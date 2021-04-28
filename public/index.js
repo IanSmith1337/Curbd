@@ -110,16 +110,16 @@ function updatePostcards() {
   }
 
   function addImage(item, image, alt) {
-    var blob;
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = (event) => {
-      blob = xhr.response;
+      var blob = xhr.response;
+      item.src = URL.createObjectURL(blob);
+      item.alt = alt;
     }
     xhr.open('GET', image);
     xhr.send();
-    item.src = URL.createObjectURL(blob);
-    item.alt = alt;
+    
   }
 
   function addText(item, text) {
