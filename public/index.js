@@ -20,7 +20,6 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
-var posts = new Array(50);
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -134,19 +133,19 @@ function updatePostcards() {
   }
 
   var posts = [];
-  var item = [];
+  var items = [];
   var isHidden = [];
-  var title, body, image, addTime;
+  var ptitle, pbody, pimage, paddTime;
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      title = doc.data().title;
-      body = doc.data().body;
-      hide = doc.data().hide;
+      ptitle = doc.data().title;
+      pbody = doc.data().body;
+      let hide = doc.data().hide;
       isHidden.push(hide);
-      image = doc.data().image;
-      addTime = doc.data().addTime;
-      item.push(title, body, image, addTime);
-      posts.push(item);
+      pimage = doc.data().image;
+      paddTime = doc.data().addTime;
+      items.push(ptitle, pbody, pimage, paddTime);
+      posts.push(items);
     }).then(() => {
       var cardRoot = createItem("div");
       var main = document.getElementById("main");
@@ -160,12 +159,12 @@ function updatePostcards() {
       }
       var index = 0;
       posts.forEach(function () {
-          if (!hide[index]) {
+          if (!isHidden[index]) {
             var t, b, i, a;
-            t = item[0];
-            b = item[1];
-            i = item[2];
-            a = item[3];
+            t = items[0];
+            b = items[1];
+            i = items[2];
+            a = items[3];
             var cardWrapper = createItem("div");
             addClass(cardWrapper, "col-sm-4 h-50");
             var cardBase = createItem("div");
@@ -220,8 +219,7 @@ function updatePostcards() {
         });
       });
     });
-  });
-}
+  }
 
 function createNavItem(nav, text, dest) {
   var navItem = document.createElement("li");
