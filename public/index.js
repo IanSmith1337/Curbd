@@ -184,20 +184,20 @@ function updatePostcards() {
         var timeString = "";
         if (timeSince >= 60) {
           if ((timeSince / 60) >= 24) {
-            if (Math.floor((timeSince / 60) / 24) = 1) {
+            if (Math.floor((timeSince / 60) / 24) == 1) {
               timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
             } else {
               timeString = "Posted " + Math.floor((timeSince / 60)  / 24) + " days ago";
             }
           } else {
-            if (Math.floor(timeSince / 60) = 1) {
+            if (Math.floor(timeSince / 60) == 1) {
               timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
             } else {
               timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
             }
           }
         } else {
-          if (timeSince = 1) {
+          if (timeSince == 1) {
             timeString = "Posted " + timeSince + " minute ago";
           } else {
             timeString = "Posted " + timeSince + " minutes ago";
