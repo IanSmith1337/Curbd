@@ -89,6 +89,14 @@ window.onload = () => {
           body: efield2.value
         });
       });
+      var closeModal = document.getElementById("closeModal")
+      closeModal.addEventListener('show.bs.modal', function (event) {
+        var confirm = closeModal.querySelector(".btn btn-danger");
+        confirm.addEventListener("click", function () {
+          var postID = $(button).parent().get(0).id;
+          db.collection("posts").doc(postID).delete();
+        })
+      });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
