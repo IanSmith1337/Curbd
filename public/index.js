@@ -70,13 +70,15 @@ window.onload = () => {
           createNewPost(pt.value, pb.value);
         });
       });
-      $("#edit").click(function () {
-        var postTitle = $("#edit").parents(".card").children(".card-body").children(".card-title").text()
-        var postBody = $("#edit").parents(".card").children(".card-body").children(".card-text").text();
-        var postID = $("#edit").parent().get(0).id;
-        var efield1 = document.getElementById("editTitle");
+      var emodal = document.getElementById("editModal");
+      emodal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var postTitle = $(button).parents(".card").children(".card-body").children(".card-title").text()
+        var postBody = $(button).parents(".card").children(".card-body").children(".card-text").text();
+        var postID = $(button).parent().get(0).id;
+        var efield1 = emodal.querySelector("#editTitle")
         efield1.value = postTitle;
-        var efield2 = document.getElementById("editBody");
+        var efield2 = emodal.querySelector("#editBody");
         efield2.value = postBody;
         $("#editFinished").click(function () {
           db.collection("posts").doc(postID).get().then((doc) => {
