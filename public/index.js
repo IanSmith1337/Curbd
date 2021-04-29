@@ -20,7 +20,9 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
-var ref;
+var root = storage.ref();
+var ID = createID();
+var ref = root.child(ID);
 var posts = new Array(50);
 var complete = false;
 
@@ -68,7 +70,7 @@ window.onload = () => {
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-        
+
         $("#postButton").click(function () {
           createNewPost(pt.value, pb.value);
         })
@@ -144,28 +146,30 @@ function updatePostcards() {
     document.getElementById("spin").remove();
   }
 
-  async function photoHandler(ref, frame) {
+  function photoHandler(storageRef, frame) {
     var upload;
     var pi = document.getElementById("formFilePicker");
     let image = pi.files[0];
-    var fr = new FileReader();
-    fr.onload = function () {
-      var img = new Image();
-      img.onload = function () {
-        var canvas = document.createElement("canvas");
-        canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
-        canvas.toBlob(function (blob) {
-          async function asyncFun() {
-            await uploaded(upload);
-          }
-          upload = ref.put(blob);
-          asyncFun();
-        });
+    if (image != null) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var canvas = document.createElement("canvas");
+          canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
+          canvas.toBlob(function (blob) {
+            async function asyncFun() {
+              await uploaded(upload);
+            }
+            upload = storage.refFromURL(storageRef).put(blob);
+            asyncFun();
+          });
+        }
+        img.src = fr.result;
       }
-      img.src = fr.result;
+      fr.readAsDataURL(image);
     }
-    fr.readAsDataURL(image);
-    storage.refFromURL(ref).getDownloadURL().then((url) => {
+    storage.refFromURL(storageRef).getDownloadURL().then((url) => {
       addImage(frame, url, "Post Image");
     });
     upload = "";
@@ -261,9 +265,6 @@ function createNavItem(nav, text, dest) {
 }
 
 function createNewPost(title, body) {
-  var root = storage.ref();
-  var ID = createID();
-  ref = root.child(ID);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
