@@ -96,7 +96,6 @@ window.onload = () => {
         confirm.addEventListener("click", function () {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
-          closeModal.hide();
         })
       });
     } else {
