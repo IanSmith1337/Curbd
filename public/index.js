@@ -21,6 +21,8 @@ const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
 var posts = new Array(50);
+var efield1, efield2;
+var button;
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -72,20 +74,20 @@ window.onload = () => {
       });
       var emodal = document.getElementById("editModal");
       emodal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
+        button = event.relatedTarget
         var postTitle = $(button).parents(".card").children(".card-body").children(".card-title").text()
         var postBody = $(button).parents(".card").children(".card-body").children(".card-text").text();
-        var postID = $(button).parent().get(0).id;
-        var efield1 = emodal.querySelector("#editTitle")
+        efield1 = emodal.querySelector("#editTitle")
         efield1.value = postTitle;
-        var efield2 = emodal.querySelector("#editBody");
+        efield2 = emodal.querySelector("#editBody");
         efield2.value = postBody;
-        $("#editFinished").click(function () {
-          db.collection("posts").doc(postID).get().then((doc) => {
-            doc.update({
-              title: efield1.value,
-              body: efield2.value
-            });
+      });
+      emodal.addEventListener('hide.bs.modal', function () {
+        var postID = $(button).parent().get(0).id;
+        db.collection("posts").doc(postID).get().then((doc) => {
+          doc.update({
+            title: efield1.value,
+            body: efield2.value
           });
         });
       });
