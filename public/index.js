@@ -168,7 +168,7 @@ function updatePostcards() {
   }
 
 
-  db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+  db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
