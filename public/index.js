@@ -261,7 +261,7 @@ function updatePostcards() {
           append(optDiv, cardFooter);
           append(optionButton, optDiv);
           append(ul, optDiv);
-          append(edit, ul);
+          append(editItem, ul);
           addClass(remove, "dropdown-item text-danger");
           addText(remove, "Close post");
           remove.id = "close";
