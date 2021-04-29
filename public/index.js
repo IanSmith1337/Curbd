@@ -21,7 +21,6 @@ const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
 var posts = new Array(50);
-var upload;
 var complete = false;
 
 window.onload = () => {
@@ -64,13 +63,13 @@ window.onload = () => {
       updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
-      var pt, pb, pi;
+      var pt, pb;
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-        pi = document.getElementById("formFilePicker");
+        
         $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value, pi.files[0]);
+          createNewPost(pt.value, pb.value);
         })
       });
     } else {
@@ -145,14 +144,30 @@ function updatePostcards() {
   }
 
   async function photoHandler(ref, frame) {
-    await uploaded();
+    var upload;
+    var pi = document.getElementById("formFilePicker");
+    let image = pi.files[0];
+    var fr = new FileReader();
+    fr.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
+        canvas.toBlob(function (blob) {
+          upload = ref.put(blob);
+          await uploaded(upload);
+        });
+      }
+      img.src = fr.result;
+    }
+    fr.readAsDataURL(image);
     storage.refFromURL(ref).getDownloadURL().then((url) => {
       addImage(frame, url, "Post Image");
     });
     upload = "";
   }
 
-  
+
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
     var cardRoot = createItem("div");
@@ -241,23 +256,10 @@ function createNavItem(nav, text, dest) {
   nav.appendChild(navItem);
 }
 
-function createNewPost(title, body, image) {
+function createNewPost(title, body) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  var fr = new FileReader();
-  fr.onload = function () {
-    var img = new Image();
-    img.onload = function () {
-      var canvas = document.createElement("canvas");
-      canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
-      canvas.toBlob(function (blob) {
-        upload = ref.put(blob);
-      });
-    }
-    img.src = fr.result;
-  }
-  fr.readAsDataURL(image);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
@@ -272,22 +274,16 @@ function createNewPost(title, body, image) {
   })
 }
 
-function uploaded() {
-  if(upload == null) {
-    return new Promise((resolve) => {
-      resolve();
-    });
-  } else {
+function uploaded(file) {
   return new Promise((resolve) => {
-    upload.on(
+    file.on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       null,
       null,
-      function() {
+      function () {
         resolve();
       });
-    });
-  }
+  });
 }
 
 function createID() {
