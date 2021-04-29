@@ -212,7 +212,7 @@ function updatePostcards() {
             }
           } else {
             if (Math.floor(timeSince / 60) == 1) {
-              timeString = "Posted " + Math.floor(timeSince / 60) + " minute ago";
+              timeString = "Posted " + Math.floor(timeSince / 60) + " hour ago";
             } else {
               timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
             }
