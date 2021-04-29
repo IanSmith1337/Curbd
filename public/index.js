@@ -132,10 +132,6 @@ function updatePostcards() {
     parent.append(item);
   }
 
-  function insertBefore(item, parent) {
-    parent.prepend(item);
-  }
-
   function showSpinner() {
     var spin = document.createElement("div");
     addClass(spin, "spinner-border text-secondary");
@@ -156,8 +152,9 @@ function updatePostcards() {
     upload = "";
   }
 
-  showSpinner();
+  
   db.collection("posts").limit(50).onSnapshot((querySnapshot) => {
+    showSpinner();
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
     if (document.getElementById("cd") == null) {
@@ -282,11 +279,15 @@ function uploaded() {
     });
   } else {
   return new Promise((resolve) => {
-    upload.on(() => {
+    upload.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      null,
+      null,
+      function() {
         resolve();
+      });
     });
-  });
-}
+  }
 }
 
 function createID() {
