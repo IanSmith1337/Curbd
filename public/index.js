@@ -70,7 +70,12 @@ window.onload = () => {
           createNewPost(pt.value, pb.value);
         });
       });
-      $("#edit").click(edit());
+      $("#edit").click(function(event) {
+        var postTitle = $(event.target).siblings(".card-body").children(".card-title");
+        var postBody = $(event.target).siblings(".card-body").children(".card-text");
+        var postID = $(event.target).parent().id;
+        edit(postTitle, postBody, postID);
+      });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
@@ -186,7 +191,6 @@ function updatePostcards() {
         addClass(cardWrapper, "col-sm-4 h-50");
         var cardBase = createItem("div");
         addClass(cardBase, "card mb-3");
-        cardBase.id = doc.id;
         append(cardBase, cardWrapper);
         var cardBody = createItem("div");
         addClass(cardBody, "card-body");
@@ -239,6 +243,7 @@ function updatePostcards() {
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var optDiv = createItem("div");
           var ul = createItem("ul");
+          ul.id = doc.id;
           var editItem = createItem("li");
           var remove = createItem("li");
           addClass(optDiv, "btn-group");
@@ -304,14 +309,11 @@ function createID() {
   return idPart() + '-' + idPart() + '-' + idPart();
 }
 
-function edit() {
-  var et = document.getElementById("edit").parentElement;
-  var eb = doc.data().body;
+function edit(et, eb, postID) {
   var efield1 = document.getElementById("editTitle");
   efield1.value = et;
   var efield2 = document.getElementById("editBody");
   efield2.value = eb;
-  var postID = document.getElementById("close").parentElement.parentElement.parentElement.parentElement.parentElement.id
   $("#editFinished").click(function () {
     db.collection("posts").doc(postID).get().then((doc) => {
       db.collection("posts").doc(postID).update({
