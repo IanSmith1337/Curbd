@@ -106,24 +106,6 @@ function updatePostcards() {
     return item;
   }
 
-  function edit() {
-    var et = document.getElementById("edit").parentElement;
-    var eb = doc.data().body;
-    var efield1 = document.getElementById("editTitle");
-    efield1.value = et;
-    var efield2 = document.getElementById("editBody");
-    efield2.value = eb;
-    var postID = document.getElementById("close").parentElement.parentElement.parentElement.parentElement.parentElement.id
-    $("#editFinished").click(function () {
-      db.collection("posts").doc(postID).get().then((doc) => {
-        db.collection("posts").doc(postID).update({
-          title: efield1.value,
-          body: efield2.value
-        });
-      });
-    });
-  }
-
   function addClass(item, classDef) {
     item.className = classDef
   }
@@ -320,4 +302,22 @@ function createNewPost(title, body) {
 function createID() {
   let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
   return idPart() + '-' + idPart() + '-' + idPart();
+}
+
+function edit() {
+  var et = document.getElementById("edit").parentElement;
+  var eb = doc.data().body;
+  var efield1 = document.getElementById("editTitle");
+  efield1.value = et;
+  var efield2 = document.getElementById("editBody");
+  efield2.value = eb;
+  var postID = document.getElementById("close").parentElement.parentElement.parentElement.parentElement.parentElement.id
+  $("#editFinished").click(function () {
+    db.collection("posts").doc(postID).get().then((doc) => {
+      db.collection("posts").doc(postID).update({
+        title: efield1.value,
+        body: efield2.value
+      });
+    });
+  });
 }
