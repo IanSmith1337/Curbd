@@ -20,11 +20,7 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
-var root = storage.ref();
-var ID = createID();
-var ref = root.child(ID);
 var posts = new Array(50);
-var complete = false;
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -147,7 +143,6 @@ function updatePostcards() {
   }
 
   function photoHandler(storageRef, frame) {
-    var upload;
     var pi = document.getElementById("formFilePicker");
     let image = pi.files[0];
     if (image != null) {
@@ -158,21 +153,17 @@ function updatePostcards() {
           var canvas = document.createElement("canvas");
           canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
           canvas.toBlob(function (blob) {
-            async function asyncFun() {
-              await uploaded(upload);
-            }
-            upload = storage.refFromURL(storageRef).put(blob);
-            asyncFun();
+            storage.refFromURL(storageRef).put(blob).then(() => {
+              storage.refFromURL(storageRef).getDownloadURL().then((url) => {
+                addImage(frame, url, "Post Image");
+              });
+            });
           });
         }
         img.src = fr.result;
       }
       fr.readAsDataURL(image);
     }
-    storage.refFromURL(storageRef).getDownloadURL().then((url) => {
-      addImage(frame, url, "Post Image");
-    });
-    upload = "";
   }
 
 
@@ -265,6 +256,9 @@ function createNavItem(nav, text, dest) {
 }
 
 function createNewPost(title, body) {
+  var root = storage.ref();
+  var ID = createID();
+  var ref = root.child(ID);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
@@ -277,18 +271,6 @@ function createNewPost(title, body) {
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
   })
-}
-
-function uploaded(file) {
-  return new Promise((resolve) => {
-    file.on(
-      firebase.storage.TaskEvent.STATE_CHANGED,
-      null,
-      null,
-      function () {
-        resolve();
-      });
-  });
 }
 
 function createID() {
