@@ -118,7 +118,7 @@ function updatePostcards() {
     var postID = document.getElementById("close").parentElement.parentElement.parentElement.parentElement.parentElement.id
     $("#editFinished").click(function () {
       db.collection("posts").doc(postID).get().then((doc) => {
-        db.collection("posts").doc(post).update({
+        db.collection("posts").doc(postID).update({
           title: efield1.value,
           body: efield2.value
         });
