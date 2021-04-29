@@ -91,10 +91,12 @@ window.onload = () => {
       });
       var closeModal = document.getElementById("closeModal")
       closeModal.addEventListener('show.bs.modal', function (event) {
+        button = event.relatedTarget
         var confirm = closeModal.querySelector(".btn-danger");
         confirm.addEventListener("click", function () {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
+          closeModal.hide();
         })
       });
     } else {
