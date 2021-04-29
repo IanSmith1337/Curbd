@@ -20,6 +20,7 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
+var ref;
 var posts = new Array(50);
 var complete = false;
 
@@ -262,7 +263,7 @@ function createNavItem(nav, text, dest) {
 function createNewPost(title, body) {
   var root = storage.ref();
   var ID = createID();
-  var ref = root.child(ID);
+  ref = root.child(ID);
   var owner = firebase.auth().currentUser.uid
   db.collection("posts").doc(ID).set({
     hide: false,
