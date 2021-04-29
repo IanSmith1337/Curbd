@@ -84,11 +84,9 @@ window.onload = () => {
       });
       emodal.addEventListener('hide.bs.modal', function () {
         var postID = $(button).parent().get(0).id;
-        db.collection("posts").doc(postID).get().then((doc) => {
-          doc.update({
-            title: efield1.value,
-            body: efield2.value
-          });
+        db.collection("posts").doc(postID).update({
+          title: efield1.value,
+          body: efield2.value
         });
       });
     } else {
