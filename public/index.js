@@ -240,6 +240,7 @@ function updatePostcards() {
           }
         }
         addText(cardFooter, timeString);
+        append(cardFooter, cardFooterWrap);
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var optDiv = createItem("div");
           var ul = createItem("ul");
@@ -267,7 +268,6 @@ function updatePostcards() {
           remove.id = "close";
           append(remove, ul);
         }
-        append(cardFooter, cardFooterWrap);
         append(cardWrapper, cardRoot);
       }
     });
