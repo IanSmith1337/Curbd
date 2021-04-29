@@ -154,8 +154,11 @@ function updatePostcards() {
         var canvas = document.createElement("canvas");
         canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
         canvas.toBlob(function (blob) {
+          async function asyncFun() {
+            await uploaded(upload);
+          }
           upload = ref.put(blob);
-          await uploaded(upload);
+          asyncFun();
         });
       }
       img.src = fr.result;
