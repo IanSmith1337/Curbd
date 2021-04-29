@@ -71,9 +71,9 @@ window.onload = () => {
         });
       });
       $("#edit").click(function(event) {
-        var postTitle = $(event.target).siblings(".card-body").children(".card-title");
-        var postBody = $(event.target).siblings(".card-body").children(".card-text");
-        var postID = $(event.target).parent().id;
+        var postTitle = $(event.target).parents(".card").children(".card-body").children(".card-title").text()
+        var postBody = $(event.target).parents(".card").children(".card-body").children(".card-text").text();
+        var postID = $(event.target).parent().get(0).id;
         edit(postTitle, postBody, postID);
       });
     } else {
