@@ -226,11 +226,7 @@ function updatePostcards() {
         }
         addText(cardFooter, timeString);
         append(cardFooter, cardFooterWrap);
-        if (document.getElementById("cd").childElementCount === 0) {
-          append(cardWrapper, cardRoot);
-        } else {
-          insertBefore(cardWrapper, cardRoot);
-        }
+        append(cardWrapper, cardRoot);
       }
     });
     removeSpinner();
