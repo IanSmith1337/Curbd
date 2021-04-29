@@ -286,6 +286,8 @@ function updatePostcards() {
           append(editItem, ul);
           addClass(remove, "dropdown-item text-danger");
           addText(remove, "Close post");
+          remove.setAttribute("data-bs-toggle", "modal");
+          remove.setAttribute("data-bs-target", "#closeModal");
           remove.id = "close";
           append(remove, ul);
         }
