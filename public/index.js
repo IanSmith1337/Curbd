@@ -70,12 +70,12 @@ window.onload = () => {
           createNewPost(pt.value, pb.value);
         });
       });
-      $("#edit").click(function(event) {
-        var postTitle = $(event.target).parents(".card").children(".card-body").children(".card-title").text()
-        var postBody = $(event.target).parents(".card").children(".card-body").children(".card-text").text();
-        var postID = $(event.target).parent().get(0).id;
+      document.getElementById("edit").addEventListener("click", (function(event) {
+        var postTitle = $("#edit").parents(".card").children(".card-body").children(".card-title").text()
+        var postBody = $("#edit").parents(".card").children(".card-body").children(".card-text").text();
+        var postID = $("#edit").parent().get(0).id;
         edit(postTitle, postBody, postID);
-      });
+      }));
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
