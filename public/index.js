@@ -70,9 +70,7 @@ window.onload = () => {
           createNewPost(pt.value, pb.value);
         });
       });
-      $("#edit").click(function () {
-        edit();
-      });
+      $("#edit").click(edit());
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
