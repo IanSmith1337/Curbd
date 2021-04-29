@@ -149,7 +149,7 @@ function updatePostcards() {
   function photoHandler(storageRef, frame) {
     var upload;
     var pi = document.getElementById("formFilePicker");
-    let image = pi.files[0];
+    var image = pi.files[0];
     if (image != null) {
       var fr = new FileReader();
       fr.onload = function () {
@@ -168,6 +168,7 @@ function updatePostcards() {
         img.src = fr.result;
       }
       fr.readAsDataURL(image);
+      image = null;
     }
     storage.refFromURL(storageRef).getDownloadURL().then((url) => {
       addImage(frame, url, "Post Image");
