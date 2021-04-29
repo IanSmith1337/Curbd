@@ -258,7 +258,7 @@ function updatePostcards() {
           addClass(optionButton, "btn btn-secondary dropdown-toggle");
           addText(optionButton, "Options");
           optionButton.setAttribute("data-bs-toggle", "dropdown");
-          append(optDiv, cardFooter);
+          append(optDiv, cardFooterWrap);
           append(optionButton, optDiv);
           append(ul, optDiv);
           append(editItem, ul);
