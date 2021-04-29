@@ -20,7 +20,8 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" src="theme.css" media="screen" />
     <title>Curbid</title>
-    <script data-ad-client="ca-pub-2301224462837853" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-2301224462837853" async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body class="px-0">
@@ -28,23 +29,24 @@
         data-bs-target="#postModal" id="modalButton" style="z-index: 10000;">Create Post</button>
     <nav id="nav" class="navbar navbar-light bg-light border-bottom sticky-top">
         <div class="container-fluid">
-        <button class="navbar-toggler mx-2 px-1" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks"
-            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand me-5" href="index.html"><img src="placeholder-logo-2.png" alt="Curbid Logo" class="image-fluid me-2"></img></a>
-        <br>
-        <div class="collapse bg-light navbar-collapse my-1" id="navLinks">
-            <ul class="navbar-nav mx-2" id="navholder">
-                <li class="nav-item" id="createaccount">
-                    <a class="nav-link" href="createaccount.html">Create an Account</a>
-                </li>
-                <li class="nav-item" id="signin">
-                    <a class="nav-link" href="signin.html">Sign In</a>
-                </li>
-            </ul>
+            <button class="navbar-toggler mx-2 px-1" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks"
+                aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand me-5" href="index.html"><img src="placeholder-logo-2.png" alt="Curbid Logo"
+                    class="image-fluid me-2"></img></a>
+            <br>
+            <div class="collapse bg-light navbar-collapse my-1" id="navLinks">
+                <ul class="navbar-nav mx-2" id="navholder">
+                    <li class="nav-item" id="createaccount">
+                        <a class="nav-link" href="createaccount.html">Create an Account</a>
+                    </li>
+                    <li class="nav-item" id="signin">
+                        <a class="nav-link" href="signin.html">Sign In</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
     </nav>
     <div id="main" class="py-3 px-3">
         <div id="logStatus"></div>
@@ -65,17 +67,46 @@
                             <div class="form-floating mb-3">
                                 <textarea name="postBody" id="postBody" class="form-control"
                                     style="height: 150px"></textarea>
-                                <label for="postTitle">Body:</label>
+                                <label for="postBody">Body:</label>
                             </div>
                             <div class="mb-3">
                                 <label for="formFilePicker" class="form-label">Images:</label><br>
                                 <input class="form-control" type="file" id="formFilePicker"
                                     accept="image/png, image/jpeg, image/jpg">
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
                             id="postButton">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalTitle">Edit Post:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="editTitle" id="editTitle" class="form-control">
+                                <label for="editTitle">Title:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea name="editBody" id="editBody" class="form-control"
+                                    style="height: 150px"></textarea>
+                                <label for="editTitle">Body:</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            id="editFinish">Send</button>
                     </div>
                 </div>
             </div>

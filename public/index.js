@@ -66,10 +66,20 @@ window.onload = () => {
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-
         $("#postButton").click(function () {
           createNewPost(pt.value, pb.value);
-        })
+        });
+      });
+      $("#edit").click(function () {
+        var et = document.getElementById("edit").parentElement;
+        var eb = doc.data().body;
+        var efield1 = document.getElementById("editTitle");
+        efield1.value = et;
+        var efield2 = document.getElementById("editBody");
+        efield2.value = eb;
+        $("#postButton").click(function () {
+          edit(efield1, efield2);
+        });
       });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
@@ -104,6 +114,12 @@ function updatePostcards() {
   function createItem(element) {
     let item = document.createElement(element);
     return item;
+  }
+
+  function edit(post, title, body) {
+    post.update(() => {
+      title: title;
+    });
   }
 
   function addClass(item, classDef) {
@@ -165,7 +181,6 @@ function updatePostcards() {
       fr.readAsDataURL(image);
     }
   }
-
 
   db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
@@ -236,6 +251,30 @@ function updatePostcards() {
           }
         }
         addText(cardFooter, timeString);
+        if (doc.data().owner == firebase.auth().currentUser.uid) {
+          var optDiv = createItem("div");
+          var ul = createItem("ul");
+          var li = createItem("li");
+          addClass(optDiv, "btn-group");
+          addClass(ul, "dropdown-menu");
+          addClass(li, "dropdown-item");
+          li.setAttribute("data-bs-toggle", "modal");
+          li.setAttribute("data-bs-target", "#editModal");
+          addText(li, "Edit");
+          li.id = "edit";
+          var optionButton = createItem("button");
+          addClass(optionButton, "btn btn-secondary dropdown-toggle");
+          addText(optionButton, "Options");
+          optionButton.setAttribute("data-bs-toggle", "dropdown");
+          append(optDiv, cardFooter);
+          append(optionButton, optDiv);
+          append(ul, optDiv);
+          append(li, ul);
+          addClass(li, "dropdown-item text-danger");
+          addText(li, "Close post");
+          li.id = "close";
+          append(li, ul);
+        }
         append(cardFooter, cardFooterWrap);
         append(cardWrapper, cardRoot);
       }
