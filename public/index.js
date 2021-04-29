@@ -71,15 +71,7 @@ window.onload = () => {
         });
       });
       $("#edit").click(function () {
-        var et = document.getElementById("edit").parentElement;
-        var eb = doc.data().body;
-        var efield1 = document.getElementById("editTitle");
-        efield1.value = et;
-        var efield2 = document.getElementById("editBody");
-        efield2.value = eb;
-        $("#postButton").click(function () {
-          edit(efield1, efield2);
-        });
+        edit();
       });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
@@ -116,9 +108,21 @@ function updatePostcards() {
     return item;
   }
 
-  function edit(post, title, body) {
-    post.update(() => {
-      title: title;
+  function edit() {
+    var et = document.getElementById("edit").parentElement;
+    var eb = doc.data().body;
+    var efield1 = document.getElementById("editTitle");
+    efield1.value = et;
+    var efield2 = document.getElementById("editBody");
+    efield2.value = eb;
+    var postID = document.getElementById("close").parentElement.parentElement.parentElement.parentElement.parentElement.id
+    $("#editFinished").click(function () {
+      db.collection("posts").doc(postID).get().then((doc) => {
+        db.collection("posts").doc(post).update({
+          title: efield1.value,
+          body: efield2.value
+        });
+      });
     });
   }
 
@@ -199,9 +203,10 @@ function updatePostcards() {
     querySnapshot.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
-        addClass(cardWrapper, "col-sm-4  h-50");
+        addClass(cardWrapper, "col-sm-4 h-50");
         var cardBase = createItem("div");
         addClass(cardBase, "card mb-3");
+        cardBase.id = doc.id;
         append(cardBase, cardWrapper);
         var cardBody = createItem("div");
         addClass(cardBody, "card-body");
@@ -254,14 +259,16 @@ function updatePostcards() {
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var optDiv = createItem("div");
           var ul = createItem("ul");
-          var li = createItem("li");
+          var editItem = createItem("li");
+          var remove = createItem("li");
           addClass(optDiv, "btn-group");
           addClass(ul, "dropdown-menu");
-          addClass(li, "dropdown-item");
-          li.setAttribute("data-bs-toggle", "modal");
-          li.setAttribute("data-bs-target", "#editModal");
-          addText(li, "Edit");
-          li.id = "edit";
+          addClass(editItem, "dropdown-item");
+          addClass(remove, "dropdown-item");
+          editItem.setAttribute("data-bs-toggle", "modal");
+          editItem.setAttribute("data-bs-target", "#editModal");
+          addText(editItem, "Edit");
+          editItem.id = "edit";
           var optionButton = createItem("button");
           addClass(optionButton, "btn btn-secondary dropdown-toggle");
           addText(optionButton, "Options");
@@ -269,11 +276,11 @@ function updatePostcards() {
           append(optDiv, cardFooter);
           append(optionButton, optDiv);
           append(ul, optDiv);
-          append(li, ul);
-          addClass(li, "dropdown-item text-danger");
-          addText(li, "Close post");
-          li.id = "close";
-          append(li, ul);
+          append(edit, ul);
+          addClass(remove, "dropdown-item text-danger");
+          addText(remove, "Close post");
+          remove.id = "close";
+          append(remove, ul);
         }
         append(cardFooter, cardFooterWrap);
         append(cardWrapper, cardRoot);
