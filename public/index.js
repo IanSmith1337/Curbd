@@ -70,12 +70,23 @@ window.onload = () => {
           createNewPost(pt.value, pb.value);
         });
       });
-      document.getElementById("edit").addEventListener("click", (function(event) {
+      $("#edit").click(function () {
         var postTitle = $("#edit").parents(".card").children(".card-body").children(".card-title").text()
         var postBody = $("#edit").parents(".card").children(".card-body").children(".card-text").text();
         var postID = $("#edit").parent().get(0).id;
-        edit(postTitle, postBody, postID);
-      }));
+        var efield1 = document.getElementById("editTitle");
+        efield1.value = postTitle;
+        var efield2 = document.getElementById("editBody");
+        efield2.value = postBody;
+        $("#editFinished").click(function () {
+          db.collection("posts").doc(postID).get().then((doc) => {
+            doc.update({
+              title: efield1.value,
+              body: efield2.value
+            });
+          });
+        });
+      });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
@@ -307,19 +318,4 @@ function createNewPost(title, body) {
 function createID() {
   let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
   return idPart() + '-' + idPart() + '-' + idPart();
-}
-
-function edit(et, eb, postID) {
-  var efield1 = document.getElementById("editTitle");
-  efield1.value = et;
-  var efield2 = document.getElementById("editBody");
-  efield2.value = eb;
-  $("#editFinished").click(function () {
-    db.collection("posts").doc(postID).get().then((doc) => {
-      db.collection("posts").doc(postID).update({
-        title: efield1.value,
-        body: efield2.value
-      });
-    });
-  });
 }
