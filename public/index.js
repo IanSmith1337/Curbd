@@ -68,8 +68,10 @@ window.onload = () => {
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
+        var owner = user.uid
+        var email = user.email
         $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value);
+          createNewPost(pt.value, pb.value, owner, email);
         });
       });
       var emodal = document.getElementById("editModal");
@@ -338,12 +340,10 @@ function createNavItem(nav, text, dest) {
   nav.appendChild(navItem);
 }
 
-function createNewPost(title, body) {
+function createNewPost(title, body, owner, email) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  var owner = firebase.auth().currentUser.uid
-  var email = firebase.auth().currentUser.email
   var uTel;
   db.collection("users").doc(uid).get().then((doc) => {
     uTel = doc.data().tel;
