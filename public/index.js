@@ -98,6 +98,8 @@ window.onload = () => {
         confirm.addEventListener("click", function () {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
+          var imageStore = storage.ref(postID);
+          imageStore.delete();
         })
       });
     } else {
