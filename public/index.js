@@ -264,27 +264,48 @@ function updatePostcards() {
         }
         addText(cardFooter, timeString);
         append(cardFooter, cardFooterWrap);
+        var optDiv = createItem("div");
+        var ul = createItem("ul");
+        ul.id = doc.id;
+        addClass(optDiv, "btn-group");
+        addClass(ul, "dropdown-menu");
+        var optionButton = createItem("button");
+        optionButton.setAttribute("data-bs-toggle", "dropdown");
+        addClass(optionButton, "btn btn-secondary dropdown-toggle");
+        addText(optionButton, "Options");
+        append(optDiv, cardFooterWrap);
+        append(optionButton, optDiv);
+        append(ul, optDiv);
+        var itemQueue = Array.from(doc.data().queue);
+        if (!itemQueue.includes(user.uid)) {
+          var get = createItem("li");
+          addClass(get, "dropdown-item");
+          get.id = "get";
+          append(get, ul);
+          get.addEventListener("click", function (event) {
+            var target = event.target;
+            var postID = $(target).parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
+            }).catch((error) => {
+              alert("Sorry, but seems the queue is full for this item...");
+            });
+          });
+        }
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
+          var info = document.createElement("p");
+          db.collection("users").doc(doc.data().owner).get().then((userDoc) => {
+            info.innerHTML = "to be updated";
+          })
         if (doc.data().owner == firebase.auth().currentUser.uid) {
-          var optDiv = createItem("div");
-          var ul = createItem("ul");
-          ul.id = doc.id;
           var editItem = createItem("li");
           var remove = createItem("li");
-          addClass(optDiv, "btn-group");
-          addClass(ul, "dropdown-menu");
           addClass(editItem, "dropdown-item");
           addClass(remove, "dropdown-item");
           editItem.setAttribute("data-bs-toggle", "modal");
           editItem.setAttribute("data-bs-target", "#editModal");
           addText(editItem, "Edit");
           editItem.id = "edit";
-          var optionButton = createItem("button");
-          addClass(optionButton, "btn btn-secondary dropdown-toggle");
-          addText(optionButton, "Options");
-          optionButton.setAttribute("data-bs-toggle", "dropdown");
-          append(optDiv, cardFooterWrap);
-          append(optionButton, optDiv);
-          append(ul, optDiv);
           append(editItem, ul);
           addClass(remove, "dropdown-item text-danger");
           addText(remove, "Close post");
