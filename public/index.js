@@ -281,10 +281,11 @@ function updatePostcards(user) {
         append(optionButton, optDiv);
         append(ul, optDiv);
         var itemQueue = Array.from(doc.data().queue);
-        if (!itemQueue.includes(user.uid)) {
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
           var get = createItem("li");
           addClass(get, "dropdown-item");
           get.id = "get";
+          addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
             var target = event.target;
