@@ -3,6 +3,20 @@ const analytics = firebase.analytics();
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
+        var CANav = document.getElementById("createaccount");
+        var SINav = document.getElementById("signin");
+        nav.removeChild(CANav);
+        nav.removeChild(SINav);
+        createNavItem(nav, "Account", "account.html");
+        createNavItem(nav, "Sign out", "signout.html");
+        userString.style.color = "black";
+        userString.id = "userStatus";
+        if (document.getElementById("userStatus") != null) {
+            status.replaceChild(document.getElementById("userStatus"), userString);
+        } else {
+            status.appendChild(userString);
+            status.appendChild(document.createElement("br"));
+        }
         var fname = document.getElementById("fname");
         var lname = document.getElementById("lname");
         var email = document.getElementById("email");
@@ -34,5 +48,7 @@ firebase.auth().onAuthStateChanged(function (user) {
                 console.log("Document updated successfully.");
             });
         });
+    } else {
+        window.location.href = "https://curbid.web.app"
     }
 });
