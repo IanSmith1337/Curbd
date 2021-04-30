@@ -53,8 +53,7 @@ function test1(user) {
 function test2(uid) {
     var result = document.getElementById("t2");
     db.collection("users").doc(uid).update({
-        tel: "123-456-7890",
-        address: "224 Main St., Towson, MD, 21252"
+        tel: "123-456-7890"
     }).then(() => {
         result.className = "col-12 font-italic font-weight-bold text-center text-success"
         result.innerHTML = "PASSED (User Information is able to be updated)"
@@ -158,12 +157,10 @@ function test6(owner, body) {
 function test7(uid) {
     var result = document.getElementById("t7");
     var tel = "123-456-7890";
-    var address = "224 Main St., Towson, MD, 21252";
-    var utel, uaddress;
+    var utel;
     db.collection("users").doc(uid).get().then((doc) => {
         utel = doc.data().tel;
-        uaddress = doc.data().address;
-        if (tel === utel && address === uaddress) {
+        if (tel === utel) {
             result.className = "col-12 font-italic font-weight-bold text-center text-success"
             result.innerHTML = "PASSED (User contact info can be retrieved)"
         } else {

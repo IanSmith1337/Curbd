@@ -294,9 +294,8 @@ function updatePostcards() {
         }
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
           var info = document.createElement("p");
-          db.collection("users").doc(doc.data().owner).get().then((userDoc) => {
-            info.innerHTML = "to be updated";
-          })
+          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")";
+        }
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var editItem = createItem("li");
           var remove = createItem("li");
@@ -337,9 +336,16 @@ function createNewPost(title, body) {
   var ID = createID();
   var ref = root.child(ID);
   var owner = firebase.auth().currentUser.uid
+  var email = firebase.auth().currentUser.email
+  var uTel;
+  db.collection("users").doc(uid).get().then((doc) => {
+    uTel = doc.data().tel;
+  });
   db.collection("posts").doc(ID).set({
     hide: false,
     owner: owner,
+    c: window.btoa(email),
+    c2: window.btoa(uTel),
     title: title,
     body: body,
     image: ref.toString(),
