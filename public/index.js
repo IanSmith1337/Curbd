@@ -345,7 +345,7 @@ function createNewPost(title, body, owner, email) {
   var ID = createID();
   var ref = root.child(ID);
   var uTel;
-  db.collection("users").doc(uid).get().then((doc) => {
+  db.collection("users").doc(owner).get().then((doc) => {
     uTel = doc.data().tel;
   });
   db.collection("posts").doc(ID).set({
