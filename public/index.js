@@ -292,9 +292,16 @@ function updatePostcards() {
             });
           });
         }
+        var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          var info = document.createElement("p");
-          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")";
+          info.innerHTML = "<strong>Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+        } 
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
+          info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
         }
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var editItem = createItem("li");
