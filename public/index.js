@@ -184,7 +184,15 @@ function updatePostcards(user) {
         img.onload = function () {
           var canvas = document.createElement("canvas");
           canvas.width = img.width;
+          if(canvas.width > 960){
+            canvas.width = 960;
+            canvas.height = 540;
+          }
           canvas.height = img.height;
+          if(canvas.height > 540) {
+            canvas.width = 960;
+            canvas.height = 540;
+          }
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
