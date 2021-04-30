@@ -61,7 +61,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards();
+      updatePostcards(user);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
@@ -115,7 +115,7 @@ window.onload = () => {
   });
 }
 
-function updatePostcards() {
+function updatePostcards(user) {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
