@@ -144,6 +144,7 @@ function updatePostcards() {
       var blob = xhr.response;
       item.src = URL.createObjectURL(blob);
       item.alt = alt;
+      item.style = "width: 100%; height: auto;";
     }
     xhr.open('GET', image);
     xhr.send()
@@ -178,7 +179,7 @@ function updatePostcards() {
         var img = new Image();
         img.onload = function () {
           var canvas = document.createElement("canvas");
-          canvas.getContext("2d").drawImage(img, 0, 0, 400, 400);
+          canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
               storage.refFromURL(storageRef).getDownloadURL().then((url) => {
