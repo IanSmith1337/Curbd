@@ -71,14 +71,10 @@ window.onload = () => {
         var pb = document.getElementById("postBody");
         var owner = user.uid
         var email = user.email
-        document.getElementById("postButton").addEventListener("click", function () {
-          postModalHandler(pt, pb, owner, email);
-        });
+        document.getElementById("postButton").addEventListener("click", postModalHandler(pt, pb, owner, email));
       });
       modal.addEventListener('hide.bs.modal', function () {
-        document.getElementById("postButton").removeEventListener("click", function () {
-          postModalHandler(pt, pb, owner, email);
-        });
+        document.getElementById("postButton").removeEventListener("click", postModalHandler(pt, pb, owner, email));
       });
       var emodal = document.getElementById("editModal");
       emodal.addEventListener('show.bs.modal', function (event) {
