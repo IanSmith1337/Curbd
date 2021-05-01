@@ -118,17 +118,52 @@ window.onload = () => {
       var aboutDiv = document.createElement("div");
       aboutDiv.id = "about";
       var about = document.createElement("h6");
-      about.textContent = "Curbid is a revolutionary new way to recycle the items you no longer want or use. \nWe are currently open to Towson University students only, but we hope to be able to serve many other communities soon."
+      about.textContent = "Every year, at colleges across the nation, move out is one of the most hectic times of the year. Figuring out how you'll get home, and what stuff you can bring with you, is one of the greatest challenges. Because of this, a lot of items that are perfectly good for people to use end up in a landfill. Well, not anymore. Curbid is a new way to pass on the items you no longer want or use, or unable to take with you, to other students who can, saving them from ending up in a landfill. We are currently open to Towson University students only, but we hope to be able to serve many other communities soon."
       status.appendChild(aboutDiv);
       aboutDiv.appendChild(about);
       var howDiv = document.createElement("div");
       howDiv.id = "how";
-      var howT = document.createElement("h5");
-      howT.textContent = "Here's how it works:\n\n";
-      var how = document.createElement("p");
-      how.innerHTML = "<strong>For item seekers:</strong> \nStep 1: Create an account, or sign in. \nStep 2: Find something you like. \nStep 3: Click the options button on the post, then get. \nStep 4: See what position you're in. If you're first, congrats! You are given the contact information of the owner to set up a time and place to get the item. Otherwise, you'll be informed what position you're in, and how many are in front of you.\n\n <strong>For item owners:</strong> \nStep 1: Create an account, or sign in. \nStep 2: Go to your account page via the navigation bar and enter your contact info. Don't worry, this is only given to the first person in line who wants your item. You can leave info blank, but keep in mind, your email will be used as a method of contact. \nStep 3: After returning to the homepage, click the \"Create Post\" button in the bottom left. \nStep 4: Add the details of your post, give it a title, and include a picture if you want. \nStep 5: Wait for seekers to contact you! \n\nHappy hunting!";
       status.appendChild(howDiv);
+      var howT = document.createElement("h5");
+      howT.textContent = "Here's how it works:";
+      status.appendChild(howT);
+      var how = document.createElement("p");
+      how.innerHTML = "<strong>For item seekers:</strong>";
       aboutDiv.appendChild(how);
+      var how2 = document.createElement("p");
+      how2.innerHTML = "Step 1: Create an account, or sign in.";
+      aboutDiv.appendChild(how2);
+      var how3 = document.createElement("p");
+      how3.innerHTML = "Step 2: Find something you like.";
+      aboutDiv.appendChild(how3);
+      var how4 = document.createElement("p");
+      how4.innerHTML = "Step 3: Click the options button on the post, then get.";
+      aboutDiv.appendChild(how4);
+      var how5 = document.createElement("p");
+      how5.innerHTML = "Step 4: See what position you're in.";
+      aboutDiv.appendChild(how5);
+      var how6 = document.createElement("p");
+      how6.innerHTML = "If you're first, congrats! You are given the contact information of the owner to set up a time and place to get the item. Otherwise, you'll be informed what position you're in, and how many are in front of you.";
+      aboutDiv.appendChild(how6);
+      aboutDiv.appendChild(document.createElement("br"));
+      var how7 = document.createElement("p");
+      how7.innerHTML = "<strong>For item owners:</strong>";
+      aboutDiv.appendChild(how7);
+      var how8 = document.createElement("p");
+      how8.innerHTML = "Step 1: Create an account, or sign in.";
+      aboutDiv.appendChild(how8);
+      var how9 = document.createElement("p");
+      how9.innerHTML = "Step 2: Go to your account page via the navigation bar and enter your contact info. Don't worry, this is only given to the first person in line who wants your item. You can leave info blank, but keep in mind, your email will be used as a method of contact.";
+      aboutDiv.appendChild(how9);
+      var how10 = document.createElement("p");
+      how10.innerHTML = "Step 3: After returning to the homepage, click the \"Create Post\" button in the bottom left.";
+      aboutDiv.appendChild(how10);
+      var how11 = document.createElement("p");
+      how11.innerHTML = "Step 4: Add the details of your post, give it a title, and include a picture if you want.";
+      aboutDiv.appendChild(how11);
+      var how12 = document.createElement("p");
+      how12.innerHTML = "Step 5: Wait for seekers to contact you!";
+      aboutDiv.appendChild(how12);
     }
   });
 }
