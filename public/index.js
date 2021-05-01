@@ -69,7 +69,7 @@ window.onload = () => {
       modal.addEventListener('show.bs.modal', function () {
         document.getElementById("postButton").addEventListener("click", postModalHandler);
       });
-      modal.addEventListener('hide.bs.modal', function () {
+      modal.addEventListener('hidden.bs.modal', function () {
         document.getElementById("postButton").removeEventListener("click", postModalHandler);
       });
       var emodal = document.getElementById("editModal");
