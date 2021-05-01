@@ -215,18 +215,14 @@ function updatePostcards(user) {
 
   db.collection("posts").orderBy("addTime", "desc").limit(50).get((collection) => {
     showSpinner();
+    if (document.getElementById("cd") != null) {
+      document.getElementById("cd").remove();
+    }
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
-    if (document.getElementById("cd") == null) {
-      addClass(cardRoot, "card-group row");
-      cardRoot.id = "cd";
-      append(cardRoot, main);
-    } else {
-      document.getElementById("cd").remove();
-      cardRoot.id = "cd";
-      addClass(cardRoot, "card-group row");
-      append(cardRoot, main);
-    }
+    cardRoot.id = "cd";
+    addClass(cardRoot, "card-group row");
+    append(cardRoot, main);
     collection.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
