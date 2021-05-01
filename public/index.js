@@ -97,7 +97,7 @@ window.onload = () => {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
           var imageStore = storage.ref(postID);
-          storage.refFromURL(storageRef).getDownloadURL().then(() => {
+          storage.refFromURL(imageStore).getDownloadURL().then(() => {
             imageStore.delete();
           }).catch(() => {
             console.log("file not found");
