@@ -66,14 +66,19 @@ window.onload = () => {
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
-      document.getElementById("modalButton").addEventListener("click", function () {
+      var modal = document.getElementById("postModal");
+      modal.addEventListener('show.bs.modal', function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
         var owner = user.uid
         var email = user.email
         document.getElementById("postButton").addEventListener("click", function () {
           createNewPost(pt.value, pb.value, owner, email);
-          document.getElementById("postButton").removeEventListener(this.click);
+        });
+      });
+      modal.addEventListener('hide.bs.modal', function () {
+        document.getElementById("postButton").removeEventListener("click", function () {
+          createNewPost(pt.value, pb.value, owner, email);
         });
       });
       var emodal = document.getElementById("editModal");
