@@ -195,7 +195,7 @@ function updatePostcards(user) {
             canvas.width = 480;
             canvas.height = 270;
           }
-          canvas.getContext("2d").drawImage(img, (img.height / 4), (img.width / 4));
+          canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
               storage.refFromURL(storageRef).getDownloadURL().then((url) => {
