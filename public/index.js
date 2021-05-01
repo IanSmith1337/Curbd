@@ -61,17 +61,15 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards(user);
+      updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
       $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-        var owner = user.uid
-        var email = user.email
         $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value, owner, email);
+          createNewPost(pt.value, pb.value);
         });
       });
       var emodal = document.getElementById("editModal");
@@ -115,7 +113,7 @@ window.onload = () => {
   });
 }
 
-function updatePostcards(user) {
+function updatePostcards() {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -181,8 +179,6 @@ function updatePostcards(user) {
         var img = new Image();
         img.onload = function () {
           var canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
@@ -281,11 +277,10 @@ function updatePostcards(user) {
         append(optionButton, optDiv);
         append(ul, optDiv);
         var itemQueue = Array.from(doc.data().queue);
-        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
+        if (!itemQueue.includes(user.uid)) {
           var get = createItem("li");
           addClass(get, "dropdown-item");
           get.id = "get";
-          addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
             var target = event.target;
@@ -297,16 +292,9 @@ function updatePostcards(user) {
             });
           });
         }
-        var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.innerHTML = "<strong>Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")</strong>";
-          append(document.createElement("br"), cardBody);
-          append(info, cardBody);
-        } 
-        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
-          info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
-          append(document.createElement("br"), cardBody);
-          append(info, cardBody);
+          var info = document.createElement("p");
+          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")";
         }
         if (doc.data().owner == firebase.auth().currentUser.uid) {
           var editItem = createItem("li");
@@ -343,12 +331,14 @@ function createNavItem(nav, text, dest) {
   nav.appendChild(navItem);
 }
 
-function createNewPost(title, body, owner, email) {
+function createNewPost(title, body) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
+  var owner = firebase.auth().currentUser.uid
+  var email = firebase.auth().currentUser.email
   var uTel;
-  db.collection("users").doc(owner).get().then((doc) => {
+  db.collection("users").doc(uid).get().then((doc) => {
     uTel = doc.data().tel;
   });
   db.collection("posts").doc(ID).set({
