@@ -124,7 +124,7 @@ window.onload = () => {
       var howDiv = document.createElement("div");
       howDiv.id = "how";
       var howT = document.createElement("h5");
-      howT.textContent("Here's how it works:\n\n");
+      howT.textContent = "Here's how it works:\n\n";
       var how = document.createElement("p");
       how.innerHTML = "<strong>For item seekers:</strong> \nStep 1: Create an account, or sign in. \nStep 2: Find something you like. \nStep 3: Click the options button on the post, then get. \nStep 4: See what position you're in. If you're first, congrats! You are given the contact information of the owner to set up a time and place to get the item. Otherwise, you'll be informed what position you're in, and how many are in front of you.\n\n <strong>For item owners:</strong> \nStep 1: Create an account, or sign in. \nStep 2: Go to your account page via the navigation bar and enter your contact info. Don't worry, this is only given to the first person in line who wants your item. You can leave info blank, but keep in mind, your email will be used as a method of contact. \nStep 3: After returning to the homepage, click the \"Create Post\" button in the bottom left. \nStep 4: Add the details of your post, give it a title, and include a picture if you want. \nStep 5: Wait for seekers to contact you! \n\nHappy hunting!";
       status.appendChild(howDiv);
