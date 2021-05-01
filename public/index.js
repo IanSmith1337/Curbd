@@ -62,7 +62,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      setInterval(updatePostcards(user), 18000);
+      updatePostcards(user);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
@@ -119,7 +119,7 @@ window.onload = () => {
 }
 
 window.onbeforeunload = function () {
-  clearInterval();
+  listener();
 }
 
 function updatePostcards(user) {
@@ -213,7 +213,7 @@ function updatePostcards(user) {
     }
   }
 
-  db.collection("posts").orderBy("addTime", "desc").limit(50).get((collection) => {
+  listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
     if (document.getElementById("cd") != null) {
       document.getElementById("cd").remove();
@@ -223,7 +223,7 @@ function updatePostcards(user) {
     cardRoot.id = "cd";
     addClass(cardRoot, "card-group row");
     append(cardRoot, main);
-    collection.forEach((doc) => {
+    querySnapshot.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
         addClass(cardWrapper, "col-sm-4 h-50");
