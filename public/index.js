@@ -379,6 +379,7 @@ function createID() {
 }
 
 function postModalHandler() {
+  var user = firebase.auth().currentUser
   var pt = document.getElementById("postTitle");
   var pb = document.getElementById("postBody");
   var owner = user.uid
