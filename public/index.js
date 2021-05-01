@@ -65,12 +65,12 @@ window.onload = () => {
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
-      $("#modalButton").click(function () {
+      document.getElementById("modalButton").addEventListener("click", function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
         var owner = user.uid
         var email = user.email
-        $("#postButton").click(function () {
+        document.getElementById("postButton").addEventListener("click", function () {
           createNewPost(pt.value, pb.value, owner, email);
         });
       });
@@ -115,6 +115,10 @@ window.onload = () => {
       }
     }
   });
+}
+
+window.onbeforeunload = function () {
+
 }
 
 function updatePostcards(user) {
@@ -184,14 +188,14 @@ function updatePostcards(user) {
         img.onload = function () {
           var canvas = document.createElement("canvas");
           canvas.width = img.width;
-          if(canvas.width > 960){
-            canvas.width = 960;
-            canvas.height = 540;
+          if(canvas.width > 480){
+            canvas.width = 480;
+            canvas.height = 270;
           }
           canvas.height = img.height;
-          if(canvas.height > 540) {
-            canvas.width = 960;
-            canvas.height = 540;
+          if(canvas.height > 270) {
+            canvas.width = 480;
+            canvas.height = 270;
           }
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
@@ -298,8 +302,7 @@ function updatePostcards(user) {
           addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
-            var target = event.target;
-            var postID = $(target).parent().get(0).id;
+            var postID = $("#get").parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
             }).catch((error) => {
@@ -318,7 +321,7 @@ function updatePostcards(user) {
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
         }
-        if (doc.data().owner == firebase.auth().currentUser.uid) {
+        if (doc.data().owner == user.uid) {
           var editItem = createItem("li");
           var remove = createItem("li");
           addClass(editItem, "dropdown-item");
@@ -373,7 +376,7 @@ function createNewPost(title, body, owner, email) {
     addTime: new Date().getTime()
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
-  })
+  });
 }
 
 function createID() {
