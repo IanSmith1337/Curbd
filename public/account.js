@@ -38,3 +38,14 @@ firebase.auth().onAuthStateChanged(function (user) {
         window.location.href = "https://curbid.web.app"
     }
 });
+
+function createNavItem(nav, text, dest) {
+    var navItem = document.createElement("li");
+    var navLink = document.createElement("a");
+    navItem.className = "nav-item";
+    navLink.className = "nav-link";
+    navLink.textContent = text;
+    navLink.href = dest;
+    navItem.appendChild(navLink);
+    nav.appendChild(navItem);
+  }

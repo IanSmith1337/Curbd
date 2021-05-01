@@ -20,7 +20,7 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
-var posts = new Array(50);
+var users = new Array(25);
 var efield1, efield2;
 var button;
 var listener;
@@ -317,17 +317,50 @@ listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapsho
         info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c) + "), (" + window.atob(doc.data().c2) + ")";
         append(document.createElement("br"), cardBody);
         append(info, cardBody);
+        var leave = createItem("li");
+        addClass(leave, "dropdown-item");
+        leave.id = "leave";
+        addText(leave, "Leave the queue");
+        append(leave, ul);
+        leave.addEventListener("click", function (event) {
+          var postID = $("#leave").parent().get(0).id;
+          users = Array.of(doc.data().queue);
+          db.collection("posts").doc(postID).update({
+            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+          })
+        });
       }
       if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
         info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
         append(document.createElement("br"), cardBody);
         append(info, cardBody);
+        var leave = createItem("li");
+        addClass(leave, "dropdown-item");
+        leave.id = "leave";
+        addText(leave, "Leave the queue");
+        append(leave, ul);
+        leave.addEventListener("click", function (event) {
+          var postID = $("#leave").parent().get(0).id;
+          db.collection("posts").doc(postID).update({
+            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+          });
+
+        });
       }
       if (doc.data().owner == user.uid) {
         var editItem = createItem("li");
         var remove = createItem("li");
+        var next = createItem("li");
+        addClass(next, "dropdown-item");
         addClass(editItem, "dropdown-item");
         addClass(remove, "dropdown-item");
+        addText(next, "Move to next person in line.");
+        next.addEventListener("click", function (event) {
+          var postID = $("#next").parent().get(0).id;
+          db.collection("posts").doc(postID).update({
+            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+          });
+        });
         editItem.setAttribute("data-bs-toggle", "modal");
         editItem.setAttribute("data-bs-target", "#editModal");
         addText(editItem, "Edit");
