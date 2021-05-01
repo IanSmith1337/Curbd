@@ -74,6 +74,10 @@ window.onload = () => {
         document.getElementById("postButton").addEventListener("click", postModalHandler(pt, pb, owner, email));
       });
       modal.addEventListener('hide.bs.modal', function () {
+        var pt = document.getElementById("postTitle");
+        var pb = document.getElementById("postBody");
+        var owner = user.uid
+        var email = user.email
         document.getElementById("postButton").removeEventListener("click", postModalHandler(pt, pb, owner, email));
       });
       var emodal = document.getElementById("editModal");
