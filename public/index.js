@@ -65,20 +65,19 @@ window.onload = () => {
       updatePostcards(user);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
-      var pt, pb;
       var modal = document.getElementById("postModal");
       modal.addEventListener('show.bs.modal', function () {
-        pt = document.getElementById("postTitle");
-        pb = document.getElementById("postBody");
+        var pt = document.getElementById("postTitle");
+        var pb = document.getElementById("postBody");
         var owner = user.uid
         var email = user.email
         document.getElementById("postButton").addEventListener("click", function () {
-          createNewPost(pt.value, pb.value, owner, email);
+          postModalHandler(pt, pb, owner, email);
         });
       });
       modal.addEventListener('hide.bs.modal', function () {
         document.getElementById("postButton").removeEventListener("click", function () {
-          createNewPost(pt.value, pb.value, owner, email);
+          postModalHandler(pt, pb, owner, email);
         });
       });
       var emodal = document.getElementById("editModal");
@@ -195,16 +194,16 @@ function updatePostcards(user) {
         img.onload = function () {
           var canvas = document.createElement("canvas");
           canvas.width = img.width;
-          if(canvas.width > 480){
+          if (canvas.width > 480) {
             canvas.width = 480;
             canvas.height = 270;
           }
           canvas.height = img.height;
-          if(canvas.height > 270) {
+          if (canvas.height > 270) {
             canvas.width = 480;
             canvas.height = 270;
           }
-          canvas.getContext("2d").drawImage(img, (img.height/4), (img.width/4));
+          canvas.getContext("2d").drawImage(img, (img.height / 4), (img.width / 4));
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
               storage.refFromURL(storageRef).getDownloadURL().then((url) => {
@@ -318,7 +317,7 @@ function updatePostcards(user) {
           info.innerHTML = "<strong>Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")</strong>";
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
-        } 
+        }
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
           info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
           append(document.createElement("br"), cardBody);
@@ -385,4 +384,8 @@ function createNewPost(title, body, owner, email) {
 function createID() {
   let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
   return idPart() + '-' + idPart() + '-' + idPart();
+}
+
+function postModalHandler(t, b, o, e) {
+  createNewPost(t.value, b.value, o, e);
 }
