@@ -310,7 +310,7 @@ function updatePostcards(user) {
         }
         var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")";
+          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c) + "), (" + window.atob(doc.data().c2) + ")";
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
         }
@@ -365,7 +365,7 @@ function createNewPost(title, body, owner, email) {
   db.collection("posts").doc(ID).set({
     hide: false,
     owner: owner,
-    c: window.btoa(email),
+    c1: window.btoa(email),
     c2: window.btoa(uTel),
     title: title,
     body: body,
