@@ -73,6 +73,7 @@ window.onload = () => {
         var email = user.email
         document.getElementById("postButton").addEventListener("click", function () {
           createNewPost(pt.value, pb.value, owner, email);
+          document.getElementById("postButton").removeEventListener(this.click);
         });
       });
       var emodal = document.getElementById("editModal");
