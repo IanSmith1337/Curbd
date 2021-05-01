@@ -63,7 +63,7 @@ window.onload = () => {
         status.appendChild(document.createElement("br"));
       }
       updatePostcards(user);
-      $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
+      document.getElementById("modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
       document.getElementById("modalButton").style = "z-index: 1000;"
       var modal = document.getElementById("postModal");
       modal.addEventListener('show.bs.modal', function () {
@@ -105,7 +105,7 @@ window.onload = () => {
         });
       });
     } else {
-      $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
+      document.getElementById("modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
       userString.textContent = "You are currently not logged in.";
       userString.style.color = "black";
       userString.id = "userStatus";
