@@ -3,6 +3,7 @@ const analytics = firebase.analytics();
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
+        var nav = document.getElementById("nav");
         var CANav = document.getElementById("createaccount");
         var SINav = document.getElementById("signin");
         nav.removeChild(CANav);
