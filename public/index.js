@@ -310,7 +310,7 @@ function updatePostcards(user) {
         }
         var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.innerHTML = "<strong>Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")</strong>";
+          info.innerHTML = "Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")";
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
         }
