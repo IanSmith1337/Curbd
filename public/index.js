@@ -36,6 +36,7 @@ window.onload = () => {
         fname = doc.data().fname;
         signin = doc.data().signin;
         admin = doc.data().admin;
+        var school = doc.data().school;
         if (admin) {
           createNavItem(nav, "Testing Page", "testLogin.html")
         }
@@ -105,7 +106,7 @@ window.onload = () => {
       });
     } else {
       document.getElementById("modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
-      userString.textContent = "You are currently not logged in.";
+      userString.textContent = "Welcome to Curbid!";
       userString.style.color = "black";
       userString.id = "userStatus";
       if (document.getElementById("userStatus") != null) {
@@ -114,6 +115,10 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
+      var aboutDiv = document.createElement("div");
+      aboutDiv.id = about;
+      var about = document.createElement("h6");
+      about.textContent = "Curbid is a revolutionary new way to recycle the items you no longer want or use. "
     }
   });
 }
@@ -122,7 +127,7 @@ window.onbeforeunload = function () {
   listener();
 }
 
-function updatePostcards(user) {
+function updatePostcards(user, userschool) {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -137,6 +142,26 @@ function updatePostcards(user) {
           </div>
         </div>
       </div>*/
+
+  function createAdCard() {
+    var cardWrapper = createItem("div");
+    addClass(cardWrapper, "col-sm-4 h-50");
+    var cardBase = createItem("div");
+    addClass(cardBase, "card mb-3");
+    append(cardBase, cardWrapper);
+    var cardBody = createItem("div");
+    addClass(cardBody, "card-body");
+    append(cardBody, cardBase);
+    var cardTitle = createItem("h5");
+    addClass(cardTitle, "card-title");
+    addText(cardTitle, "Check this out!");
+    append(cardTitle, cardBody);
+    var cardAd = createItem("div");
+    addClass(cardAd, "card-image-bottom");
+    append(cardAd, cardBase);
+    append(cardWrapper, cardRoot);
+  }
+
   function createItem(element) {
     let item = document.createElement(element);
     return item;
@@ -217,164 +242,165 @@ function updatePostcards(user) {
     });
   }
 
-listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
-  showSpinner();
-  if (document.getElementById("cd") != null) {
-    document.getElementById("cd").remove();
-  }
-  var cardRoot = createItem("div");
-  var main = document.getElementById("main");
-  cardRoot.id = "cd";
-  addClass(cardRoot, "card-group row");
-  append(cardRoot, main);
-  querySnapshot.forEach((doc) => {
-    if (!doc.data().hide) {
-      var cardWrapper = createItem("div");
-      addClass(cardWrapper, "col-sm-4 h-50");
-      var cardBase = createItem("div");
-      addClass(cardBase, "card mb-3");
-      append(cardBase, cardWrapper);
-      var cardBody = createItem("div");
-      addClass(cardBody, "card-body");
-      append(cardBody, cardBase);
-      var cardTitle = createItem("h5");
-      addClass(cardTitle, "card-title");
-      addText(cardTitle, doc.data().title);
-      append(cardTitle, cardBody);
-      var cardText = createItem("p");
-      addClass(cardText, "card-text");
-      addText(cardText, doc.data().body);
-      append(cardText, cardBody);
-      var cardImage = createItem("img");
-      addClass(cardImage, "card-image-bottom");
-      if (doc.data().image != "") {
-        var imageRef = doc.data().image;
-        photoHandler(imageRef, cardImage);
-      }
-      append(cardImage, cardBase);
-      var cardFooterWrap = createItem("div");
-      addClass(cardFooterWrap, "card-footer");
-      append(cardFooterWrap, cardBase);
-      var cardFooter = createItem("p");
-      addClass(cardFooter, "card-text");
-      var timeNow = new Date().getTime();
-      var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
-      var timeString = "";
-      if (timeSince >= 60) {
-        if ((timeSince / 60) >= 24) {
-          if (Math.floor((timeSince / 60) / 24) == 1) {
-            timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
-          } else {
-            timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
-          }
-        } else {
-          if (Math.floor(timeSince / 60) == 1) {
-            timeString = "Posted " + Math.floor(timeSince / 60) + " hour ago";
-          } else {
-            timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
-          }
-        }
-      } else {
-        if (timeSince == 1) {
-          timeString = "Posted " + timeSince + " minute ago";
-        } else {
-          timeString = "Posted " + timeSince + " minutes ago";
-        }
-      }
-      addText(cardFooter, timeString);
-      append(cardFooter, cardFooterWrap);
-      var optDiv = createItem("div");
-      var ul = createItem("ul");
-      ul.id = doc.id;
-      addClass(optDiv, "btn-group");
-      addClass(ul, "dropdown-menu");
-      var optionButton = createItem("button");
-      optionButton.setAttribute("data-bs-toggle", "dropdown");
-      addClass(optionButton, "btn btn-secondary dropdown-toggle");
-      addText(optionButton, "Options");
-      append(optDiv, cardFooterWrap);
-      append(optionButton, optDiv);
-      append(ul, optDiv);
-      var itemQueue = Array.from(doc.data().queue);
-      if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
-        var get = createItem("li");
-        addClass(get, "dropdown-item");
-        get.id = "get";
-        addText(get, "Get");
-        append(get, ul);
-        get.addEventListener("click", function (event) {
-          var postID = $("#get").parent().get(0).id;
-          db.collection("posts").doc(postID).update({
-            queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
-          }).catch((error) => {
-            alert("Sorry, but seems the queue is full for this item...");
-          });
-        });
-      }
-      var info = document.createElement("p");
-      if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-        info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c) + "), (" + atob(doc.data().c2) + ")</strong>";
-        append(document.createElement("br"), cardBody);
-        append(info, cardBody);
-        var leave = createItem("li");
-        addClass(leave, "dropdown-item");
-        leave.id = "leave";
-        addText(leave, "Leave the queue");
-        append(leave, ul);
-        leave.addEventListener("click", function (event) {
-          var postID = $("#leave").parent().get(0).id;
-          db.collection("posts").doc(postID).update({
-            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-          })
-        });
-      }
-      if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
-        info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
-        append(document.createElement("br"), cardBody);
-        append(info, cardBody);
-        var leave = createItem("li");
-        addClass(leave, "dropdown-item");
-        leave.id = "leave";
-        addText(leave, "Leave the queue");
-        append(leave, ul);
-        leave.addEventListener("click", function (event) {
-          var postID = $("#leave").parent().get(0).id;
-          db.collection("posts").doc(postID).update({
-            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-          });
-        });
-      }
-      if (doc.data().owner == user.uid || user.uid == atob("TEZlRHJOYnVyZVk2WXl4cnhmYjBITjNwOVZXMg==")  || user.uid == atob("SzBSOHpwSHJ3Q1BNWkF2bG1xUG1DamJ1Q0RGMw==")) {
-        var editItem = createItem("li");
-        var remove = createItem("li");
-        var next = createItem("li");
-        addClass(next, "dropdown-item");
-        addClass(editItem, "dropdown-item");
-        addClass(remove, "dropdown-item");
-        addText(next, "Move to next person in line.");
-        next.addEventListener("click", function (event) {
-          var postID = $("#next").parent().get(0).id;
-          db.collection("posts").doc(postID).update({
-            queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-          });
-        });
-        editItem.setAttribute("data-bs-toggle", "modal");
-        editItem.setAttribute("data-bs-target", "#editModal");
-        addText(editItem, "Edit");
-        editItem.id = "edit";
-        append(editItem, ul);
-        addClass(remove, "dropdown-item text-danger");
-        addText(remove, "Close post");
-        remove.setAttribute("data-bs-toggle", "modal");
-        remove.setAttribute("data-bs-target", "#closeModal");
-        remove.id = "close";
-        append(remove, ul);
-      }
-      append(cardWrapper, cardRoot);
+  listener = db.collection("posts").where("school", "==" , userschool).orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
+    showSpinner();
+    if (document.getElementById("cd") != null) {
+      document.getElementById("cd").remove();
     }
+    var cardRoot = createItem("div");
+    var main = document.getElementById("main");
+    cardRoot.id = "cd";
+    addClass(cardRoot, "card-group row");
+    append(cardRoot, main);
+    createAdCard();
+    querySnapshot.forEach((doc) => {
+      if (!doc.data().hide) {
+        var cardWrapper = createItem("div");
+        addClass(cardWrapper, "col-sm-4 h-50");
+        var cardBase = createItem("div");
+        addClass(cardBase, "card mb-3");
+        append(cardBase, cardWrapper);
+        var cardBody = createItem("div");
+        addClass(cardBody, "card-body");
+        append(cardBody, cardBase);
+        var cardTitle = createItem("h5");
+        addClass(cardTitle, "card-title");
+        addText(cardTitle, doc.data().title);
+        append(cardTitle, cardBody);
+        var cardText = createItem("p");
+        addClass(cardText, "card-text");
+        addText(cardText, doc.data().body);
+        append(cardText, cardBody);
+        var cardImage = createItem("img");
+        addClass(cardImage, "card-image-bottom");
+        if (doc.data().image != "") {
+          var imageRef = doc.data().image;
+          photoHandler(imageRef, cardImage);
+        }
+        append(cardImage, cardBase);
+        var cardFooterWrap = createItem("div");
+        addClass(cardFooterWrap, "card-footer");
+        append(cardFooterWrap, cardBase);
+        var cardFooter = createItem("p");
+        addClass(cardFooter, "card-text");
+        var timeNow = new Date().getTime();
+        var timeSince = Math.abs(Math.floor((timeNow - doc.data().addTime) / 60000));
+        var timeString = "";
+        if (timeSince >= 60) {
+          if ((timeSince / 60) >= 24) {
+            if (Math.floor((timeSince / 60) / 24) == 1) {
+              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " day ago";
+            } else {
+              timeString = "Posted " + Math.floor((timeSince / 60) / 24) + " days ago";
+            }
+          } else {
+            if (Math.floor(timeSince / 60) == 1) {
+              timeString = "Posted " + Math.floor(timeSince / 60) + " hour ago";
+            } else {
+              timeString = "Posted " + Math.floor(timeSince / 60) + " hours ago";
+            }
+          }
+        } else {
+          if (timeSince == 1) {
+            timeString = "Posted " + timeSince + " minute ago";
+          } else {
+            timeString = "Posted " + timeSince + " minutes ago";
+          }
+        }
+        addText(cardFooter, timeString);
+        append(cardFooter, cardFooterWrap);
+        var optDiv = createItem("div");
+        var ul = createItem("ul");
+        ul.id = doc.id;
+        addClass(optDiv, "btn-group");
+        addClass(ul, "dropdown-menu");
+        var optionButton = createItem("button");
+        optionButton.setAttribute("data-bs-toggle", "dropdown");
+        addClass(optionButton, "btn btn-secondary dropdown-toggle");
+        addText(optionButton, "Options");
+        append(optDiv, cardFooterWrap);
+        append(optionButton, optDiv);
+        append(ul, optDiv);
+        var itemQueue = Array.from(doc.data().queue);
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
+          var get = createItem("li");
+          addClass(get, "dropdown-item");
+          get.id = "get";
+          addText(get, "Get");
+          append(get, ul);
+          get.addEventListener("click", function (event) {
+            var postID = $("#get").parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
+            }).catch((error) => {
+              alert("Sorry, but seems the queue is full for this item...");
+            });
+          });
+        }
+        var info = document.createElement("p");
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
+          info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c) + "), (" + atob(doc.data().c2) + ")</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+          var leave = createItem("li");
+          addClass(leave, "dropdown-item");
+          leave.id = "leave";
+          addText(leave, "Leave the queue");
+          append(leave, ul);
+          leave.addEventListener("click", function (event) {
+            var postID = $("#leave").parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            })
+          });
+        }
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
+          info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+          var leave = createItem("li");
+          addClass(leave, "dropdown-item");
+          leave.id = "leave";
+          addText(leave, "Leave the queue");
+          append(leave, ul);
+          leave.addEventListener("click", function (event) {
+            var postID = $("#leave").parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            });
+          });
+        }
+        if (doc.data().owner == user.uid || user.admin == true) {
+          var editItem = createItem("li");
+          var remove = createItem("li");
+          var next = createItem("li");
+          addClass(next, "dropdown-item");
+          addClass(editItem, "dropdown-item");
+          addClass(remove, "dropdown-item");
+          addText(next, "Move to next person in line.");
+          next.addEventListener("click", function (event) {
+            var postID = $("#next").parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+            });
+          });
+          editItem.setAttribute("data-bs-toggle", "modal");
+          editItem.setAttribute("data-bs-target", "#editModal");
+          addText(editItem, "Edit");
+          editItem.id = "edit";
+          append(editItem, ul);
+          addClass(remove, "dropdown-item text-danger");
+          addText(remove, "Close post");
+          remove.setAttribute("data-bs-toggle", "modal");
+          remove.setAttribute("data-bs-target", "#closeModal");
+          remove.id = "close";
+          append(remove, ul);
+        }
+        append(cardWrapper, cardRoot);
+      }
+    });
+    removeSpinner();
   });
-  removeSpinner();
-});
 }
 
 function createNavItem(nav, text, dest) {
@@ -405,7 +431,8 @@ function createNewPost(title, body, owner, email) {
     body: body,
     image: ref.toString(),
     queue: new Array < String > (25),
-    addTime: new Date().getTime()
+    addTime: new Date().getTime(),
+    school: "Towson"
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
   });

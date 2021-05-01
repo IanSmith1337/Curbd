@@ -45,12 +45,22 @@ function createAccount(email, password) {
       var user = userCredential.user;
       var fname = document.getElementById("fname").value;
       var lname = document.getElementById("lname").value;
+      var school = document.getElementById("school");
       if (fname == "" || lname == "") {
         if (fname == "") {
           throw Error("First name cannot be empty.");
         } else {
           throw Error("Last name cannot be empty.");
         }
+      }
+      if (String(school.value).toLowerCase() != "towson") {
+        school.setAttribute("readonly", true);
+        school.classname = "form-control-plaintext";
+        var br = document.createElement("br");
+        for (let i = 0; i < 3; i++) {
+          document.body.appendChild(br);
+        }
+        throw Error("We're sorry, but this app is currently only open to Towson University students. If you believe this to be an error, please email \"ismith13@students.towson.edu.\"");
       }
       var date = new Date();
       db.collection("users").doc(user.uid).set({
@@ -60,7 +70,8 @@ function createAccount(email, password) {
         address: null,
         tel: null,
         signin: false,
-        lastLogin: date.getTime()
+        lastLogin: date.getTime(),
+        school: school
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");

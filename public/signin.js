@@ -46,7 +46,8 @@ function signIn(email, password, remember) {
           var user = userCredential.user;
           db.collection("users").doc(user.uid).update({
             signin: true,
-            lastLogin: date.getTime()
+            lastLogin: date.getTime(),
+            school: "Towson"
           }).then(() => {
             console.log("Document updated successfully.");
           });

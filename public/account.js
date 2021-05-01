@@ -14,11 +14,13 @@ firebase.auth().onAuthStateChanged(function (user) {
         var lname = document.getElementById("lname");
         var email = document.getElementById("email");
         var tel = document.getElementById("tel");
+        var school = document.getElementById("school");
         var lastLogin = document.getElementById("lastLogin");
         db.collection("users").doc(user.uid).get().then((doc) => {
             fname.value = doc.data().fname;
             lname.value = doc.data().lname;
             email.value = doc.data().email;
+            school.value = doc.data().school;
             if (doc.data().tel != null) {
                 tel.value = doc.data().tel;
             } else {

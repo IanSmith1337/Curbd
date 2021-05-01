@@ -23,8 +23,8 @@
 <body class="px-0" style="background-color: #FAFECE;">
     <nav id="nav" class="navbar navbar-dark sticky-top" style="background-color: #0A0A02;">
         <div class="py-2">
-            <a class="navbar-brand position-absolute top-50 start-50 translate-middle" href="index.html"><img src="placeholder-logo-2.png" alt="Curbid Logo"
-                    class="image-fluid"></img></a>
+            <a class="navbar-brand position-absolute top-50 start-50 translate-middle" href="index.html"><img
+                    src="placeholder-logo-2.png" alt="Curbid Logo" class="image-fluid"></img></a>
             <br>
         </div>
     </nav>
@@ -45,9 +45,15 @@
                 <br>
                 <label for="pass" class="col-sm-2 col-form-label">Password:</label><br>
                 <input type="password" name="pass" id="pass" class="col-12 form-control">
-                <small class="form-text text-muted">Passwords are a minimum of eight characters, with at least one upper
-                    case letter, one lower case letter, one number and one special character.</label>
-                    <br><br>
+                <small class="form-text text-muted">Passwords are a minimum of eight characters, with at least one uppercase letter, one lower case letter, one number and one special character.</label>
+                <br>
+                <label for="school" class="col-sm-2 col-form-label">School:</label><br>
+                <select name="school" id="school" class="col-12 form-control">
+                    <option>Towson University</option>
+                    <option>Other</option>
+                </select>
+                <br>
+                <br>
             </form>
             <button id="createButton" type="button" class="btn btn-primary col">Create Account</button>
         </div>
