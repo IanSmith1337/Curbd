@@ -62,7 +62,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards(user);
+      setInterval(updatePostcards(user), 18000);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
@@ -119,8 +119,7 @@ window.onload = () => {
 }
 
 window.onbeforeunload = function () {
-  console.log("unloading.")
-  listener();
+  clearInterval();
 }
 
 function updatePostcards(user) {
@@ -199,7 +198,7 @@ function updatePostcards(user) {
             canvas.width = 480;
             canvas.height = 270;
           }
-          canvas.getContext("2d").drawImage(img, 0, 0);
+          canvas.getContext("2d").drawImage(img, (img.height/4), (img.width/4));
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
               storage.refFromURL(storageRef).getDownloadURL().then((url) => {
@@ -214,7 +213,7 @@ function updatePostcards(user) {
     }
   }
 
-  listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
+  db.collection("posts").orderBy("addTime", "desc").limit(50).get((collection) => {
     showSpinner();
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
@@ -228,7 +227,7 @@ function updatePostcards(user) {
       addClass(cardRoot, "card-group row");
       append(cardRoot, main);
     }
-    querySnapshot.forEach((doc) => {
+    collection.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
         addClass(cardWrapper, "col-sm-4 h-50");
