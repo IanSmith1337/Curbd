@@ -97,8 +97,12 @@ window.onload = () => {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
           var imageStore = storage.ref(postID);
-          imageStore.delete();
-        })
+          storage.refFromURL(storageRef).getDownloadURL().then(() => {
+            imageStore.delete();
+          }).catch(() => {
+            console.log("file not found");
+          });
+        });
       });
     } else {
       $("#modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
