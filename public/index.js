@@ -126,7 +126,8 @@ window.onload = () => {
       status.appendChild(howDiv);
       var howT = document.createElement("h5");
       howT.textContent = "Here's how it works:";
-      status.appendChild(howT);
+      aboutDiv.appendChild(howT);
+      aboutDiv.appendChild(document.createElement("p"));
       var how = document.createElement("p");
       how.innerHTML = "<strong>For item seekers:</strong>";
       aboutDiv.appendChild(how);
@@ -145,7 +146,7 @@ window.onload = () => {
       var how6 = document.createElement("p");
       how6.innerHTML = "If you're first, congrats! You are given the contact information of the owner to set up a time and place to get the item. Otherwise, you'll be informed what position you're in, and how many are in front of you.";
       aboutDiv.appendChild(how6);
-      aboutDiv.appendChild(document.createElement("br"));
+      aboutDiv.appendChild(document.createElement("p"));
       var how7 = document.createElement("p");
       how7.innerHTML = "<strong>For item owners:</strong>";
       aboutDiv.appendChild(how7);
