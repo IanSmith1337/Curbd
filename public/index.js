@@ -61,16 +61,16 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards(user);
+      updatePostcards();
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
-      document.getElementById("modalButton").addEventListener("click", function () {
+      $("#modalButton").click(function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
         var owner = user.uid
         var email = user.email
-        document.getElementById("postButton").addEventListener("click", function () {
+        $("#postButton").click(function () {
           createNewPost(pt.value, pb.value, owner, email);
         });
       });
@@ -98,8 +98,6 @@ window.onload = () => {
         confirm.addEventListener("click", function () {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
-          var imageStore = storage.ref(postID);
-          imageStore.delete();
         })
       });
     } else {
@@ -117,11 +115,7 @@ window.onload = () => {
   });
 }
 
-window.onbeforeunload = function () {
-
-}
-
-function updatePostcards(user) {
+function updatePostcards() {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -187,16 +181,6 @@ function updatePostcards(user) {
         var img = new Image();
         img.onload = function () {
           var canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          if(canvas.width > 480){
-            canvas.width = 480;
-            canvas.height = 270;
-          }
-          canvas.height = img.height;
-          if(canvas.height > 270) {
-            canvas.width = 480;
-            canvas.height = 270;
-          }
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
@@ -295,14 +279,14 @@ function updatePostcards(user) {
         append(optionButton, optDiv);
         append(ul, optDiv);
         var itemQueue = Array.from(doc.data().queue);
-        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
+        if (!itemQueue.includes(user.uid)) {
           var get = createItem("li");
           addClass(get, "dropdown-item");
           get.id = "get";
-          addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
-            var postID = $("#get").parent().get(0).id;
+            var target = event.target;
+            var postID = $(target).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
             }).catch((error) => {
@@ -321,7 +305,7 @@ function updatePostcards(user) {
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
         }
-        if (doc.data().owner == user.uid) {
+        if (doc.data().owner == firebase.auth().currentUser.uid) {
           var editItem = createItem("li");
           var remove = createItem("li");
           addClass(editItem, "dropdown-item");
@@ -376,7 +360,7 @@ function createNewPost(title, body, owner, email) {
     addTime: new Date().getTime()
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
-  });
+  })
 }
 
 function createID() {
