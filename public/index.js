@@ -119,6 +119,7 @@ window.onload = () => {
 }
 
 window.onbeforeunload = function () {
+  console.log("unloading.")
   listener();
 }
 
