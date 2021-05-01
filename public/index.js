@@ -67,18 +67,10 @@ window.onload = () => {
       document.getElementById("modalButton").style = "z-index: 1000;"
       var modal = document.getElementById("postModal");
       modal.addEventListener('show.bs.modal', function () {
-        var pt = document.getElementById("postTitle");
-        var pb = document.getElementById("postBody");
-        var owner = user.uid
-        var email = user.email
-        document.getElementById("postButton").addEventListener("click", postModalHandler, pt.value, pb.value, owner, email);
+        document.getElementById("postButton").addEventListener("click", postModalHandler);
       });
       modal.addEventListener('hide.bs.modal', function () {
-        var pt = document.getElementById("postTitle");
-        var pb = document.getElementById("postBody");
-        var owner = user.uid
-        var email = user.email
-        document.getElementById("postButton").removeEventListener("click", postModalHandler, pt.value, pb.value, owner, email);
+        document.getElementById("postButton").removeEventListener("click", postModalHandler);
       });
       var emodal = document.getElementById("editModal");
       emodal.addEventListener('show.bs.modal', function (event) {
@@ -386,6 +378,10 @@ function createID() {
   return idPart() + '-' + idPart() + '-' + idPart();
 }
 
-function postModalHandler(t, b, o, e) {
-  createNewPost(t.value, b.value, o, e);
+function postModalHandler() {
+  var pt = document.getElementById("postTitle");
+  var pb = document.getElementById("postBody");
+  var owner = user.uid
+  var email = user.email
+  createNewPost(pt.value, pb.value, owner, email);
 }
