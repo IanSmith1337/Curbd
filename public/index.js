@@ -20,7 +20,6 @@ try {
 const db = firebase.firestore();
 const analytics = firebase.analytics();
 const storage = firebase.storage();
-var users = new Array(25);
 var efield1, efield2;
 var button;
 var listener;
@@ -324,7 +323,6 @@ listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapsho
         append(leave, ul);
         leave.addEventListener("click", function (event) {
           var postID = $("#leave").parent().get(0).id;
-          users = Array.of(doc.data().queue);
           db.collection("posts").doc(postID).update({
             queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
           })
@@ -344,7 +342,6 @@ listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapsho
           db.collection("posts").doc(postID).update({
             queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
           });
-
         });
       }
       if (doc.data().owner == user.uid) {
