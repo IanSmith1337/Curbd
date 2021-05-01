@@ -201,9 +201,13 @@ function updatePostcards(user) {
           }
           canvas.getContext("2d").drawImage(img, 0, 0, 480, 270);
           canvas.toBlob(function (blob) {
-            storage.refFromURL(storageRef).put(blob).then(() => {
-              storage.refFromURL(storageRef).getDownloadURL().then((url) => {
-                addImage(frame, url, "Post Image");
+            storage.refFromURL(storageRef).getDownloadURL().then(() => {
+              addImage(frame, url, "Post Image");
+            }).catch((err) => {
+              storage.refFromURL(storageRef).put(blob).then(() => {
+                storage.refFromURL(storageRef).getDownloadURL().then((url) => {
+                  addImage(frame, url, "Post Image");
+                });
               });
             });
           });
