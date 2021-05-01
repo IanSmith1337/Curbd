@@ -23,6 +23,7 @@ const storage = firebase.storage();
 var posts = new Array(50);
 var efield1, efield2;
 var button;
+var listener;
 
 window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
@@ -61,15 +62,17 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards();
+      updatePostcards(user);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
-      $("#modalButton").click(function () {
+      document.getElementById("modalButton").addEventListener("click", function () {
         pt = document.getElementById("postTitle");
         pb = document.getElementById("postBody");
-        $("#postButton").click(function () {
-          createNewPost(pt.value, pb.value);
+        var owner = user.uid
+        var email = user.email
+        document.getElementById("postButton").addEventListener("click", function () {
+          createNewPost(pt.value, pb.value, owner, email);
         });
       });
       var emodal = document.getElementById("editModal");
@@ -96,6 +99,8 @@ window.onload = () => {
         confirm.addEventListener("click", function () {
           var postID = $(button).parent().get(0).id;
           db.collection("posts").doc(postID).delete();
+          var imageStore = storage.ref(postID);
+          imageStore.delete();
         })
       });
     } else {
@@ -113,7 +118,11 @@ window.onload = () => {
   });
 }
 
-function updatePostcards() {
+window.onbeforeunload = function () {
+  listener();
+}
+
+function updatePostcards(user) {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -179,6 +188,16 @@ function updatePostcards() {
         var img = new Image();
         img.onload = function () {
           var canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          if(canvas.width > 480){
+            canvas.width = 480;
+            canvas.height = 270;
+          }
+          canvas.height = img.height;
+          if(canvas.height > 270) {
+            canvas.width = 480;
+            canvas.height = 270;
+          }
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
@@ -194,7 +213,7 @@ function updatePostcards() {
     }
   }
 
-  db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
+  listener = db.collection("posts").orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
     var cardRoot = createItem("div");
     var main = document.getElementById("main");
@@ -264,27 +283,54 @@ function updatePostcards() {
         }
         addText(cardFooter, timeString);
         append(cardFooter, cardFooterWrap);
-        if (doc.data().owner == firebase.auth().currentUser.uid) {
-          var optDiv = createItem("div");
-          var ul = createItem("ul");
-          ul.id = doc.id;
+        var optDiv = createItem("div");
+        var ul = createItem("ul");
+        ul.id = doc.id;
+        addClass(optDiv, "btn-group");
+        addClass(ul, "dropdown-menu");
+        var optionButton = createItem("button");
+        optionButton.setAttribute("data-bs-toggle", "dropdown");
+        addClass(optionButton, "btn btn-secondary dropdown-toggle");
+        addText(optionButton, "Options");
+        append(optDiv, cardFooterWrap);
+        append(optionButton, optDiv);
+        append(ul, optDiv);
+        var itemQueue = Array.from(doc.data().queue);
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
+          var get = createItem("li");
+          addClass(get, "dropdown-item");
+          get.id = "get";
+          addText(get, "Get");
+          append(get, ul);
+          get.addEventListener("click", function (event) {
+            var postID = $("#get").parent().get(0).id;
+            db.collection("posts").doc(postID).update({
+              queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
+            }).catch((error) => {
+              alert("Sorry, but seems the queue is full for this item...");
+            });
+          });
+        }
+        var info = document.createElement("p");
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
+          info.innerHTML = "<strong>Owner contacts: (" + window.atob(doc.data().c1) + "), (" + window.atob(doc.data().c2) + ")</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+        } 
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
+          info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+        }
+        if (doc.data().owner == user.uid) {
           var editItem = createItem("li");
           var remove = createItem("li");
-          addClass(optDiv, "btn-group");
-          addClass(ul, "dropdown-menu");
           addClass(editItem, "dropdown-item");
           addClass(remove, "dropdown-item");
           editItem.setAttribute("data-bs-toggle", "modal");
           editItem.setAttribute("data-bs-target", "#editModal");
           addText(editItem, "Edit");
           editItem.id = "edit";
-          var optionButton = createItem("button");
-          addClass(optionButton, "btn btn-secondary dropdown-toggle");
-          addText(optionButton, "Options");
-          optionButton.setAttribute("data-bs-toggle", "dropdown");
-          append(optDiv, cardFooterWrap);
-          append(optionButton, optDiv);
-          append(ul, optDiv);
           append(editItem, ul);
           addClass(remove, "dropdown-item text-danger");
           addText(remove, "Close post");
@@ -311,14 +357,19 @@ function createNavItem(nav, text, dest) {
   nav.appendChild(navItem);
 }
 
-function createNewPost(title, body) {
+function createNewPost(title, body, owner, email) {
   var root = storage.ref();
   var ID = createID();
   var ref = root.child(ID);
-  var owner = firebase.auth().currentUser.uid
+  var uTel;
+  db.collection("users").doc(owner).get().then((doc) => {
+    uTel = doc.data().tel;
+  });
   db.collection("posts").doc(ID).set({
     hide: false,
     owner: owner,
+    c: window.btoa(email),
+    c2: window.btoa(uTel),
     title: title,
     body: body,
     image: ref.toString(),
@@ -326,7 +377,7 @@ function createNewPost(title, body) {
     addTime: new Date().getTime()
   }).catch((error) => {
     console.log(error.message + ": " + error.stack);
-  })
+  });
 }
 
 function createID() {
