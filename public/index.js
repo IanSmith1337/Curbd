@@ -61,7 +61,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards();
+      updatePostcards(user);
       $("#modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2"
       document.getElementById("modalButton").style = "z-index: 1000;"
       var pt, pb;
@@ -115,7 +115,7 @@ window.onload = () => {
   });
 }
 
-function updatePostcards() {
+function updatePostcards(user) {
   /*<div class="card-group row">
       <div class="col-sm-6">
         <div class="card mb-3">
@@ -181,6 +181,8 @@ function updatePostcards() {
         var img = new Image();
         img.onload = function () {
           var canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
           canvas.getContext("2d").drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
             storage.refFromURL(storageRef).put(blob).then(() => {
@@ -279,10 +281,11 @@ function updatePostcards() {
         append(optionButton, optDiv);
         append(ul, optDiv);
         var itemQueue = Array.from(doc.data().queue);
-        if (!itemQueue.includes(user.uid)) {
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
           var get = createItem("li");
           addClass(get, "dropdown-item");
           get.id = "get";
+          addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
             var target = event.target;
