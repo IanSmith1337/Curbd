@@ -193,7 +193,7 @@ function updatePostcards(user, userschool) {
         </div>
       </div>*/
 
-  function createAdCard() {
+  function createAdCard(root) {
     var cardWrapper = createItem("div");
     addClass(cardWrapper, "col-sm-4 h-50");
     var cardBase = createItem("div");
@@ -209,7 +209,7 @@ function updatePostcards(user, userschool) {
     var cardAd = createItem("div");
     cardAd.innerHTML = "<script async src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2301224462837853' crossorigin='anonymous'></script><!-- Card Ad --><ins class='adsbygoogle' style='display:block' data-ad-client='ca-pub-2301224462837853' data-ad-slot='5517447530' data-ad-format='auto' data-full-width-responsive='true'></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>"
     append(cardAd, cardBase);
-    append(cardWrapper, cardRoot);
+    append(cardWrapper, root);
   }
 
   function createItem(element) {
@@ -302,7 +302,7 @@ function updatePostcards(user, userschool) {
     cardRoot.id = "cd";
     addClass(cardRoot, "card-group row");
     append(cardRoot, main);
-    createAdCard();
+    createAdCard(cardRoot);
     querySnapshot.forEach((doc) => {
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
