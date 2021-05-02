@@ -30,14 +30,12 @@ window.onload = () => {
     var userString = document.createElement("h2");
     var fname, signin;
     var admin = false;
-    var school = "";
     var nav = document.getElementById("navholder");
     if (user != null) {
       db.collection("users").doc(user.uid).get().then((doc) => {
         fname = doc.data().fname;
         signin = doc.data().signin;
         admin = doc.data().admin;
-        
         if (admin) {
           createNavItem(nav, "Testing Page", "testLogin.html")
         }
@@ -64,7 +62,7 @@ window.onload = () => {
         status.appendChild(document.createElement("br"));
       }
       db.collection("users").doc(user.uid).get().then((doc) => {
-        school = doc.data().school;
+        let school = doc.data().school;
         updatePostcards(user, school);
       });
       document.getElementById("modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
