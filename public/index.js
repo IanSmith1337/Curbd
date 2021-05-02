@@ -205,7 +205,10 @@ function updatePostcards(user, userschool) {
     var cardTitle = createItem("h5");
     addClass(cardTitle, "card-title");
     addText(cardTitle, "Check this out!");
-    append(cardTitle, cardBody);
+    var cardSubtitle = createItem("small");
+    addClass(cardSubtitle, "text-muted");
+    addText(cardSubtitle, "AD");
+    append(cardSubtitle, cardBody);
     var cardAd = createItem("div");
     cardAd.innerHTML = "<script async src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2301224462837853' crossorigin='anonymous'></script><!-- Card Ad --><ins class='adsbygoogle' style='display:block' data-ad-client='ca-pub-2301224462837853' data-ad-slot='5517447530' data-ad-format='auto' data-full-width-responsive='true'></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script>"
     append(cardAd, cardBase);
