@@ -392,7 +392,7 @@ function updatePostcards(user, userschool) {
         }
         var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.textContent = "You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c) + "), (" + atob(doc.data().c2) + ")";
+          info.textContent = "You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c).toString() + "), (" + atob(doc.data().c2).toString() + ")";
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
           var leave = createItem("li");
