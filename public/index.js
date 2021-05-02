@@ -28,7 +28,7 @@ window.onload = () => {
   firebase.auth().onAuthStateChanged(function (user) {
     var status = document.getElementById("logStatus");
     var userString = document.createElement("h2");
-    var fname, signin;
+    var fname, signin, school;
     var admin = false;
     var nav = document.getElementById("navholder");
     if (user != null) {
@@ -36,7 +36,7 @@ window.onload = () => {
         fname = doc.data().fname;
         signin = doc.data().signin;
         admin = doc.data().admin;
-        var school = doc.data().school;
+        school = doc.data().school;
         if (admin) {
           createNavItem(nav, "Testing Page", "testLogin.html")
         }
@@ -62,7 +62,7 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      updatePostcards(user);
+      updatePostcards(user, school);
       document.getElementById("modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
       document.getElementById("modalButton").style = "z-index: 1000;"
       var modal = document.getElementById("postModal");

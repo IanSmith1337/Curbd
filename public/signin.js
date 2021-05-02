@@ -5,16 +5,9 @@ const db = firebase.firestore();
 window.onload = function loaded() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
-      var e = document.createElement("div");
-      e.role = "alert";
-      e.textContent = "Redirecting you back to the main site..."
-      e.className = "alert alert-primary show fixed-bottom"
-      setTimeout(function () {
-        document.body.appendChild(e);
-      }, 3000);
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
-      }, 5000);
+      }, 2000);
     }
   });
 }

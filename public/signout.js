@@ -9,7 +9,7 @@ window.onload = function loaded() {
     setTimeout(function () {
       document.body.removeChild(e);
       checkLogout();
-    }, 5000);
+    }, 3000);
   }).catch((err) => {
     e.textContent = "An error occured trying to sign you out. Try again later.";
     e.className = "alert alert-warning show fixed-bottom";
@@ -23,7 +23,7 @@ window.onload = function loaded() {
       document.body.appendChild(e);
       setTimeout(function () {
         window.location.href = "https://curbid.web.app"
-      }, 5000);
+      }, 2000);
     } else {
       e.textContent = "Sign out unsuccessful. Try again in a few minutes.";
       document.body.appendChild(e);
