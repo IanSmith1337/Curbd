@@ -57,6 +57,7 @@ function createAccount(email, password) {
         }
         throw Error("We're sorry, but this app is currently only open to Towson University students. If you believe this to be an error, please email \"ismith13@students.towson.edu.\"");
       } else {
+        var schoolUser = "Towson";
         var date = new Date();
         db.collection("users").doc(user.uid).set({
           fname: fname,
@@ -66,7 +67,7 @@ function createAccount(email, password) {
           tel: null,
           signin: false,
           lastLogin: date.getTime(),
-          school: school.value
+          school: schoolUser
         }).then(() => {
           console.log("Document written successfully.");
           analytics.logEvent("sign_up");
