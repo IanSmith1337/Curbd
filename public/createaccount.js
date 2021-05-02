@@ -48,7 +48,7 @@ function createAccount(email, password) {
           throw Error("Last name cannot be empty.");
         }
       }
-      if (String(school.value).toLowerCase() != "towson") {
+      if (String(school.value).toLowerCase() != "towson university") {
         school.setAttribute("readonly", true);
         school.classname = "form-control-plaintext";
         var br = document.createElement("br");
@@ -56,24 +56,25 @@ function createAccount(email, password) {
           document.body.appendChild(br);
         }
         throw Error("We're sorry, but this app is currently only open to Towson University students. If you believe this to be an error, please email \"ismith13@students.towson.edu.\"");
+      } else {
+        var date = new Date();
+        db.collection("users").doc(user.uid).set({
+          fname: fname,
+          lname: lname,
+          email: email,
+          address: null,
+          tel: null,
+          signin: false,
+          lastLogin: date.getTime(),
+          school: school.value
+        }).then(() => {
+          console.log("Document written successfully.");
+          analytics.logEvent("sign_up");
+        });
+        e.textContent = "Account created.";
+        e.className = "alert alert-primary show fixed-bottom"
+        document.body.appendChild(e);
       }
-      var date = new Date();
-      db.collection("users").doc(user.uid).set({
-        fname: fname,
-        lname: lname,
-        email: email,
-        address: null,
-        tel: null,
-        signin: false,
-        lastLogin: date.getTime(),
-        school: school.value
-      }).then(() => {
-        console.log("Document written successfully.");
-        analytics.logEvent("sign_up");
-      });
-      e.textContent = "Account created.";
-      e.className = "alert alert-primary show fixed-bottom"
-      document.body.appendChild(e);
     }).catch((error) => {
       e.textContent = e.textContent + error.message;
       document.body.appendChild(e);
