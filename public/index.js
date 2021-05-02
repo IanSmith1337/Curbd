@@ -436,6 +436,7 @@ function updatePostcards(user, userschool) {
               queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
             });
           });
+          append(next, ul);
           editItem.setAttribute("data-bs-toggle", "modal");
           editItem.setAttribute("data-bs-target", "#editModal");
           addText(editItem, "Edit");
