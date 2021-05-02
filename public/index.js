@@ -294,7 +294,7 @@ function updatePostcards(user, userschool) {
     });
   }
 
-  listener = db.collection("posts").where("school", "==" , userschool).orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
+  listener = db.collection("posts").where("school", "==", userschool).orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
     showSpinner();
     if (document.getElementById("cd") != null) {
       document.getElementById("cd").remove();
@@ -306,6 +306,7 @@ function updatePostcards(user, userschool) {
     append(cardRoot, main);
     createAdCard(cardRoot);
     querySnapshot.forEach((doc) => {
+      var index = 0;
       if (!doc.data().hide) {
         var cardWrapper = createItem("div");
         addClass(cardWrapper, "col-sm-4 h-50");
@@ -377,11 +378,11 @@ function updatePostcards(user, userschool) {
         if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
           var get = createItem("li");
           addClass(get, "dropdown-item");
-          get.id = "get";
+          get.id = "get" + index;
           addText(get, "Get");
           append(get, ul);
           get.addEventListener("click", function (event) {
-            var postID = $("#get").parent().get(0).id;
+            var postID = $(this).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
             }).catch((error) => {
@@ -392,16 +393,16 @@ function updatePostcards(user, userschool) {
         }
         var info = document.createElement("p");
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.textContent = "You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c).toString() + "), (" + atob(doc.data().c2).toString() + ")";
+          info.textContent = atob(doc.data().c).toString() + ", " + atob(doc.data().c2).toString();
           append(document.createElement("br"), cardBody);
           append(info, cardBody);
           var leave = createItem("li");
           addClass(leave, "dropdown-item");
-          leave.id = "leave";
+          leave.id = "leave" + index;
           addText(leave, "Leave the queue");
           append(leave, ul);
           leave.addEventListener("click", function (event) {
-            var postID = $("#leave").parent().get(0).id;
+            var postID = $(this).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
             })
@@ -413,11 +414,11 @@ function updatePostcards(user, userschool) {
           append(info, cardBody);
           var leave = createItem("li");
           addClass(leave, "dropdown-item");
-          leave.id = "leave";
+          leave.id = "leave" + index;
           addText(leave, "Leave the queue");
           append(leave, ul);
           leave.addEventListener("click", function (event) {
-            var postID = $("#leave").parent().get(0).id;
+            var postID = $(this).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
             });
@@ -432,7 +433,7 @@ function updatePostcards(user, userschool) {
           addClass(remove, "dropdown-item");
           addText(next, "Move to next person in line.");
           next.addEventListener("click", function (event) {
-            var postID = $("#next").parent().get(0).id;
+            var postID = $(this).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
             });
@@ -441,13 +442,13 @@ function updatePostcards(user, userschool) {
           editItem.setAttribute("data-bs-toggle", "modal");
           editItem.setAttribute("data-bs-target", "#editModal");
           addText(editItem, "Edit");
-          editItem.id = "edit";
+          editItem.id = "edit" + index;
           append(editItem, ul);
           addClass(remove, "dropdown-item text-danger");
           addText(remove, "Close post");
           remove.setAttribute("data-bs-toggle", "modal");
           remove.setAttribute("data-bs-target", "#closeModal");
-          remove.id = "close";
+          remove.id = "close" + index;
           append(remove, ul);
         }
         append(cardWrapper, cardRoot);
@@ -470,7 +471,7 @@ function createNavItem(nav, text, dest) {
 
 function createNewPost(title, body, owner, email) {
   var root = storage.ref();
-  var ID = createID();
+  var ID = createID(false);
   var ref = root.child(ID);
   var uTel;
   db.collection("users").doc(owner).get().then((doc) => {
@@ -492,9 +493,14 @@ function createNewPost(title, body, owner, email) {
   });
 }
 
-function createID() {
-  let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
-  return idPart() + '-' + idPart() + '-' + idPart();
+function createID(small) {
+  if (small) {
+    let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
+    return idPart();
+  } else {
+    let idPart = () => Math.floor((1 + Math.random(20)) * Math.random(5) * 0xABCDEF).toString(16);
+    return idPart() + '-' + idPart() + '-' + idPart();
+  }
 }
 
 function postModalHandler() {
