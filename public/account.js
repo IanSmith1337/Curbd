@@ -8,6 +8,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         var SINav = document.getElementById("signin");
         nav.removeChild(CANav);
         nav.removeChild(SINav);
+        createNavItem(nav, "About", "about.html");
         createNavItem(nav, "Account", "account.html");
         createNavItem(nav, "Sign out", "signout.html");
         var fname = document.getElementById("fname");

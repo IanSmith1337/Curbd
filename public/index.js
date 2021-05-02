@@ -25,12 +25,13 @@ var button;
 var listener;
 
 window.onload = () => {
+  var nav = document.getElementById("navholder");
+  createNavItem(nav, "About", "about.html");
   firebase.auth().onAuthStateChanged(function (user) {
     var status = document.getElementById("logStatus");
     var userString = document.createElement("h2");
     var fname, signin;
     var admin = false;
-    var nav = document.getElementById("navholder");
     if (user != null) {
       db.collection("users").doc(user.uid).get().then((doc) => {
         fname = doc.data().fname;
@@ -108,7 +109,7 @@ window.onload = () => {
       });
     } else {
       document.getElementById("modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
-      userString.textContent = "Welcome to Curbid!";
+      userString.textContent = "Welcome to Curbid! You're one step closer to making a difference in your community.";
       userString.style.color = "black";
       userString.id = "userStatus";
       if (document.getElementById("userStatus") != null) {
@@ -117,56 +118,14 @@ window.onload = () => {
         status.appendChild(userString);
         status.appendChild(document.createElement("br"));
       }
-      var aboutDiv = document.createElement("div");
-      aboutDiv.id = "about";
-      var about = document.createElement("h6");
-      about.textContent = "Every year, at colleges across the nation, move out is one of the most hectic times of the year. Figuring out how you'll get home, and what stuff you can bring with you, is one of the greatest challenges. Because of this, a lot of items that are perfectly good for people to use end up in a landfill. Well, not anymore. Curbid is a new way to pass on the items you no longer want or use, or unable to take with you, to other students who can, saving them from ending up in a landfill. We are currently open to Towson University students only, but we hope to be able to serve many other communities soon."
-      status.appendChild(aboutDiv);
-      aboutDiv.appendChild(about);
-      var howDiv = document.createElement("div");
-      howDiv.id = "how";
-      status.appendChild(howDiv);
-      var howT = document.createElement("h5");
-      howT.textContent = "Here's how it works:";
-      aboutDiv.appendChild(howT);
-      aboutDiv.appendChild(document.createElement("p"));
-      var how = document.createElement("p");
-      how.innerHTML = "<strong>For item seekers:</strong>";
-      aboutDiv.appendChild(how);
-      var how2 = document.createElement("p");
-      how2.innerHTML = "Step 1: Create an account, or sign in.";
-      aboutDiv.appendChild(how2);
-      var how3 = document.createElement("p");
-      how3.innerHTML = "Step 2: Find something you like.";
-      aboutDiv.appendChild(how3);
-      var how4 = document.createElement("p");
-      how4.innerHTML = "Step 3: Click the options button on the post, then get.";
-      aboutDiv.appendChild(how4);
-      var how5 = document.createElement("p");
-      how5.innerHTML = "Step 4: See what position you're in.";
-      aboutDiv.appendChild(how5);
-      var how6 = document.createElement("p");
-      how6.innerHTML = "If you're first, congrats! You are given the contact information of the owner to set up a time and place to get the item. Otherwise, you'll be informed what position you're in, and how many are in front of you.";
-      aboutDiv.appendChild(how6);
-      aboutDiv.appendChild(document.createElement("p"));
-      var how7 = document.createElement("p");
-      how7.innerHTML = "<strong>For item owners:</strong>";
-      aboutDiv.appendChild(how7);
-      var how8 = document.createElement("p");
-      how8.innerHTML = "Step 1: Create an account, or sign in.";
-      aboutDiv.appendChild(how8);
-      var how9 = document.createElement("p");
-      how9.innerHTML = "Step 2: Go to your account page via the navigation bar and enter your contact info. Don't worry, this is only given to the first person in line who wants your item. You can leave info blank, but keep in mind, your email will be used as a method of contact.";
-      aboutDiv.appendChild(how9);
-      var how10 = document.createElement("p");
-      how10.innerHTML = "Step 3: After returning to the homepage, click the \"Create Post\" button in the bottom left.";
-      aboutDiv.appendChild(how10);
-      var how11 = document.createElement("p");
-      how11.innerHTML = "Step 4: Add the details of your post, give it a title, and include a picture if you want.";
-      aboutDiv.appendChild(how11);
-      var how12 = document.createElement("p");
-      how12.innerHTML = "Step 5: Wait for seekers to contact you!";
-      aboutDiv.appendChild(how12);
+      var getStartedDiv = document.createElement("div");
+      var getStarted = document.createElement("h6");
+      getStarted.textContent = "To get started, click the navigation button in the upper left. There, you can view the about page to learn more about what we do, as well as make a new account or sign in to an existing one."
+      status.appendChild(getStartedDiv);
+      getStartedDiv.appendChild(getStarted);
+      var restrict = document.createElement("h6");
+      restrict.textContent = "Unfortunately, we are only open to Towson University students at the moment, but we hope to spread to many other colleges and communities soon."
+      getStartedDiv.appendChild(restrict);
     }
   });
 }
