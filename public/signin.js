@@ -37,7 +37,7 @@ function signIn(email, password, remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
-          db.collection("users").doc(user.uid).set({
+          db.collection("users").doc(user.uid).update({
             signin: true,
             lastLogin: date.getTime(),
             school: "Towson"
@@ -58,7 +58,7 @@ function signIn(email, password, remember) {
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
         firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
           var user = userCredential.user;
-          db.collection("users").doc(user.uid).set({
+          db.collection("users").doc(user.uid).update({
             signin: true,
             lastLogin: date.getTime(),
             school: "Towson"
