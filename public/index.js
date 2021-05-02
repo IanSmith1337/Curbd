@@ -205,6 +205,7 @@ function updatePostcards(user, userschool) {
     var cardTitle = createItem("h5");
     addClass(cardTitle, "card-title");
     addText(cardTitle, "Check this out!");
+    append(cardTitle, cardBody);
     var cardSubtitle = createItem("small");
     addClass(cardSubtitle, "text-muted");
     addText(cardSubtitle, "AD");
