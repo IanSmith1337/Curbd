@@ -385,6 +385,7 @@ function updatePostcards(user, userschool) {
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
             }).catch((error) => {
+              console.log(error.message + ": " + error.stack);
               alert("Sorry, but seems the queue is full for this item...");
             });
           });
