@@ -66,7 +66,7 @@ function createAccount(email, password) {
         tel: null,
         signin: false,
         lastLogin: date.getTime(),
-        school: school
+        school: school.value
       }).then(() => {
         console.log("Document written successfully.");
         analytics.logEvent("sign_up");
