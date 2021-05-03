@@ -42,8 +42,8 @@ window.onload = () => {
     var how6 = document.createElement("p");
     how6.innerHTML = "If you're first, congrats, you've got dibs on the item! You are given the contact information of the owner to set up a time and place to get it. If you find you can't pick up the item, please make sure to leave the queue, so the next person can get it. Otherwise, you'll be informed what position you're in, and how many are in front of you.";
     aboutDiv.appendChild(how6);
-    aboutDiv.appendChild(document.createElement("p"));
-    var how7 = document.createElement("br");
+    aboutDiv.appendChild(document.createElement("br"));
+    var how7 = document.createElement("p");
     how7.innerHTML = "<strong>For item owners:</strong>";
     aboutDiv.appendChild(how7);
     var how8 = document.createElement("p");
