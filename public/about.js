@@ -14,7 +14,7 @@ window.onload = () => {
     var aboutDiv = document.createElement("div");
     aboutDiv.id = "about";
     var about = document.createElement("h6");
-    about.textContent = "Every year, at colleges across the nation, move out is one of the most hectic times of the year. Figuring out how you'll get home, and what stuff you can bring with you, is one of the greatest challenges. Because of this, a lot of items that are perfectly good for people to use end up in a landfill. Well, not anymore. Curbid is a new way to pass on the items you no longer want or use, or unable to take with you, to other students who can, saving them from ending up in a landfill. We are currently open to Towson University students only, but we hope to be able to serve many other communities soon."
+    about.textContent = "At the end of very academic semester, at college dorms across the nation, an event of massive proportions begins. The name of this event? Move out. Figuring out how you'll get home with whatever stuff you bought while on campus is one of the greatest hurdles to overcome. Because of the limited space in most modes of transport, a lot of items that are just slightly used end up in a landfill. We are currently open to Towson University students only, but we hope to be able to serve many other communities soon."
     status.appendChild(aboutDiv);
     aboutDiv.appendChild(about);
     var howDiv = document.createElement("div");
