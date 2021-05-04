@@ -45,7 +45,7 @@ function resignIn(email, password) {
             db.collection("users").doc(user.uid).get().then((doc) => {
                 var admin = doc.data().admin;
                 if (admin) {
-                    window.location.href = "https://curbid.web.app/test.html"
+                    window.location.href = window.location.hostname + "test.html"
                 } else {
                     throw Error("Access Denied.");
                 }

@@ -22,7 +22,7 @@ window.onload = function loaded() {
       e.className = "alert alert-primary show fixed-bottom"
       document.body.appendChild(e);
       setTimeout(function () {
-        window.location.href = "https://curbid.web.app"
+        window.location.href = window.location.hostname + "index.html"
       }, 2000);
     } else {
       e.textContent = "Sign out unsuccessful. Try again in a few minutes.";
