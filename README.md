@@ -7,4 +7,6 @@ At the end of every academic semester, at college dorms across the nation, an ev
 # The solution
 Curbd combats this problem by allowing students to pass on the items that they are unable to take with them to other students who can, saving these items from ending up in the trash.
 
+# The Site
+
 [Click here to go to the site.](https://curbdit.com)
