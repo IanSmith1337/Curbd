@@ -38,7 +38,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             });
         });
     } else {
-        window.location.href = window.location.hostname + "index.html"
+        window.location.href = "index.html"
     }
 });
 

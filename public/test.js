@@ -30,12 +30,12 @@ firebase.auth().onAuthStateChanged(function (user) {
                 });
             } else {
                 console.log("admin status red");
-                window.location.href = window.location.hostname + "testLogin.html"
+                window.location.href = "testLogin.html"
             }
         });
     } else {
         console.log("refer/null red");
-        window.location.href = window.location.hostname + "testLogin.html"
+        window.location.href = "testLogin.html"
     }
 });
 

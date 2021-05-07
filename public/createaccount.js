@@ -6,7 +6,7 @@ window.onload = function loaded() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (user != null) {
       setTimeout(function () {
-        window.location.href = window.location.hostname + "index.html"
+        window.location.href = "index.html"
       }, 2000);
     }
   });
