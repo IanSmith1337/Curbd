@@ -17,15 +17,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        window._mNHandle = window._mNHandle || {};
-
-        window._mNHandle.queue = window._mNHandle.queue || [];
-
-        medianet_versionId = "3121199";
-    </script>
-
-    <script src="https://contextual.media.net/dmedianet.js?cid=8CUQG081O" async="async"></script>
     <title>Curbid</title>
 </head>
 
@@ -55,114 +46,96 @@
     </nav>
     <div id="main" class="py-3 px-3">
         <div id="logStatus" class="row"></div>
-        <div class="card-group row">
-            <div class="col-sm-4 h-50">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Check this out!</h5>
-                        <p class="card-text">AD</p>
+        <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="postModalTitle">Create a Post:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="365819578" class="card-img-bottom">
-                        <script type="text/javascript">
-                            try {
-                                window._mNHandle.queue.push(function () {
-                                    window._mNDetails.loadTag("365819578", "300x250", "365819578");
-                                });
-                            } catch (error) {}
-                        </script>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="postTitle" id="postTitle" class="form-control">
+                                <label for="postTitle">Title:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea name="postBody" id="postBody" class="form-control"
+                                    style="height: 150px"></textarea>
+                                <label for="postBody">Body:</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFilePicker" class="form-label">Images:</label><br>
+                                <input class="form-control" type="file" id="formFilePicker"
+                                    accept="image/png, image/jpeg, image/jpg">
+                            </div>
+                        </form>
                     </div>
-                </div>
-            </div>
-            <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="postModalTitle">Create a Post:</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-floating mb-3">
-                                    <input type="text" name="postTitle" id="postTitle" class="form-control">
-                                    <label for="postTitle">Title:</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <textarea name="postBody" id="postBody" class="form-control"
-                                        style="height: 150px"></textarea>
-                                    <label for="postBody">Body:</label>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formFilePicker" class="form-label">Images:</label><br>
-                                    <input class="form-control" type="file" id="formFilePicker"
-                                        accept="image/png, image/jpeg, image/jpg">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                                id="postButton">Post</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            id="postButton">Post</button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
-                aria-labelledby="postModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editModalTitle">Edit Post:</h5>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-floating mb-3">
-                                    <input type="text" name="editTitle" id="editTitle" class="form-control">
-                                    <label for="editTitle">Title:</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <textarea name="editBody" id="editBody" class="form-control"
-                                        style="height: 150px"></textarea>
-                                    <label for="editTitle">Body:</label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                                id="editFinish">Send</button>
-                        </div>
+        </div>
+        <div class="modal fade" id="editModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="postModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalTitle">Edit Post:</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="editTitle" id="editTitle" class="form-control">
+                                <label for="editTitle">Title:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea name="editBody" id="editBody" class="form-control"
+                                    style="height: 150px"></textarea>
+                                <label for="editTitle">Body:</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                            id="editFinish">Send</button>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="closeModal" data-bs-backdrop="static" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"><strong>Wait!</strong></h5>
-                        </div>
-                        <div class="modal-body">
-                            <p>Are you sure you want to delete this?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, take me
-                                back!</button>
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Do it.</button>
-                        </div>
+        </div>
+        <div class="modal fade" id="closeModal" data-bs-backdrop="static" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><strong>Wait!</strong></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, take me
+                            back!</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Do it.</button>
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="/__/firebase/8.3.3/firebase-app.js"></script>
-        <script src="/__/firebase/8.3.3/firebase-analytics.js"></script>
-        <script src="/__/firebase/8.3.3/firebase-auth.js"></script>
-        <script src="/__/firebase/8.3.3/firebase-firestore.js"></script>
-        <script src="/__/firebase/8.4.1/firebase-storage.js"></script>
-        <!-- Initialize Firebase -->
-        <script src="/__/firebase/init.js"></script>
-        <!-- Custom Scripts -->
-        <script src="index.js"></script>
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/8.3.3/firebase-app.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-analytics.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-auth.js"></script>
+    <script src="/__/firebase/8.3.3/firebase-firestore.js"></script>
+    <script src="/__/firebase/8.4.1/firebase-storage.js"></script>
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <!-- Custom Scripts -->
+    <script src="index.js"></script>
 </body>
 
 </html>
