@@ -1,3 +1,15 @@
+/* 
+TODO:
+--------------------------
+1. Add community guidelines and agreement button to account creation.
+2. Add users in line for item.
+3. Change get/leave dropdown to a button.
+4. Remove contact section if the variable is null.
+5. Make sure 25 person cap works.
+6. Add TUID verification.
+
+*/
+
 const firebaseConfig = {
   apiKey: "AIzaSyApv8EvZtusDrVvS1Ck7Iqs3CG_ZzZQ-OA",
   authDomain: "curbid.firebaseapp.com",
