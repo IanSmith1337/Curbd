@@ -429,41 +429,43 @@ function updatePostcards(user, userschool) {
             });
           }
         }
-        if (doc.data().owner == user.uid || admin == true) {
-          var optionButton = createItem("button");
-          optionButton.setAttribute("data-bs-toggle", "dropdown");
-          addClass(optionButton, "btn btn-secondary dropdown-toggle");
-          addText(optionButton, "Options");
-          append(optDiv, cardFooterWrap);
-          append(optionButton, optDiv);
-          append(ul, optDiv);
-          var editItem = createItem("li");
-          var remove = createItem("li");
-          var next = createItem("li");
-          addClass(next, "dropdown-item");
-          addClass(editItem, "dropdown-item");
-          addClass(remove, "dropdown-item");
-          addText(next, "Move to next person in line.");
-          next.addEventListener("click", function (event) {
-            var postID = $(this).parent().get(0).id;
-            db.collection("posts").doc(postID).update({
-              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+        db.collection("users").doc(user.uid).get().then((userdoc) => {
+          if (doc.data().owner == user.uid || userdoc.admin == true) {
+            var optionButton = createItem("button");
+            optionButton.setAttribute("data-bs-toggle", "dropdown");
+            addClass(optionButton, "btn btn-secondary dropdown-toggle");
+            addText(optionButton, "Options");
+            append(optDiv, cardFooterWrap);
+            append(optionButton, optDiv);
+            append(ul, optDiv);
+            var editItem = createItem("li");
+            var remove = createItem("li");
+            var next = createItem("li");
+            addClass(next, "dropdown-item");
+            addClass(editItem, "dropdown-item");
+            addClass(remove, "dropdown-item");
+            addText(next, "Move to next person in line.");
+            next.addEventListener("click", function (event) {
+              var postID = $(this).parent().get(0).id;
+              db.collection("posts").doc(postID).update({
+                queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+              });
             });
-          });
-          append(next, ul);
-          editItem.setAttribute("data-bs-toggle", "modal");
-          editItem.setAttribute("data-bs-target", "#editModal");
-          addText(editItem, "Edit");
-          editItem.id = "edit" + index;
-          append(editItem, ul);
-          addClass(remove, "dropdown-item text-danger");
-          addText(remove, "Close post");
-          remove.setAttribute("data-bs-toggle", "modal");
-          remove.setAttribute("data-bs-target", "#closeModal");
-          remove.id = "close" + index;
-          append(remove, ul);
-        }
-        append(cardWrapper, cardRoot);
+            append(next, ul);
+            editItem.setAttribute("data-bs-toggle", "modal");
+            editItem.setAttribute("data-bs-target", "#editModal");
+            addText(editItem, "Edit");
+            editItem.id = "edit" + index;
+            append(editItem, ul);
+            addClass(remove, "dropdown-item text-danger");
+            addText(remove, "Close post");
+            remove.setAttribute("data-bs-toggle", "modal");
+            remove.setAttribute("data-bs-target", "#closeModal");
+            remove.id = "close" + index;
+            append(remove, ul);
+          }
+          append(cardWrapper, cardRoot);
+        });
       }
     });
     removeSpinner();
