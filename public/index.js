@@ -334,10 +334,12 @@ function updatePostcards(user, userschool) {
             append(get, optDiv);
             get.id = "get" + index;
             addText(get, "Get");
+            var confirmID = createID(true);
             get.addEventListener("click", function (event) {
               var postID = $(this).parent().get(0).id;
               db.collection("posts").doc(postID).update({
-                queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
+                queue: firebase.firestore.FieldValue.arrayUnion(user.uid),
+                confirmation: confirmID
               }).catch((error) => {
                 console.log(error.message + ": " + error.stack);
               });
@@ -364,17 +366,14 @@ function updatePostcards(user, userschool) {
               if (atob(doc.data().c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
-              var postID = $(this).parent().get(0).id
-              var confirmID = createID(true);
-              db.collection("posts").doc(postID).update({
-                confirmation: confirmID
-              });
               info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
               append(info, cardBody);
               postButton.addEventListener("click", function (event) {
                 var postID = $(this).parent().get(0).id;
+                var confirmID = createID(true);
                 db.collection("posts").doc(postID).update({
-                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid),
+                  confirmation: confirmID
                 });
               });
             } else {
@@ -388,11 +387,6 @@ function updatePostcards(user, userschool) {
               if (atob(doc.data.c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
-              var postID = $(this).parent().get(0).id
-              var confirmID = createID(true);
-              db.collection("posts").doc(postID).update({
-                confirmation: confirmID
-              });
               info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
               append(document.createElement("br"), cardBody);
               append(info, cardBody);
@@ -403,9 +397,11 @@ function updatePostcards(user, userschool) {
               append(leave, ul);
               leave.addEventListener("click", function (event) {
                 var postID = $(this).parent().get(0).id;
+                var confirmID = createID(true);
                 db.collection("posts").doc(postID).update({
-                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-                })
+                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid),
+                  confirmation: confirmID
+                });
               });
             }
           }
@@ -439,9 +435,11 @@ function updatePostcards(user, userschool) {
               append(leave, ul);
               leave.addEventListener("click", function (event) {
                 var postID = $(this).parent().get(0).id;
+                var confirmID = createID(true);
                 db.collection("posts").doc(postID).update({
-                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-                })
+                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid),
+                  confirmation: confirmID
+                });
               });
             }
           }
@@ -470,8 +468,10 @@ function updatePostcards(user, userschool) {
             addText(next, "Move to next person in line.");
             next.addEventListener("click", function (event) {
               var postID = $(this).parent().get(0).id;
+              var confirmID = createID(true);
               db.collection("posts").doc(postID).update({
-                queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+                queue: firebase.firestore.FieldValue.arrayRemove(user.uid),
+                confirmation: confirmID
               });
             });
             append(next, ul);
