@@ -312,6 +312,7 @@ function updatePostcards(user, userschool) {
         var optDiv = createItem("div");
         var ul = createItem("ul");
         ul.id = doc.id;
+        optDiv.id = doc.id;
         addClass(optDiv, "btn-group");
         addClass(ul, "dropdown-menu");
         var itemQueue = Array.from(doc.data().queue);
