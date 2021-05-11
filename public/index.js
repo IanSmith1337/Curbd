@@ -360,10 +360,16 @@ function updatePostcards(user, userschool) {
               addText(postButton, "Leave queue");
               append(optDiv, cardFooterWrap);
               append(postButton, optDiv);
-              info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
+              info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")"
               if (atob(doc.data.c2) != "undefined") {
-                info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
+                info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
+              var postID = $(this).parent().get(0).id
+              var confirmID = createID(true);
+              db.collection("posts").doc(postID).update({
+                confirmation: confirmID
+              });
+              info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
               append(info, cardBody);
               postButton.addEventListener("click", function (event) {
                 var postID = $(this).parent().get(0).id;
@@ -378,10 +384,16 @@ function updatePostcards(user, userschool) {
               addText(optionButton, "Options");
               append(optDiv, cardFooterWrap);
               append(ul, optDiv);
-              info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
+              info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")"
               if (atob(doc.data.c2) != "undefined") {
-                info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
+                info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
+              var postID = $(this).parent().get(0).id
+              var confirmID = createID(true);
+              db.collection("posts").doc(postID).update({
+                confirmation: confirmID
+              });
+              info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
               append(document.createElement("br"), cardBody);
               append(info, cardBody);
               var leave = createItem("li");
@@ -397,6 +409,7 @@ function updatePostcards(user, userschool) {
               });
             }
           }
+
           // If the user is in the queue but not first.
           if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
             if (!admin) {
@@ -432,7 +445,15 @@ function updatePostcards(user, userschool) {
               });
             }
           }
+
+          // Post owner controls
           if (doc.data().owner == user.uid || admin == true) {
+            info.innerHTML = "<strong>Users in line for item: " + count + "/25.</strong>";
+            info.innerHTML += "<br> Confirmation Code (check this with the first in line!): " + doc.data().confirmation + "</strong>"
+            append(document.createElement("br"), cardBody);
+            append(info, cardBody);
+            var first = createItem("p");
+            first.innerHTML = "Current first in line: "
             var optionButton = createItem("button");
             optionButton.setAttribute("data-bs-toggle", "dropdown");
             addClass(optionButton, "btn btn-secondary dropdown-toggle");
