@@ -361,7 +361,7 @@ function updatePostcards(user, userschool) {
               append(optDiv, cardFooterWrap);
               append(postButton, optDiv);
               info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")"
-              if (atob(doc.data.c2) != "undefined") {
+              if (atob(doc.data().c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
               var postID = $(this).parent().get(0).id
