@@ -430,6 +430,7 @@ function updatePostcards(user, userschool) {
           }
         }
         if (doc.data().owner == user.uid || admin == true) {
+          var optionButton = createItem("button");
           optionButton.setAttribute("data-bs-toggle", "dropdown");
           addClass(optionButton, "btn btn-secondary dropdown-toggle");
           addText(optionButton, "Options");
