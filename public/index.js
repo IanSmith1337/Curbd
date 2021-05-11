@@ -2,10 +2,6 @@
 TODO:
 --------------------------
 1. Add community guidelines and agreement button to account creation. 
-2. Add users in line for item. DONE
-3. Change get/leave dropdown to a button. DONE
-4. Remove contact section if the variable is null. DONE
-5. Make sure 25 person cap works. DONE
 6. Add TUID verification.
 
 */
