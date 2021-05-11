@@ -361,7 +361,7 @@ function updatePostcards(user, userschool) {
               append(optDiv, cardFooterWrap);
               append(postButton, optDiv);
               info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
-              if (doc.data.c2 != "") {
+              if (atob(doc.data.c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
               }
               append(info, cardBody);
@@ -379,7 +379,7 @@ function updatePostcards(user, userschool) {
               append(optDiv, cardFooterWrap);
               append(ul, optDiv);
               info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
-              if (doc.data.c2 != "") {
+              if (atob(doc.data.c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
               }
               append(document.createElement("br"), cardBody);
