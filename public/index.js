@@ -78,7 +78,7 @@ window.onload = () => {
         let school = doc.data().school;
         updatePostcards(user, school);
       });
-      document.getElementById("modalButton").className = "btn btn-primary visible position-absolute bottom-0 end-0 mx-2 my-2";
+      document.getElementById("modalButton").className = "btn btn-primary visible position-fixed bottom-0 end-0 mx-2 my-2";
       document.getElementById("modalButton").style = "z-index: 1000;"
       var modal = document.getElementById("postModal");
       modal.addEventListener('show.bs.modal', function () {
@@ -120,7 +120,7 @@ window.onload = () => {
         });
       });
     } else {
-      document.getElementById("modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
+      document.getElementById("modalButton").className = "btn btn-primary invisible position-fixed bottom-0 end-0 mx-2 my-2";
       userString.textContent = "Welcome to Curbd! You're one step closer to making a difference in your community.";
       userString.style.color = "black";
       userString.id = "userStatus";
