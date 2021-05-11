@@ -2,9 +2,9 @@
 TODO:
 --------------------------
 1. Add community guidelines and agreement button to account creation.
-2. Add users in line for item.
-3. Change get/leave dropdown to a button.
-4. Remove contact section if the variable is null.
+2. Add users in line for item. TESTING
+3. Change get/leave dropdown to a button. TESTING
+4. Remove contact section if the variable is null. TESTING
 5. Make sure 25 person cap works.
 6. Add TUID verification.
 
@@ -314,64 +314,122 @@ function updatePostcards(user, userschool) {
         ul.id = doc.id;
         addClass(optDiv, "btn-group");
         addClass(ul, "dropdown-menu");
-        var optionButton = createItem("button");
-        optionButton.setAttribute("data-bs-toggle", "dropdown");
-        addClass(optionButton, "btn btn-secondary dropdown-toggle");
-        addText(optionButton, "Options");
-        append(optDiv, cardFooterWrap);
-        append(optionButton, optDiv);
-        append(ul, optDiv);
         var itemQueue = Array.from(doc.data().queue);
-        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner) {
-          var get = createItem("li");
-          addClass(get, "dropdown-item");
+        var count = 0
+        itemQueue.forEach((item) => {
+          if (item != "") {
+            count++;
+          }
+        });
+        var info = document.createElement("p");
+        // If user is not in the queue, not an owner, and the queue isn't full.
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner && count <= 24) {
+          var get = createItem("button");
+          addClass(get, "btn btn-primary");
+          addText(get, "leave");
+          append(optDiv, cardFooterWrap);
+          append(get, optDiv);
           get.id = "get" + index;
           addText(get, "Get");
-          append(get, ul);
           get.addEventListener("click", function (event) {
             var postID = $(this).parent().get(0).id;
             db.collection("posts").doc(postID).update({
               queue: firebase.firestore.FieldValue.arrayUnion(user.uid)
             }).catch((error) => {
               console.log(error.message + ": " + error.stack);
-              alert("Sorry, but seems the queue is full for this item...");
             });
           });
+          info.innerHTML = "<strong>Users in line for item: " + count + "/25.</strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
         }
-        var info = document.createElement("p");
+        //If user is not in the queue, doesn't own the item, and the queue is full.
+        if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner && count == 25) {
+          info.innerHTML = "<strong>Sorry, but it seems the queue is full for this item. </strong>";
+          append(document.createElement("br"), cardBody);
+          append(info, cardBody);
+        }
+        //If the user is in the queue, and they're first.
         if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) == 0) {
-          info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + "), (" + atob(doc.data().c2) + ")</strong>";
-          append(document.createElement("br"), cardBody);
-          append(info, cardBody);
-          var leave = createItem("li");
-          addClass(leave, "dropdown-item");
-          leave.id = "leave" + index;
-          addText(leave, "Leave the queue");
-          append(leave, ul);
-          leave.addEventListener("click", function (event) {
-            var postID = $(this).parent().get(0).id;
-            db.collection("posts").doc(postID).update({
-              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
-            })
-          });
-        }
-        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
-          info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
-          append(document.createElement("br"), cardBody);
-          append(info, cardBody);
-          var leave = createItem("li");
-          addClass(leave, "dropdown-item");
-          leave.id = "leave" + index;
-          addText(leave, "Leave the queue");
-          append(leave, ul);
-          leave.addEventListener("click", function (event) {
-            var postID = $(this).parent().get(0).id;
-            db.collection("posts").doc(postID).update({
-              queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+          if (!admin) {
+            var postButton = createItem("button");
+            addClass(postButton, "btn btn-secondary");
+            addText(postButton, "leave");
+            append(optDiv, cardFooterWrap);
+            append(postButton, optDiv);
+            info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
+            if (doc.data.c2 != "") {
+              info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
+            }
+            append(info, cardBody);
+            postButton.addEventListener("click", function (event) {
+              var postID = $(this).parent().get(0).id;
+              db.collection("posts").doc(postID).update({
+                queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+              });
             });
-          });
+          } else {
+            var optionButton = createItem("button");
+            optionButton.setAttribute("data-bs-toggle", "dropdown");
+            addClass(optionButton, "btn btn-secondary dropdown-toggle");
+            addText(optionButton, "Options");
+            append(optDiv, cardFooterWrap);
+            append(ul, optDiv);
+            info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
+            if (doc.data.c2 != "") {
+              info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")</strong>";
+            }
+            append(document.createElement("br"), cardBody);
+            append(info, cardBody);
+            var leave = createItem("li");
+            addClass(leave, "dropdown-item");
+            leave.id = "leave" + index;
+            addText(leave, "Leave the queue");
+            append(leave, ul);
+            leave.addEventListener("click", function (event) {
+              var postID = $(this).parent().get(0).id;
+              db.collection("posts").doc(postID).update({
+                queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+              })
+            });
+          }
         }
-        if (doc.data().owner == user.uid || user.admin == true) {
+        // If the user is in the queue but not first.
+        if (itemQueue.includes(user.uid) && itemQueue.indexOf(user.uid) != 0) {
+          if (!admin) {
+            var postButton = createItem("button");
+            addClass(postButton, "btn btn-secondary");
+            addText(postButton, "leave");
+            append(optDiv, cardFooterWrap);
+            append(postButton, optDiv);
+            info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
+            append(document.createElement("br"), cardBody);
+            append(info, cardBody);
+          } else {
+            var optionButton = createItem("button");
+            optionButton.setAttribute("data-bs-toggle", "dropdown");
+            addClass(optionButton, "btn btn-secondary dropdown-toggle");
+            addText(optionButton, "Options");
+            append(optDiv, cardFooterWrap);
+            append(optionButton, optDiv);
+            append(ul, optDiv);
+            info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
+            append(document.createElement("br"), cardBody);
+            append(info, cardBody);
+            var leave = createItem("li");
+            addClass(leave, "dropdown-item");
+            leave.id = "leave" + index;
+            addText(leave, "Leave the queue");
+            append(leave, ul);
+            leave.addEventListener("click", function (event) {
+              var postID = $(this).parent().get(0).id;
+              db.collection("posts").doc(postID).update({
+                queue: firebase.firestore.FieldValue.arrayRemove(user.uid)
+              })
+            });
+          }
+        }
+        if (doc.data().owner == user.uid || admin == true) {
           var editItem = createItem("li");
           var remove = createItem("li");
           var next = createItem("li");
