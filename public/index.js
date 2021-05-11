@@ -435,6 +435,7 @@ function updatePostcards(user, userschool) {
           addClass(optionButton, "btn btn-secondary dropdown-toggle");
           addText(optionButton, "Options");
           append(optDiv, cardFooterWrap);
+          append(optionButton, optDiv);
           append(ul, optDiv);
           var editItem = createItem("li");
           var remove = createItem("li");
