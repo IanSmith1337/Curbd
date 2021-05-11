@@ -326,7 +326,7 @@ function updatePostcards(user, userschool) {
         if (!itemQueue.includes(user.uid) && user.uid != doc.data().owner && count <= 24) {
           var get = createItem("button");
           addClass(get, "btn btn-primary");
-          addText(get, "leave");
+          addText(get, "Get");
           append(optDiv, cardFooterWrap);
           append(get, optDiv);
           get.id = "get" + index;
@@ -354,7 +354,7 @@ function updatePostcards(user, userschool) {
           if (!admin) {
             var postButton = createItem("button");
             addClass(postButton, "btn btn-secondary");
-            addText(postButton, "leave");
+            addText(postButton, "Leave queue");
             append(optDiv, cardFooterWrap);
             append(postButton, optDiv);
             info.innerHTML = "<strong>You're the first in line! Here is the owner's contacts: (" + atob(doc.data().c1) + ")</strong>"
@@ -399,7 +399,7 @@ function updatePostcards(user, userschool) {
           if (!admin) {
             var postButton = createItem("button");
             addClass(postButton, "btn btn-secondary");
-            addText(postButton, "leave");
+            addText(postButton, "Leave queue");
             append(optDiv, cardFooterWrap);
             append(postButton, optDiv);
             info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
@@ -430,6 +430,11 @@ function updatePostcards(user, userschool) {
           }
         }
         if (doc.data().owner == user.uid || admin == true) {
+          optionButton.setAttribute("data-bs-toggle", "dropdown");
+          addClass(optionButton, "btn btn-secondary dropdown-toggle");
+          addText(optionButton, "Options");
+          append(optDiv, cardFooterWrap);
+          append(ul, optDiv);
           var editItem = createItem("li");
           var remove = createItem("li");
           var next = createItem("li");
