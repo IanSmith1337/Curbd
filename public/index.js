@@ -109,7 +109,7 @@ window.onload = () => {
       });
     } else {
       document.getElementById("modalButton").className = "btn btn-primary invisible position-absolute bottom-0 end-0 mx-2 my-2";
-      userString.textContent = "Welcome to Curbid! You're one step closer to making a difference in your community.";
+      userString.textContent = "Welcome to Curbd! You're one step closer to making a difference in your community.";
       userString.style.color = "black";
       userString.id = "userStatus";
       if (document.getElementById("userStatus") != null) {
