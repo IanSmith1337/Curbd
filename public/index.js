@@ -417,6 +417,14 @@ function updatePostcards(user, userschool) {
               info.innerHTML = "<strong>Current position for item: " + (itemQueue.indexOf(user.uid) + 1) + "</strong>";
               append(document.createElement("br"), cardBody);
               append(info, cardBody);
+              postButton.addEventListener("click", function (event) {
+                var postID = $(this).parent().get(0).id;
+                var confirmID = createID(true);
+                db.collection("posts").doc(postID).update({
+                  queue: firebase.firestore.FieldValue.arrayRemove(user.uid),
+                  confirmation: confirmID
+                });
+              });
             } else {
               var optionButton = createItem("button");
               optionButton.setAttribute("data-bs-toggle", "dropdown");
