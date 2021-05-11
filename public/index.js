@@ -366,7 +366,7 @@ function updatePostcards(user, userschool) {
               if (atob(doc.data().c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
-              info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
+              info.innerHTML += "<br> Confirmation Code: " + doc.data().confirmation + "</strong>"
               append(info, cardBody);
               postButton.addEventListener("click", function (event) {
                 var postID = $(this).parent().get(0).id;
@@ -387,7 +387,7 @@ function updatePostcards(user, userschool) {
               if (atob(doc.data.c2) != "undefined") {
                 info.innerHTML += "<strong>, (" + atob(doc.data().c2) + ")";
               }
-              info.innerHTML += "<br> Confirmation Code: " + confirmID + "</strong>"
+              info.innerHTML += "<br> Confirmation Code: " + doc.data().confirmation + "</strong>"
               append(document.createElement("br"), cardBody);
               append(info, cardBody);
               var leave = createItem("li");
