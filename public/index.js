@@ -243,9 +243,9 @@ function updatePostcards(user, userschool) {
   }
 
   listener = db.collection("posts").where("school", "==", userschool).orderBy("addTime", "desc").limit(50).onSnapshot((querySnapshot) => {
+    showSpinner();
     db.collection("users").doc(user.uid).get().then((userdoc) => {
       let admin = userdoc.admin
-      showSpinner();
       if (document.getElementById("cd") != null) {
         document.getElementById("cd").remove();
       }
