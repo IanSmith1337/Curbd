@@ -5,13 +5,13 @@
   "firebase-tools": "^3.18.0",
   "private": true,
   "dependencies": {
-    "firebase": "^8.3.3",
-    "firebase-admin": "^9.5.0",
-    "firebaseui": "^4.8.0"
+    "firebase": "^9.9.4",
+    "firebase-admin": "^11.0.1",
+    "firebaseui": "^6.0.1"
   },
   "name": "curbid",
   "description": "Your site for when your items are about to head to the curb.",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "main": "index.js",
   "repository": {
     "type": "git",
